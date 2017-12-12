@@ -18,14 +18,56 @@ public class Cinema
      */
     public Cinema()
     {
+        screens = new HashMap<Integer, Screen>();
+        films = new HashMap<Integer, Film>();
+        //projections = new HashMap<Integer, Projection>();
         //customers = new HashMap<Integer, Customer>();
         //bookings = new HashMap<Integer, Booking>();
         //payments = new HashMap<Integer, Payment>();
         //seat-assignments = new HashMap<Integer, SeatAssignment>();
         //reviews = new HashMap<Integer, Review>();
-        //projections = new HashMap<Integer, Projection>();
-        screens = new HashMap<Integer, Screen>();
-        films = new HashMap<Integer, Film>();
+    }
+    
+    /**
+     * Get next unused screen id
+     *
+     * @return int nextScreenId
+     */
+    public int getNextScreenId()
+    {
+        return NEXT_UNUSED_SCREEN_ID++;
+    }
+    
+    /**
+     * Add new screen
+     *
+     * @param  String title 
+     * @return void
+     */
+    public void addScreen(String title)
+    {
+        Screen screen = new Screen(getNextScreenId(), title);
+        this.screens.put(screen.getId(), screen);
+    }
+    
+    /**
+     * get List of all Screens
+     *
+     * @return List screens
+     */
+    public List<Screen> getScreenList()
+    {
+        return new ArrayList<Screen> (screens.values());
+    }
+    
+    /**
+     * Get next unused film id
+     *
+     * @return int nextFilmId
+     */
+    public int getNextFilmId()
+    {
+        return NEXT_UNUSED_FILM_ID++;
     }
 
     /**
@@ -58,19 +100,9 @@ public class Cinema
     }
     
     /**
-     * Get next unused film id
-     *
-     * @return int nextFilmIdd y
-     */
-    public int getNextFilmId()
-    {
-        return NEXT_UNUSED_FILM_ID++;
-    }
-    
-    /**
      * get List of all Films
      *
-     * @return List nextFilmIdd y
+     * @return List films
      */
     public List<Film> getFilmList()
     {
@@ -92,27 +124,5 @@ public class Cinema
         } 
         System.out.println("######################################"); 
         System.out.println();
-    }
-    
-    /**
-     * Add new screen
-     *
-     * @param  String title 
-     * @return void
-     */
-    public void addScreen(String title)
-    {
-        Screen screen = new Screen(getNextScreenId(), title);
-        this.screens.put(screen.getId(), screen);
-    }
-    
-    /**
-     * Get next unused screen id
-     *
-     * @return int nextScreenId
-     */
-    public int getNextScreenId()
-    {
-        return NEXT_UNUSED_SCREEN_ID++;
     }
 }
