@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Screen
+comment0.text=\r\n\ Each\ individual\ Screen\ \r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment1.params=id\ title
+comment1.target=Screen(int,\ java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Screen\r\n
+comment2.params=
+comment2.target=int\ getId()
+comment2.text=\r\n\ getId\r\n\r\n\ @return\ int\ id\r\n
+comment3.params=
+comment3.target=java.lang.String\ getTitle()
+comment3.text=\r\n\ getTitle\r\n\r\n\ @return\ String\ title\r\n
+numComments=4
