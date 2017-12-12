@@ -47,6 +47,8 @@ public class Tester
         System.out.println("Testing Cinema Methods");
         testAddScreen();
         testAddFilm();
+        testIsValidProjection();
+        testAddProjection();
         System.out.print("");
     }
 
@@ -86,6 +88,63 @@ public class Tester
         compare(this.cinema.getFilmList().size(),count+1);
         this.cinema.addFilm("Random Movie 2", 1941, "Orson Welles", "EN"); 
         compare(this.cinema.getFilmList().size(),count+2);
+        
+        System.out.println("");
+    }
+    
+    /**
+     * testIsValidProjection()
+     * test whether both the screen and film are available before creating the projection
+     * @return void
+     */
+    private void testIsValidProjection()
+    {
+        setupTestEnvironment();
+       
+        // run tests
+        System.out.println("isValidProjection");
+        
+        Screen screen1 = this.cinema.getScreenList().get(0);
+        Screen screen2 = this.cinema.getScreenList().get(1);
+        Film film1 = this.cinema.getFilmList().get(0);
+        Film film2 = this.cinema.getFilmList().get(1);
+        this.cinema.addProjection("20/12/2017", "Afternoon", screen1, film1, (float)12.50, (float)15.00);
+        
+        // All four arguments clash
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film1),false); 
+        // No clashes because date is different
+        compare(this.cinema.isValidProjection("21/12/2017", "Afternoon", screen1, film1),true);
+        // No clashes becase slot is different
+        compare(this.cinema.isValidProjection("20/12/2017", "Night1", screen1, film1),true);
+        // Film clashes
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen2, film1),false);
+        // Screen clashes
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film2),false);        
+   
+        System.out.println("");
+    }
+
+    /**
+     * testAddFilm()
+     * @return void
+     */
+    private void testAddProjection()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("addProjection");
+        
+        Screen screen = this.cinema.getScreenList().get(0);
+        Film film = this.cinema.getFilmList().get(0);
+        int count = this.cinema.getProjectionList().size();
+        
+        this.cinema.addProjection("20/12/2017", "Afternoon", screen, film, (float)12.50, (float)15.00); 
+        compare(this.cinema.getProjectionList().size(),count+1);
+        this.cinema.addProjection("20/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
+        compare(this.cinema.getProjectionList().size(),count+2);
+        this.cinema.addProjection("21/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
+        compare(this.cinema.getProjectionList().size(),count+3);
         
         System.out.println("");
     }
