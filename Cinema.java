@@ -10,10 +10,12 @@ public class Cinema
     private static int NEXT_UNUSED_SCREEN_ID = 1;
     private static int NEXT_UNUSED_FILM_ID = 1;
     private static int NEXT_UNUSED_PROJECTION_ID = 1;
+    private static int NEXT_UNUSED_CUSTOMER_ID = 1;
     
     private HashMap<Integer, Screen> screens; 
     private HashMap<Integer, Film> films; 
     private HashMap<Integer, Projection> projections; 
+    private HashMap<Integer, Customer> customers; 
     
     /**
      * Constructor for objects of class Cinema
@@ -23,7 +25,7 @@ public class Cinema
         screens = new HashMap<Integer, Screen>();
         films = new HashMap<Integer, Film>();
         projections = new HashMap<Integer, Projection>();
-        //customers = new HashMap<Integer, Customer>();
+        customers = new HashMap<Integer, Customer>();
         //bookings = new HashMap<Integer, Booking>();
         //payments = new HashMap<Integer, Payment>();
         //seat-assignments = new HashMap<Integer, SeatAssignment>();
@@ -63,6 +65,16 @@ public class Cinema
     }
     
     /**
+     * Get the screen with the specified id.
+     * @param int screenId
+     * @return Screen screen
+     */
+    public Screen getScreen(int screenId) 
+    {
+        return screens.get(screenId);
+    }
+    
+    /**
      * Get next unused film id
      *
      * @return int nextFilmId
@@ -73,7 +85,7 @@ public class Cinema
     }
 
     /**
-     * Add new film
+     * Add new film without subtitles
      *
      * @param  String title 
      * @param String director
@@ -87,7 +99,7 @@ public class Cinema
     }
 
     /**
-     * Add new film
+     * Add new film with subtitles
      *
      * @param  String title 
      * @param String director
@@ -99,6 +111,16 @@ public class Cinema
     {
         Film film = new Film(getNextFilmId(), title, year, director, language, subtitles);
         this.films.put(film.getId(), film);
+    }
+    
+    /**
+     * Get the film with the specified id.
+     * @param int filmId
+     * @return Film film
+     */
+    public Film getFilm(int filmId) 
+    {
+        return films.get(filmId);
     }
     
     /**
@@ -143,20 +165,20 @@ public class Cinema
      *
      * @param  String date 
      * @param String slot
-     * @param Screen screen
-     * @param Film film
+     * @param int screenId
+     * @param int filmId
      * @param float priceRegular
      * @param float priceVip
      * @return void
      */
-    public void addProjection(String date, String slot, Screen screen, Film film, float priceRegular, float priceVip)
+    public void addProjection(String date, String slot, int screenId, int filmId, float priceRegular, float priceVip)
     {
-        if(!isValidProjection(date, slot, screen, film))
+        if(!isValidProjection(date, slot, screenId, filmId))
         {
             System.out.println("The Projection could not be created. The Screen or the Film is already being used at that time");
             return;
         }
-        Projection projection = new Projection(getNextProjectionId(), date, slot, screen, film, priceRegular, priceVip);
+        Projection projection = new Projection(getNextProjectionId(), date, slot, this.getScreen(screenId), this.getFilm(filmId), priceRegular, priceVip);
         this.projections.put(projection.getId(), projection);
     }
     
@@ -164,24 +186,24 @@ public class Cinema
      * Check whether the screen or the film is in use at a given time.  
      * @param String date
      * @param String slot
-     * @param Screen screen
-     * @param Film film
+     * @param int screenId
+     * @param int filmId
      * @return boolean
      */
-    public boolean isValidProjection(String date, String slot, Screen screen, Film film)
+    public boolean isValidProjection(String date, String slot, int screenId, int filmId)
     {
         Iterator it = projections.values().iterator();
         while (it.hasNext())
         {
             Projection p = (Projection) (  it.next()  );
             // Check if there is already a projection in that screen at that time
-            if(p.getScreen() == screen&&p.getDate() == date&&p.getSlot().equals(slot))
+            if(p.getScreen() == this.getScreen(screenId)&&p.getDate() == date&&p.getSlot().equals(slot))
             {
                 return false;
             }
             
             // Check if that film has already been scheduled to be screened at that time    
-            if(p.getFilm() == film&&p.getDate() == date&&p.getSlot().equals(slot))
+            if(p.getFilm() == this.getFilm(filmId)&&p.getDate() == date&&p.getSlot().equals(slot))
             {
                 return false;
             }
@@ -197,5 +219,59 @@ public class Cinema
     public List<Projection> getProjectionList()
     {
         return new ArrayList<Projection> (projections.values());
+    }
+    
+    /**
+     * Get next unused customer id
+     *
+     * @return int nextCustomerId
+     */
+    public int getNextCustomerId()
+    {
+        return NEXT_UNUSED_CUSTOMER_ID++;
+    }
+
+    /**
+     * Add new customer without name
+     *
+     * @param  String name 
+     * @return void
+     */
+    public void addCustomer()
+    {
+        Customer customer = new Customer(getNextCustomerId());
+        this.customers.put(customer.getId(), customer);
+    }
+
+    /**
+     * Add new customer with name
+     *
+     * @param  String name 
+     * @return void
+     */
+    public void addCustomer(String name)
+    {
+        Customer customer = new Customer(getNextCustomerId(), name);
+        this.customers.put(customer.getId(), customer);
+    }
+    
+    /**
+     * Get the customer with the specified id.
+     * @param int customerId
+     * @return Customer customer     
+     */
+    public Customer getCustomer(int customerId) 
+    {
+        return customers.get(customerId);
+    }
+    
+    /**
+     * get List of all Customers
+     *
+     * @return List customers
+     */
+    public List<Customer> getCustomerList()
+    {
+        return new ArrayList<Customer> (customers.values());
     }
 }

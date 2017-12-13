@@ -49,6 +49,7 @@ public class Tester
         testAddFilm();
         testIsValidProjection();
         testAddProjection();
+        testAddCustomer();
         System.out.print("");
     }
 
@@ -108,24 +109,24 @@ public class Tester
         Screen screen2 = this.cinema.getScreenList().get(1);
         Film film1 = this.cinema.getFilmList().get(0);
         Film film2 = this.cinema.getFilmList().get(1);
-        this.cinema.addProjection("20/12/2017", "Afternoon", screen1, film1, (float)12.50, (float)15.00);
+        this.cinema.addProjection("20/12/2017", "Afternoon", screen1.getId(), film1.getId(), (float)12.50, (float)15.00);
         
         // All four arguments clash
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film1),false); 
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1.getId(), film1.getId()),false); 
         // No clashes because date is different
-        compare(this.cinema.isValidProjection("21/12/2017", "Afternoon", screen1, film1),true);
+        compare(this.cinema.isValidProjection("21/12/2017", "Afternoon", screen1.getId(), film1.getId()),true);
         // No clashes becase slot is different
-        compare(this.cinema.isValidProjection("20/12/2017", "Night1", screen1, film1),true);
+        compare(this.cinema.isValidProjection("20/12/2017", "Night1", screen1.getId(), film1.getId()),true);
         // Film clashes
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen2, film1),false);
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen2.getId(), film1.getId()),false);
         // Screen clashes
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film2),false);        
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1.getId(), film2.getId()),false);        
    
         System.out.println("");
     }
 
     /**
-     * testAddFilm()
+     * testAddProjection()
      * @return void
      */
     private void testAddProjection()
@@ -139,12 +140,32 @@ public class Tester
         Film film = this.cinema.getFilmList().get(0);
         int count = this.cinema.getProjectionList().size();
         
-        this.cinema.addProjection("20/12/2017", "Afternoon", screen, film, (float)12.50, (float)15.00); 
+        this.cinema.addProjection("20/12/2017", "Afternoon", screen.getId(), film.getId(), (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+1);
-        this.cinema.addProjection("20/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
+        this.cinema.addProjection("20/12/2017", "Night1", screen.getId(), film.getId(), (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+2);
-        this.cinema.addProjection("21/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
+        this.cinema.addProjection("21/12/2017", "Night1", screen.getId(), film.getId(), (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+3);
+        
+        System.out.println("");
+    }
+
+    /**
+     * testAddCustomer()
+     * @return void
+     */
+    private void testAddCustomer()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("addCustomer");
+        
+        int count = this.cinema.getCustomerList().size();
+        this.cinema.addCustomer(); 
+        compare(this.cinema.getCustomerList().size(),count+1);
+        this.cinema.addCustomer("John Malone"); 
+        compare(this.cinema.getCustomerList().size(),count+2);
         
         System.out.println("");
     }

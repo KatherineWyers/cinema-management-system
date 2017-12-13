@@ -1,0 +1,18 @@
+Customer -> overloaded constructor so that the customer name can be left blank if the customer does not want to give their name
+
+UML Diagram
+The projection is the intersection between a film and a screen. 
+There are 50 seats in each screen, ten of which are VIP seats. The UML diagram makes this flexible to allow for possible future change. It also allows for the seats to be made unavailable, if for example it was broken or dirty. 
+The system creates a seat grid based on the seating table, and the seat-unavailable and vip-seat information. This grid is used to construct the interface where customers select the seats. 
+
+Upgrade policy
+Customers can change their booking. They can choose to be upgraded to a VIP seat, or to a more expensive screening. These upgrades are at a cost. The customer must pay the extra amount. 
+If a customer chooses to downgrade to a cheaper screening, or to a non-VIP seat, they can not receive a refund. However, the downgrade can take place. 
+
+The objects are stored in HashMaps. The hashmap is stored in the cinema class. If the system was to cater for multiple cinema instances, some of these hashmaps would be located in their classes. For example, the same film will be shown in multiple cinemas, so if the system was to cater for multiple cinemas then the collection of films is stored in the film class to allow the user to compare films across multiple cinemas. 
+
+Film stores subtitles as empty string if there are no subtitles. The constructor and methods are overloaded if there are no subtitles for the film. 
+
+The rating is stored in the seat-assignment. Since bookings can be for more than one ticket, each ticket is allowed to leave one review. 
+
+Projections -> before a projection is created, it must first be validated to ensure that the film and the screen are available. This is carried out by the isValidProjection method. This validation process will still work if there are multiple copies of the film. Each copy of the film is assigned to a separate object. Since the method checks whether the objects are equal, rather than whether the titles of the films are equal, the method will work correctly for multiple copies of the same film. 
