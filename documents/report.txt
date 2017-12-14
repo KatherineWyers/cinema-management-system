@@ -16,3 +16,12 @@ Film stores subtitles as empty string if there are no subtitles. The constructor
 The rating is stored in the seat-assignment. Since bookings can be for more than one ticket, each ticket is allowed to leave one review. 
 
 Projections -> before a projection is created, it must first be validated to ensure that the film and the screen are available. This is carried out by the isValidProjection method. This validation process will still work if there are multiple copies of the film. Each copy of the film is assigned to a separate object. Since the method checks whether the objects are equal, rather than whether the titles of the films are equal, the method will work correctly for multiple copies of the same film. 
+
+Booker -> the booker object manages the seat reservations. It adds temporary seat-reservations to the projection seating grid. A seatReservationList is stored, and the boolean[][] grid is updated with the temporary seat reservations. Once all seats have been selected, the Booker confirms the purchase can commits the temporary seat reservations to the database. 
+
+
+Changing a booking -> if a booking is for multiple tickets, then it is possible that some of the tickets will need to be changed for different projections. In order to allow this, the projection is not directly linked to the booking. The projection is linked to the ticket, and the booking is a collection of tickets.
+
+The List of tickets is stored in the projection class, rather than the booking class. All the reporting is drawn from the relationship between the ticket objects and their projections.  
+
+Customer: consider removing the customer class, or making it optional. Cinema's don't need your name in order to sell you a ticket. 

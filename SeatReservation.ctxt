@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=SeatReservation
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ SeatReservation\ here.\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment1.params=row\ num\ price
+comment1.target=SeatReservation(java.lang.Integer,\ java.lang.Integer,\ double)
+comment2.params=
+comment2.target=double\ getPrice()
+comment3.params=
+comment3.target=int\ getRow()
+comment4.params=
+comment4.target=int\ getNum()
+numComments=5

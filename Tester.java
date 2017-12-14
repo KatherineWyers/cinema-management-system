@@ -35,7 +35,21 @@ public class Tester
         this.cinema.addFilm("2001: A Space Odyssey", 1968, "Stanley Kubrick", "EN", "NL");
         this.cinema.addFilm("Jurassic Park", 1993, "Steven Spielberg", "EN", "NL");
         this.cinema.addFilm("Taxi Driver", 1976, "Martin Scorcese", "NL");
-        this.cinema.addFilm("Citizen Kane", 1941, "Orson Welles", "EN");   
+        this.cinema.addFilm("Citizen Kane", 1941, "Orson Welles", "EN"); 
+        
+        Screen screen = this.cinema.getScreenList().get(0);
+        Film film = this.cinema.getFilmList().get(0);
+        this.cinema.addProjection("01/12/2016", "Afternoon", screen, film, (float)12.50, (float)15.00);
+        this.cinema.addProjection("02/12/2016", "Afternoon", screen, film, (float)12.50, (float)15.00);
+        this.cinema.addProjection("03/12/2016", "Afternoon", screen, film, (float)12.50, (float)15.00);
+        
+        this.cinema.addCustomer("John Malone"); 
+        this.cinema.addCustomer("Sean Jones"); 
+        this.cinema.addCustomer("Sarah O Hara"); 
+        this.cinema.addCustomer("Clare Fisher"); 
+        this.cinema.addCustomer("Tom Dickinson");
+        
+        
     }
     
     /**
@@ -50,6 +64,9 @@ public class Tester
         testIsValidProjection();
         testAddProjection();
         testAddCustomer();
+        //testPrintSeatingGrid();
+        testIsValidSeatReservation();
+        testAddTemporarySeatReservation();
         System.out.print("");
     }
 
@@ -109,18 +126,18 @@ public class Tester
         Screen screen2 = this.cinema.getScreenList().get(1);
         Film film1 = this.cinema.getFilmList().get(0);
         Film film2 = this.cinema.getFilmList().get(1);
-        this.cinema.addProjection("20/12/2017", "Afternoon", screen1.getId(), film1.getId(), (float)12.50, (float)15.00);
+        this.cinema.addProjection("20/12/2017", "Afternoon", screen1, film1, (float)12.50, (float)15.00);
         
         // All four arguments clash
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1.getId(), film1.getId()),false); 
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film1),false); 
         // No clashes because date is different
-        compare(this.cinema.isValidProjection("21/12/2017", "Afternoon", screen1.getId(), film1.getId()),true);
+        compare(this.cinema.isValidProjection("21/12/2017", "Afternoon", screen1, film1),true);
         // No clashes becase slot is different
-        compare(this.cinema.isValidProjection("20/12/2017", "Night1", screen1.getId(), film1.getId()),true);
+        compare(this.cinema.isValidProjection("20/12/2017", "Night1", screen1, film1),true);
         // Film clashes
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen2.getId(), film1.getId()),false);
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen2, film1),false);
         // Screen clashes
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1.getId(), film2.getId()),false);        
+        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film2),false);        
    
         System.out.println("");
     }
@@ -140,11 +157,11 @@ public class Tester
         Film film = this.cinema.getFilmList().get(0);
         int count = this.cinema.getProjectionList().size();
         
-        this.cinema.addProjection("20/12/2017", "Afternoon", screen.getId(), film.getId(), (float)12.50, (float)15.00); 
+        this.cinema.addProjection("20/12/2017", "Afternoon", screen, film, (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+1);
-        this.cinema.addProjection("20/12/2017", "Night1", screen.getId(), film.getId(), (float)12.50, (float)15.00); 
+        this.cinema.addProjection("20/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+2);
-        this.cinema.addProjection("21/12/2017", "Night1", screen.getId(), film.getId(), (float)12.50, (float)15.00); 
+        this.cinema.addProjection("21/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+3);
         
         System.out.println("");
@@ -166,6 +183,67 @@ public class Tester
         compare(this.cinema.getCustomerList().size(),count+1);
         this.cinema.addCustomer("John Malone"); 
         compare(this.cinema.getCustomerList().size(),count+2);
+        
+        System.out.println("");
+    }
+    
+    /**
+     * testPrintSeatingGrid()
+     * @return void
+     */
+    private void testPrintSeatingGrid()
+    {
+        setupTestEnvironment();
+        
+        //run tests
+        System.out.println("printSeatingGrid");
+        
+        Projection projection = this.cinema.getProjectionList().get(0);
+        this.cinema.printSeatingGrid(projection.getSeatingGrid()); 
+
+        System.out.println("");
+    }
+    
+    /**
+     * testIsValidSeatReservation()
+     * @return void
+     */
+    private void testIsValidSeatReservation()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("isValidSeatReservation");
+        
+        Booker booker = new Booker(this.cinema);
+        Projection projection = this.cinema.getProjectionList().get(0);
+      
+        compare(booker.isValidSeatReservation(projection, 5, 2),true); 
+        booker.addSeatReservation(projection, 5, 2); 
+        compare(booker.isValidSeatReservation(projection, 5, 2),false);
+        
+        System.out.println("");
+    }
+    
+    /**
+     * testAddTemporarySeatReservation()
+     * @return void
+     */
+    private void testAddTemporarySeatReservation()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("addSeatReservation");
+        
+        Booker booker = new Booker(this.cinema);
+        Projection projection = this.cinema.getProjectionList().get(0);
+    
+        int count = booker.getSeatReservationList().size();
+        booker.addSeatReservation(projection, 1, 2); 
+        compare(booker.getSeatReservationList().size(),count+1);
+        booker.addSeatReservation(projection, 2, 2); 
+        compare(booker.getSeatReservationList().size(),count+2);
         
         System.out.println("");
     }

@@ -11,11 +11,17 @@ public class Cinema
     private static int NEXT_UNUSED_FILM_ID = 1;
     private static int NEXT_UNUSED_PROJECTION_ID = 1;
     private static int NEXT_UNUSED_CUSTOMER_ID = 1;
+    private static int NEXT_UNUSED_BOOKING_ID = 1;
+    private static int NEXT_UNUSED_SEAT_ASSIGNMENT_ID = 1;
     
     private HashMap<Integer, Screen> screens; 
     private HashMap<Integer, Film> films; 
     private HashMap<Integer, Projection> projections; 
     private HashMap<Integer, Customer> customers; 
+    private HashMap<Integer, Booking> bookings; 
+    //private HashMap<Integer, SeatAssignment> seatAssignments;
+    
+    private Booker booker;
     
     /**
      * Constructor for objects of class Cinema
@@ -26,10 +32,12 @@ public class Cinema
         films = new HashMap<Integer, Film>();
         projections = new HashMap<Integer, Projection>();
         customers = new HashMap<Integer, Customer>();
-        //bookings = new HashMap<Integer, Booking>();
+        bookings = new HashMap<Integer, Booking>();
+        //seatAssignments = new HashMap<Integer, SeatAssignment>();
         //payments = new HashMap<Integer, Payment>();
-        //seat-assignments = new HashMap<Integer, SeatAssignment>();
         //reviews = new HashMap<Integer, Review>();
+        
+        booker = new Booker(this);
     }
     
     /**
@@ -171,14 +179,14 @@ public class Cinema
      * @param float priceVip
      * @return void
      */
-    public void addProjection(String date, String slot, int screenId, int filmId, float priceRegular, float priceVip)
+    public void addProjection(String date, String slot, Screen screen, Film film, float priceRegular, float priceVip)
     {
-        if(!isValidProjection(date, slot, screenId, filmId))
+        if(!isValidProjection(date, slot, screen, film))
         {
             System.out.println("The Projection could not be created. The Screen or the Film is already being used at that time");
             return;
         }
-        Projection projection = new Projection(getNextProjectionId(), date, slot, this.getScreen(screenId), this.getFilm(filmId), priceRegular, priceVip);
+        Projection projection = new Projection(getNextProjectionId(), date, slot, screen, film, priceRegular, priceVip);
         this.projections.put(projection.getId(), projection);
     }
     
@@ -190,26 +198,48 @@ public class Cinema
      * @param int filmId
      * @return boolean
      */
-    public boolean isValidProjection(String date, String slot, int screenId, int filmId)
+    public boolean isValidProjection(String date, String slot, Screen screen, Film film)
     {
         Iterator it = projections.values().iterator();
         while (it.hasNext())
         {
-            Projection p = (Projection) (  it.next()  );
+            Projection proj = (Projection) (  it.next()  );
             // Check if there is already a projection in that screen at that time
-            if(p.getScreen() == this.getScreen(screenId)&&p.getDate() == date&&p.getSlot().equals(slot))
+            if(proj.getScreen() == screen&&proj.getDate() == date&&proj.getSlot().equals(slot))
             {
                 return false;
             }
             
             // Check if that film has already been scheduled to be screened at that time    
-            if(p.getFilm() == this.getFilm(filmId)&&p.getDate() == date&&p.getSlot().equals(slot))
+            if(proj.getFilm() == film&&proj.getDate() == date&&proj.getSlot().equals(slot))
             {
                 return false;
             }
         }
         return true;
     }
+    
+    /**
+     * Get the projection with the specified id.
+     * @param int projectionId
+     * @return Projection projection   
+     */
+    public Projection getProjection(int projectionId) 
+    {
+        return projections.get(projectionId);
+    }
+    
+    // /**
+     // * Get the list of seats ticketed for the projection with specified id.
+     // * @param int projectionId
+     // * @return List seats   
+     // */
+    // public List<Seat> getBookedSeats(Projection proj) 
+    // {
+        // return proj.getBookedSeats();
+    // }
+    
+    
     
     /**
      * get List of all projections
@@ -273,5 +303,68 @@ public class Cinema
     public List<Customer> getCustomerList()
     {
         return new ArrayList<Customer> (customers.values());
+    }
+    
+    /**
+     * printSeatingGrid
+     * @param boolean[][] seatingGrid
+     * @return void
+     */
+    public void printSeatingGrid(boolean[][] seatingGrid)
+    {
+        System.out.println("###########SEATING GRID##########");
+        System.out.println("");
+        System.out.println("         [ S C R E E N ]        ");
+        System.out.println("");
+        
+        for (int i = 0;i<seatingGrid.length;i++)
+        {   
+            String rowLetter;
+            rowLetter = this.convertToRowLetter(i);
+
+
+            // rowLetter with 1 column white space as padding
+            System.out.print(rowLetter + " ");
+            
+            for (int j = 0; j < seatingGrid[i].length;j++)
+            {
+                System.out.print(seatingGrid[i][j] ? "[X]" : "[_]");
+            }
+            // end of the row
+            System.out.println("");
+        }
+        // seat numbers
+        System.out.println("   1  2  3  4  5  6  7  8  9 10 ");
+    }
+    
+    /**
+     * Convert row int to row letter
+     * @param int row at int
+     * @return String rowLetter
+     */
+    public String convertToRowLetter(int rowInt)
+    {
+        String rowLetter;
+        // convert rows to letters
+        switch(rowInt){
+            case 0: 
+                rowLetter = "A";
+                break;
+           case 1: 
+                rowLetter = "B";
+                break;
+           case 2:
+                rowLetter = "C";
+                break;
+           case 3:
+                rowLetter = "D";
+                break;
+           case 4:
+                rowLetter = "E";
+                break;
+           default:
+                rowLetter = " ";
+        }
+        return rowLetter;
     }
 }

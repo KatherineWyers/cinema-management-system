@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Date
+comment0.text=\r\n\ Simple\ Date\ Class\ -\ no\ error\ checking.\r\n\ \r\n\ @author\ Mick\ Wood\r\n\ @version\ Version\ 1.0\ -\ 31/10/02\ Amended\ by\ A.Marczyk\ 10/10/2003\r\n\ \r\n
+comment1.params=
+comment1.target=Date()
+comment1.text=\r\n\ Parameterless\ constructor\ for\ objects\ of\ class\ Date\r\nDate\ set\ to\ 1/1/2000
+comment2.params=d\ m\ y
+comment2.target=Date(int,\ int,\ int)
+comment2.text=\r\n\ Constructor\ for\ objects\ of\ class\ Date\r\n\ @param\ d\ -\ the\ day\ part\ of\ the\ date\ (1\ -\ 31,\ depending\ on\ the\ month).\r\n\ @param\ m\ -\ the\ month\ part\ of\ the\ date\ (1\ -\ 12).\r\n@param\ y\ -\ the\ year\ part\ of\ the\ date.
+comment3.params=d\ m\ y
+comment3.target=void\ setDate(int,\ int,\ int)
+comment3.text=\r\n\ method\ to\ set\ the\ Date\r\n\ @param\ d\ -\ the\ day\ part\ of\ the\ date\ (1\ -\ 31,\ depending\ on\ the\ month).\r\n\ @param\ m\ -\ the\ month\ part\ of\ the\ date\ (1\ -\ 12).\r\n\ @param\ y\ -\ the\ year\ part\ of\ the\ date.\r\nNote\:\ No\ error\ checking\ in\ this\ version\ \!
+comment4.params=d
+comment4.target=boolean\ isSameday(Date)
+comment4.text=\r\n\ method\ to\ compare\ two\ dates\r\n\ @param\ d.\r\nNote\:\ No\ error\ checking\ in\ this\ version\ \!
+comment5.params=
+comment5.target=java.lang.String\ toString()
+comment5.text=\r\n@return\ the\ date\ as\ a\ String,\ format\ "09/11/2002"
+comment6.params=i
+comment6.target=java.lang.String\ as2Digits(int)
+comment6.text=Internal\ method\ to\ add\ a\ leading\ zero\ if\ necessary.
+numComments=7
