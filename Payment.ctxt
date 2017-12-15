@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Payment
+comment0.text=\r\n\ Payment\ class\r\n\ This\ class\ is\ for\ all\ cash\ payments.\ \r\n\ Credit\ card\ payments\ inherit\ from\ this\ class\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment1.params=id\ amount\ booking
+comment1.target=Payment(int,\ double,\ Booking)
+comment1.text=\r\n\ Constructor\ for\ the\ Payment\r\n
+comment2.params=
+comment2.target=int\ getId()
+comment2.text=\r\n\ getId\r\n\ @return\ int\ id\r\n
+comment3.params=
+comment3.target=double\ getAmount()
+comment3.text=\r\n\ getAmount\r\n\ @return\ double\ amount\r\n
+comment4.params=
+comment4.target=Booking\ getBooking()
+comment4.text=\r\n\ getBooking\r\n\ @return\ int\ amount\r\n
+numComments=5

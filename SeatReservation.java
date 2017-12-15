@@ -12,11 +12,11 @@ public class SeatReservation {
   private Projection projection;
   private boolean used;
   
-  public SeatReservation(Projection projection, Integer row, Integer num, double price) { 
+  public SeatReservation(Projection projection, Integer row, Integer num) { 
     this.row = row; 
     this.num = num;
-    this.price = price;
     this.projection = projection;
+    this.price = (row==5)? projection.getPriceVip() : projection.getPriceRegular(); 
     this.used = false;
   } 
   

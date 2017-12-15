@@ -77,8 +77,7 @@ public class Booker
         }
         else
         {
-            double price = (row == 5) ? this.projection.getPriceVip() : this.projection.getPriceRegular();
-            SeatReservation s = new SeatReservation(projection, row, num, price);
+            SeatReservation s = new SeatReservation(projection, row, num);
             this.seatReservations.add(s);
         }
     }
@@ -168,6 +167,8 @@ public class Booker
      */
     public void finalizeCashBooking()
     {
+        Payment payment = new Payment(this.cinema.getNextPaymentId(), this.getTotalPrice(), this.booking);
+        this.cinema.addPayment(payment);      
         this.convertToTickets();
     }
     
@@ -178,8 +179,10 @@ public class Booker
      * @param int num
      * @return boolean
      */
-    public void finalizeCardBooking(String ccReference)
+    public void finalizeCardBooking(String referenceNumber)
     {
+        Payment payment = new CardPayment(this.cinema.getNextPaymentId(), this.getTotalPrice(), this.booking, referenceNumber);
+        this.cinema.addPayment(payment); 
         this.convertToTickets();
     }
     

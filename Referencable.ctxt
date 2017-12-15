@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Referencable
+comment0.text=\r\n\ Write\ a\ description\ of\ interface\ Referencable\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=java.lang.String\ getReferenceNumber()
+comment1.text=\r\n\ getReferenceNumber\r\n\ Returns\ a\ reference\ number\ for\ the\ object\r\n\ @return\ String\ referenceNumber\r\n
+numComments=2

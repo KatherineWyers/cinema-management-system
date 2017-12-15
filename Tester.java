@@ -297,13 +297,29 @@ public class Tester
         
         booker.addSeatReservation(1, 2); 
         booker.addSeatReservation(2, 2); 
+        booker.addSeatReservation(3, 2); 
         
         int reservationCount = booker.getSeatReservations().size(); 
+        int cashPaymentCountPre = this.cinema.getCashPayments().size();
         int ticketCountPre = this.cinema.getTickets(projection).size();    
         
         booker.finalizeCashBooking();
+        
         int ticketCountPost = this.cinema.getTickets(projection).size();   
         compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
+        
+        int cashPaymentCountPost = this.cinema.getCashPayments().size();   
+        compare((cashPaymentCountPost == (1 + cashPaymentCountPre)), true);
+        
+        // run the same test again to confirm that another new payment has been created
+        booker = this.cinema.getNewBooker(projection, customer);
+        booker.addSeatReservation(4, 2); 
+        booker.addSeatReservation(5, 2);
+        
+        booker.finalizeCashBooking();
+        
+        cashPaymentCountPost = this.cinema.getCashPayments().size();   
+        compare((cashPaymentCountPost == (2 + cashPaymentCountPre)), true);
         
         System.out.println("");
     }
@@ -325,15 +341,28 @@ public class Tester
         
         booker.addSeatReservation(1, 2); 
         booker.addSeatReservation(2, 2); 
-        
+      
         int reservationCount = booker.getSeatReservations().size(); 
+        int cardPaymentCountPre = this.cinema.getCardPayments().size();
         int ticketCountPre = this.cinema.getTickets(projection).size();    
-        
+       
         booker.finalizeCardBooking("REF:12345657");
         
         int ticketCountPost = this.cinema.getTickets(projection).size();   
-        
         compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
+        
+        int cardPaymentCountPost = this.cinema.getCardPayments().size();   
+        compare((cardPaymentCountPost == (1 + cardPaymentCountPre)), true);
+        
+        // run the same test again to confirm that another new payment has been created
+        booker = this.cinema.getNewBooker(projection, customer);
+        booker.addSeatReservation(4, 2); 
+        booker.addSeatReservation(5, 2);
+        
+        booker.finalizeCardBooking("REF:7654321");
+        
+        cardPaymentCountPost = this.cinema.getCardPayments().size();   
+        compare((cardPaymentCountPost == (2 + cardPaymentCountPre)), true);
         
         System.out.println("");
     }

@@ -14,6 +14,7 @@ public class Cinema
     private static int NEXT_UNUSED_BOOKING_ID = 1;
     private static int NEXT_UNUSED_SEAT_ASSIGNMENT_ID = 1;
     private static int NEXT_UNUSED_TICKET_ID = 1;
+    private static int NEXT_UNUSED_PAYMENT_ID = 1;
     
     private Map<Integer, Screen> screens; 
     private Map<Integer, Film> films; 
@@ -21,6 +22,7 @@ public class Cinema
     private Map<Integer, Customer> customers; 
     private Map<Integer, Booking> bookings; 
     private Map<Integer, Ticket> tickets;
+    private Map<Integer, Payment> payments;
     private Booker booker;
     
     /**
@@ -34,7 +36,7 @@ public class Cinema
         customers = new HashMap<Integer, Customer>();
         bookings = new HashMap<Integer, Booking>();
         tickets = new HashMap<Integer, Ticket>();
-        //payments = new HashMap<Integer, Payment>();
+        payments = new HashMap<Integer, Payment>();
         //reviews = new HashMap<Integer, Review>();
     }
     
@@ -341,6 +343,67 @@ public class Cinema
     {
         return this.bookings;
     }
+    
+    /**
+     * Get next unused payment id
+     *
+     * @return int nextPaymentId
+     */
+    public int getNextPaymentId()
+    {
+        return NEXT_UNUSED_PAYMENT_ID++;
+    }
+    
+    /**
+     * Add new Payment
+     * @param Payment payment
+     * @return void
+     */
+    public void addPayment(Payment payment)
+    {
+        this.payments.put(payment.getId(), payment);
+    }
+    
+    /**
+     * Get Map of all Cash Payments
+     * @return Map cashPayments
+     */
+    public Map<Integer, Payment> getCashPayments()
+    {
+        Map<Integer, Payment> cashPayments = new HashMap<Integer, Payment>();
+        Iterator it = this.payments.values().iterator();
+        while (it.hasNext())
+        {
+            Payment payment = (Payment) (  it.next()  );
+            
+            if(!Referencable.class.isAssignableFrom(payment.getClass()))
+            {
+                cashPayments.put(payment.getId(), payment);
+            }
+        }
+        return cashPayments;
+    }
+    
+    /**
+     * Get Map of all Card Payments
+     * @return Map cardPayments
+     */
+    public Map<Integer, Payment> getCardPayments()
+    {
+        Map<Integer, Payment> cardPayments = new HashMap<Integer, Payment>();
+        Iterator it = this.payments.values().iterator();
+        while (it.hasNext())
+        {
+            Payment payment = (Payment) (  it.next()  );
+            
+            if(Referencable.class.isAssignableFrom(payment.getClass()))
+            {
+                cardPayments.put(payment.getId(), payment);
+            }
+        }
+        return cardPayments;
+    }
+    
     
     /**
      * getSeatingGrid
