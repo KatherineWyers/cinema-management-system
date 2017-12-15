@@ -34,7 +34,6 @@ public class Cinema
         customers = new HashMap<Integer, Customer>();
         bookings = new HashMap<Integer, Booking>();
         tickets = new HashMap<Integer, Ticket>();
-        //seatAssignments = new HashMap<Integer, SeatAssignment>();
         //payments = new HashMap<Integer, Payment>();
         //reviews = new HashMap<Integer, Review>();
     }

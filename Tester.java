@@ -261,7 +261,7 @@ public class Tester
         setupTestEnvironment();
         
         // run tests
-        System.out.println("finalizeBooking");
+        System.out.println("finalizeCashBooking");
         
         Projection projection = this.cinema.getProjectionList().get(0);
         Customer customer = this.cinema.getCustomerList().get(0);
@@ -289,7 +289,7 @@ public class Tester
         setupTestEnvironment();
         
         // run tests
-        System.out.println("finalizeBooking");
+        System.out.println("finalizeCardBooking");
         
         Projection projection = this.cinema.getProjectionList().get(0);
         Customer customer = this.cinema.getCustomerList().get(0);

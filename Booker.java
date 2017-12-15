@@ -153,7 +153,6 @@ public class Booker
      */
     public void finalizeCashBooking()
     {
-        System.out.println("Need to create the cash booking feature");
         this.convertToTickets();
     }
     
@@ -166,9 +165,7 @@ public class Booker
      */
     public void finalizeCardBooking(String ccReference)
     {
-        System.out.println("Need to create the credit card booking feature");
         this.convertToTickets();
-        System.out.println(this.cinema.getTickets(booking));
     }
     
     /**
