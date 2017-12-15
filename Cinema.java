@@ -42,9 +42,9 @@ public class Cinema
      * getNewBooker
      * @return void
      */
-    public Booker getNewBooker(Customer customer)
+    public Booker getNewBooker(Projection projection, Customer customer)
     {
-        booker = new Booker(this, customer);
+        booker = new Booker(this, projection, customer);
         return this.booker;
     }
     

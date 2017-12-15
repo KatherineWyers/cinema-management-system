@@ -67,6 +67,7 @@ public class Tester
         //testPrintSeatingGrid();
         testIsValidSeatReservation();
         testAddTemporarySeatReservation();
+        testRemoveTemporarySeatReservation();
         testFinalizeCashBooking();
         testFinalizeCardBooking();
         System.out.print("");
@@ -219,11 +220,11 @@ public class Tester
         
         Projection projection = this.cinema.getProjectionList().get(0);        
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = new Booker(this.cinema, customer);
+        Booker booker = this.cinema.getNewBooker(projection, customer);
       
-        compare(booker.isValidSeatReservation(projection, 5, 2),true); 
-        booker.addSeatReservation(projection, 5, 2); 
-        compare(booker.isValidSeatReservation(projection, 5, 2),false);
+        compare(booker.isValidSeatReservation(5, 2),true); 
+        booker.addSeatReservation(5, 2); 
+        compare(booker.isValidSeatReservation(5, 2),false);
         
         System.out.println("");
     }
@@ -241,13 +242,40 @@ public class Tester
         
         Projection projection = this.cinema.getProjectionList().get(0);        
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = new Booker(this.cinema, customer);
+        Booker booker = this.cinema.getNewBooker(projection, customer);
     
         int count = booker.getSeatReservations().size();
-        booker.addSeatReservation(projection, 1, 2); 
+        booker.addSeatReservation(1, 2); 
         compare(booker.getSeatReservations().size(),count+1);
-        booker.addSeatReservation(projection, 2, 2); 
+        booker.addSeatReservation(2, 2); 
         compare(booker.getSeatReservations().size(),count+2);
+        
+        System.out.println("");
+    }
+    
+    /**
+     * testRemoveTemporarySeatReservation()
+     * @return void
+     */
+    private void testRemoveTemporarySeatReservation()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("removeSeatReservation");
+        
+        Projection projection = this.cinema.getProjectionList().get(0);        
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = this.cinema.getNewBooker(projection, customer);
+    
+        int count = booker.getSeatReservations().size();
+        booker.addSeatReservation(1, 2); 
+        booker.addSeatReservation(2, 2); 
+        compare(booker.getSeatReservations().size(),count+2);
+        booker.removeSeatReservation(1, 2); 
+        compare(booker.getSeatReservations().size(),count+1);
+        booker.removeSeatReservation(2, 2); 
+        compare(booker.getSeatReservations().size(),count);
         
         System.out.println("");
     }
@@ -265,10 +293,10 @@ public class Tester
         
         Projection projection = this.cinema.getProjectionList().get(0);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = new Booker(this.cinema, customer);
+        Booker booker = this.cinema.getNewBooker(projection, customer);
         
-        booker.addSeatReservation(projection, 1, 2); 
-        booker.addSeatReservation(projection, 2, 2); 
+        booker.addSeatReservation(1, 2); 
+        booker.addSeatReservation(2, 2); 
         
         int reservationCount = booker.getSeatReservations().size(); 
         int ticketCountPre = this.cinema.getTickets(projection).size();    
@@ -293,10 +321,10 @@ public class Tester
         
         Projection projection = this.cinema.getProjectionList().get(0);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = new Booker(this.cinema, customer);
+        Booker booker = this.cinema.getNewBooker(projection, customer);
         
-        booker.addSeatReservation(projection, 1, 2); 
-        booker.addSeatReservation(projection, 2, 2); 
+        booker.addSeatReservation(1, 2); 
+        booker.addSeatReservation(2, 2); 
         
         int reservationCount = booker.getSeatReservations().size(); 
         int ticketCountPre = this.cinema.getTickets(projection).size();    

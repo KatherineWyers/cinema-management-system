@@ -17,10 +17,11 @@ public class Booker
     /**
      * Constructor for objects of class Booker
      */
-    public Booker(Cinema cinema, Customer customer)
+    public Booker(Cinema cinema, Projection projection, Customer customer)
     {
         this.seatReservations = new ArrayList<SeatReservation>();
         this.cinema = cinema;
+        this.projection = projection;
         this.booking = new Booking(this.cinema.getNextBookingId(), customer);
     }
     
@@ -47,11 +48,8 @@ public class Booker
      * @param Projection p
      * @return boolean[][]
      */
-    public boolean[][] getProposedSeatingGrid(Projection projection)
-    {
-        // reset if a new projection was selected
-        resetOnNewProjection(projection);
-        
+    public boolean[][] getProposedSeatingGrid()
+    {   
         // initialise
         boolean[][] proposedSeatingGrid = this.cinema.getSeatingGrid(projection).clone();
 
@@ -71,20 +69,40 @@ public class Booker
      * @param double price
      * @return void
      */
-    public void addSeatReservation(Projection p, int row, int num)
+    public void addSeatReservation(int row, int num)
     {
-        // reset if a new projection was selected
-        resetOnNewProjection(p);
-        
-        if(!isValidSeatReservation(this.projection, row, num))
+        if(!isValidSeatReservation(row, num))
         {
-            System.out.println("The seat at " + cinema.convertToRowLetter(row) + num + " is unavailable");
+            System.out.println("The seat at " + this.cinema.convertToRowLetter(row) + num + " is unavailable");
         }
         else
         {
             double price = (row == 5) ? this.projection.getPriceVip() : this.projection.getPriceRegular();
             SeatReservation s = new SeatReservation(projection, row, num, price);
             this.seatReservations.add(s);
+        }
+    }
+
+    /**
+     * Remove a temporary seat reservation
+     * if it exists. 
+     * If it doesn't exist, do nothing
+     * 
+     * @param int row
+     * @param int num
+     * @param double price
+     * @return void
+     */
+    public void removeSeatReservation(int row, int num)
+    {
+        Iterator<SeatReservation> it = seatReservations.iterator();
+        while (it.hasNext()) 
+        {
+            SeatReservation seatReservation = it.next();
+            if(seatReservation.getRow() == row&&seatReservation.getNum()==num)
+            {
+                it.remove();
+            }
         }
     }
 
@@ -136,12 +154,9 @@ public class Booker
      * @param int num
      * @return boolean
      */
-    public boolean isValidSeatReservation(Projection p, int row, int num)
+    public boolean isValidSeatReservation(int row, int num)
     {
-        // reset if a new projection was selected
-        resetOnNewProjection(p);
-        
-        return(!this.getProposedSeatingGrid(this.projection)[row-1][num-1]);
+        return(!this.getProposedSeatingGrid()[row-1][num-1]);
     }
     
     /**
@@ -190,22 +205,5 @@ public class Booker
             this.cinema.addTicket(ticket);
             it.remove();
         }   
-    }
-    
-    
-    
-    /**
-     * resetOnNewProjection()
-     * switch the projection and clear the seatReservationList
-     * @param Projection p
-     * @return void
-     */
-    private void resetOnNewProjection(Projection p)
-    {
-        if(!p.equals(this.projection))
-        {
-            this.projection = p;
-            this.seatReservations = new ArrayList<SeatReservation>();
-        }
     }
 }
