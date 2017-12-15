@@ -67,6 +67,8 @@ public class Tester
         //testPrintSeatingGrid();
         testIsValidSeatReservation();
         testAddTemporarySeatReservation();
+        testFinalizeCashBooking();
+        testFinalizeCardBooking();
         System.out.print("");
     }
 
@@ -166,7 +168,7 @@ public class Tester
         
         System.out.println("");
     }
-
+    
     /**
      * testAddCustomer()
      * @return void
@@ -199,7 +201,7 @@ public class Tester
         System.out.println("printSeatingGrid");
         
         Projection projection = this.cinema.getProjectionList().get(0);
-        this.cinema.printSeatingGrid(projection.getSeatingGrid()); 
+        this.cinema.printSeatingGrid(this.cinema.getSeatingGrid(projection)); 
 
         System.out.println("");
     }
@@ -215,8 +217,9 @@ public class Tester
         // run tests
         System.out.println("isValidSeatReservation");
         
-        Booker booker = new Booker(this.cinema);
-        Projection projection = this.cinema.getProjectionList().get(0);
+        Projection projection = this.cinema.getProjectionList().get(0);        
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = new Booker(this.cinema, customer);
       
         compare(booker.isValidSeatReservation(projection, 5, 2),true); 
         booker.addSeatReservation(projection, 5, 2); 
@@ -236,14 +239,73 @@ public class Tester
         // run tests
         System.out.println("addSeatReservation");
         
-        Booker booker = new Booker(this.cinema);
-        Projection projection = this.cinema.getProjectionList().get(0);
+        Projection projection = this.cinema.getProjectionList().get(0);        
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = new Booker(this.cinema, customer);
     
-        int count = booker.getSeatReservationList().size();
+        int count = booker.getSeatReservations().size();
         booker.addSeatReservation(projection, 1, 2); 
-        compare(booker.getSeatReservationList().size(),count+1);
+        compare(booker.getSeatReservations().size(),count+1);
         booker.addSeatReservation(projection, 2, 2); 
-        compare(booker.getSeatReservationList().size(),count+2);
+        compare(booker.getSeatReservations().size(),count+2);
+        
+        System.out.println("");
+    }
+    
+    /**
+     * testFinalizeCashBooking()
+     * @return void
+     */
+    private void testFinalizeCashBooking()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("finalizeBooking");
+        
+        Projection projection = this.cinema.getProjectionList().get(0);
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = new Booker(this.cinema, customer);
+        
+        booker.addSeatReservation(projection, 1, 2); 
+        booker.addSeatReservation(projection, 2, 2); 
+        
+        int reservationCount = booker.getSeatReservations().size(); 
+        int ticketCountPre = this.cinema.getTickets(projection).size();    
+        
+        booker.finalizeCashBooking();
+        int ticketCountPost = this.cinema.getTickets(projection).size();   
+        compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
+        
+        System.out.println("");
+    }
+    
+    /**
+     * testFinalizeCardBooking()
+     * @return void
+     */
+    private void testFinalizeCardBooking()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("finalizeBooking");
+        
+        Projection projection = this.cinema.getProjectionList().get(0);
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = new Booker(this.cinema, customer);
+        
+        booker.addSeatReservation(projection, 1, 2); 
+        booker.addSeatReservation(projection, 2, 2); 
+        
+        int reservationCount = booker.getSeatReservations().size(); 
+        int ticketCountPre = this.cinema.getTickets(projection).size();    
+        
+        booker.finalizeCardBooking("REF:12345657");
+        
+        int ticketCountPost = this.cinema.getTickets(projection).size();   
+        
+        compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
         
         System.out.println("");
     }

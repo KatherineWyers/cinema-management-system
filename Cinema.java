@@ -13,14 +13,14 @@ public class Cinema
     private static int NEXT_UNUSED_CUSTOMER_ID = 1;
     private static int NEXT_UNUSED_BOOKING_ID = 1;
     private static int NEXT_UNUSED_SEAT_ASSIGNMENT_ID = 1;
+    private static int NEXT_UNUSED_TICKET_ID = 1;
     
-    private HashMap<Integer, Screen> screens; 
-    private HashMap<Integer, Film> films; 
-    private HashMap<Integer, Projection> projections; 
-    private HashMap<Integer, Customer> customers; 
-    private HashMap<Integer, Booking> bookings; 
-    //private HashMap<Integer, SeatAssignment> seatAssignments;
-    
+    private Map<Integer, Screen> screens; 
+    private Map<Integer, Film> films; 
+    private Map<Integer, Projection> projections; 
+    private Map<Integer, Customer> customers; 
+    private Map<Integer, Booking> bookings; 
+    private Map<Integer, Ticket> tickets;
     private Booker booker;
     
     /**
@@ -33,11 +33,20 @@ public class Cinema
         projections = new HashMap<Integer, Projection>();
         customers = new HashMap<Integer, Customer>();
         bookings = new HashMap<Integer, Booking>();
+        tickets = new HashMap<Integer, Ticket>();
         //seatAssignments = new HashMap<Integer, SeatAssignment>();
         //payments = new HashMap<Integer, Payment>();
         //reviews = new HashMap<Integer, Review>();
-        
-        booker = new Booker(this);
+    }
+    
+    /**
+     * getNewBooker
+     * @return void
+     */
+    public Booker getNewBooker(Customer customer)
+    {
+        booker = new Booker(this, customer);
+        return this.booker;
     }
     
     /**
@@ -61,25 +70,14 @@ public class Cinema
         Screen screen = new Screen(getNextScreenId(), title);
         this.screens.put(screen.getId(), screen);
     }
-    
+
     /**
-     * get List of all Screens
-     *
+     * Get a list of screens
      * @return List screens
      */
     public List<Screen> getScreenList()
     {
-        return new ArrayList<Screen> (screens.values());
-    }
-    
-    /**
-     * Get the screen with the specified id.
-     * @param int screenId
-     * @return Screen screen
-     */
-    public Screen getScreen(int screenId) 
-    {
-        return screens.get(screenId);
+        return new ArrayList<Screen> (this.screens.values());
     }
     
     /**
@@ -120,42 +118,14 @@ public class Cinema
         Film film = new Film(getNextFilmId(), title, year, director, language, subtitles);
         this.films.put(film.getId(), film);
     }
-    
+
     /**
-     * Get the film with the specified id.
-     * @param int filmId
-     * @return Film film
-     */
-    public Film getFilm(int filmId) 
-    {
-        return films.get(filmId);
-    }
-    
-    /**
-     * get List of all Films
-     *
+     * Get a list of films
      * @return List films
      */
     public List<Film> getFilmList()
     {
-        return new ArrayList<Film> (films.values());
-    }
-    
-    /**
-     * print all Films
-     * @return void
-     */
-    public void printFilmList()
-    {
-        System.out.println("#############FILMS####################");
-        Iterator it = films.values().iterator();
-        while (it.hasNext())
-        {
-            Film film = (Film) (  it.next()  );
-            System.out.println(film.toString());
-        } 
-        System.out.println("######################################"); 
-        System.out.println();
+        return new ArrayList<Film> (this.films.values());
     }
     
     /**
@@ -166,28 +136,6 @@ public class Cinema
     public int getNextProjectionId()
     {
         return NEXT_UNUSED_PROJECTION_ID++;
-    }
-
-    /**
-     * Add new projection
-     *
-     * @param  String date 
-     * @param String slot
-     * @param int screenId
-     * @param int filmId
-     * @param float priceRegular
-     * @param float priceVip
-     * @return void
-     */
-    public void addProjection(String date, String slot, Screen screen, Film film, float priceRegular, float priceVip)
-    {
-        if(!isValidProjection(date, slot, screen, film))
-        {
-            System.out.println("The Projection could not be created. The Screen or the Film is already being used at that time");
-            return;
-        }
-        Projection projection = new Projection(getNextProjectionId(), date, slot, screen, film, priceRegular, priceVip);
-        this.projections.put(projection.getId(), projection);
     }
     
     /**
@@ -218,37 +166,36 @@ public class Cinema
         }
         return true;
     }
-    
+
     /**
-     * Get the projection with the specified id.
-     * @param int projectionId
-     * @return Projection projection   
-     */
-    public Projection getProjection(int projectionId) 
-    {
-        return projections.get(projectionId);
-    }
-    
-    // /**
-     // * Get the list of seats ticketed for the projection with specified id.
-     // * @param int projectionId
-     // * @return List seats   
-     // */
-    // public List<Seat> getBookedSeats(Projection proj) 
-    // {
-        // return proj.getBookedSeats();
-    // }
-    
-    
-    
-    /**
-     * get List of all projections
+     * Add new projection
      *
+     * @param  String date 
+     * @param String slot
+     * @param int screenId
+     * @param int filmId
+     * @param float priceRegular
+     * @param float priceVip
+     * @return void
+     */
+    public void addProjection(String date, String slot, Screen screen, Film film, float priceRegular, float priceVip)
+    {
+        if(!isValidProjection(date, slot, screen, film))
+        {
+            System.out.println("The Projection could not be created. The Screen or the Film is already being used at that time");
+            return;
+        }
+        Projection projection = new Projection(getNextProjectionId(), date, slot, screen, film, priceRegular, priceVip);
+        this.projections.put(projection.getId(), projection);
+    }
+
+    /**
+     * Get a list of projections
      * @return List projections
      */
     public List<Projection> getProjectionList()
     {
-        return new ArrayList<Projection> (projections.values());
+        return new ArrayList<Projection> (this.projections.values());
     }
     
     /**
@@ -284,25 +231,145 @@ public class Cinema
         Customer customer = new Customer(getNextCustomerId(), name);
         this.customers.put(customer.getId(), customer);
     }
-    
+
     /**
-     * Get the customer with the specified id.
-     * @param int customerId
-     * @return Customer customer     
-     */
-    public Customer getCustomer(int customerId) 
-    {
-        return customers.get(customerId);
-    }
-    
-    /**
-     * get List of all Customers
-     *
+     * Get a list of customers
      * @return List customers
      */
     public List<Customer> getCustomerList()
     {
-        return new ArrayList<Customer> (customers.values());
+        return new ArrayList<Customer> (this.customers.values());
+    }
+    
+    /**
+     * Get next unused ticket id
+     *
+     * @return int nextTicketId
+     */
+    public int getNextTicketId()
+    {
+        return NEXT_UNUSED_TICKET_ID++;
+    }
+    
+    /**
+     * Get Map of all Tickets
+     * @return Map tickets
+     */
+    public Map<Integer, Ticket> getTickets()
+    {
+        return this.tickets;
+    }
+    
+    /**
+     * Get Map of all Tickets for the projection
+     * @param Projection p
+     * @return Map tickets
+     */
+    public Map<Integer, Ticket> getTickets(Projection projection)
+    {
+        Map<Integer, Ticket> projectionTickets = new HashMap<Integer, Ticket>();
+        Iterator it = this.tickets.values().iterator();
+        
+        while (it.hasNext())
+        {
+            Ticket ticket = (Ticket) (  it.next()  );
+            // Check if there is already a projection in that screen at that time
+            if(ticket.getProjection() == projection)
+            {
+                projectionTickets.put(ticket.getId(), ticket);
+            }
+        }
+        return projectionTickets;
+    }
+    
+    /**
+     * Get Map of all Tickets for the booking
+     * @param Booking b
+     * @return Map tickets
+     */
+    public Map<Integer, Ticket> getTickets(Booking booking)
+    {
+        Map<Integer, Ticket> bookingTickets = new HashMap<Integer, Ticket>();
+        Iterator it = this.tickets.values().iterator();
+        while (it.hasNext())
+        {
+            Ticket ticket = (Ticket) (  it.next()  );
+            // Check if there is already a projection in that screen at that time
+            if(ticket.getBooking() == booking)
+            {
+                bookingTickets.put(ticket.getId(), ticket);
+            }
+        }
+        return bookingTickets;
+    }
+
+    /**
+     * Add new add ticket
+     *
+     * @param  Ticket ticket
+     * @return void
+     */
+    public void addTicket(Ticket ticket)
+    {
+        this.tickets.put(ticket.getId(), ticket);
+    }
+    
+    /**
+     * Get next unused booking id
+     *
+     * @return int nextBookingId
+     */
+    public int getNextBookingId()
+    {
+        return NEXT_UNUSED_BOOKING_ID++;
+    }
+    
+    /**
+     * Add new Booking
+     * @param Booking booking
+     * @return void
+     */
+    public void addBooking(Booking booking)
+    {
+        this.bookings.put(booking.getId(), booking);
+    }
+    
+    /**
+     * Get Map of all Bookings
+     * @return Map bookings
+     */
+    public Map<Integer, Booking> getBookings()
+    {
+        return this.bookings;
+    }
+    
+    /**
+     * getSeatingGrid
+     * @return boolean[][] seatingGrid
+     */
+    public boolean[][] getSeatingGrid(Projection projection)
+    {
+        boolean seatingGrid[][] = new boolean[5][10];
+        
+        //Set whole grid to empty
+        for(int i=0;i<5;i++)
+        {
+            for(int j=0;j<10;j++)
+            {
+                seatingGrid[i][j] = false;
+            }
+        }
+        
+        // Update grid with booked tickets
+        Iterator it = this.getTickets(projection).values().iterator();
+        
+        while (it.hasNext())
+        {
+            Ticket ticket = (Ticket) (  it.next()  );
+            // Check if there is already a projection in that screen at that time
+            seatingGrid[ticket.getRow()-1][ticket.getNum()-1] = true;
+        }
+        return seatingGrid;
     }
     
     /**
@@ -321,8 +388,7 @@ public class Cinema
         {   
             String rowLetter;
             rowLetter = this.convertToRowLetter(i);
-
-
+            
             // rowLetter with 1 column white space as padding
             System.out.print(rowLetter + " ");
             

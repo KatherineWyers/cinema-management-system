@@ -46,7 +46,6 @@ public class Gui
     public void run()
     {
         System.out.println("Running the application...");
-        cinema.printFilmList();
         System.out.println("Application-run complete");
     }
 }

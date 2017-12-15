@@ -14,15 +14,16 @@ public class Ticket
     private int num;
     
     /**
-     * Constructor for objects of class SeatAssignment
+     * Constructor for objects of class Ticket
      */
-    public Ticket(int id, Projection projection, Booking booking, int row, int num)
+    public Ticket(int id, SeatReservation seatReservation, Booking booking)
     {
         this.id = id;
-        this.projection = projection;
+        this.projection = seatReservation.getProjection();
         this.booking = booking;
-        this.row = row;
-        this.num = num;
+        this.row = seatReservation.getRow();
+        this.num = seatReservation.getNum();
+        seatReservation.setUsed();
     }
 
     /**

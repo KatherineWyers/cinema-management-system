@@ -25,3 +25,7 @@ Changing a booking -> if a booking is for multiple tickets, then it is possible 
 The List of tickets is stored in the projection class, rather than the booking class. All the reporting is drawn from the relationship between the ticket objects and their projections.  
 
 Customer: consider removing the customer class, or making it optional. Cinema's don't need your name in order to sell you a ticket. 
+
+Autoincrementing the IDs -> while it is more intuitive to allow the objects to autoincrement their own ids by storing seperate (int NEXT_ID) values in each object-class, it was decided to store this functionality centrally in the Cinema class. The system will at some point need to use a persistent database, which will have its own autoincrementing feature. By storing the autoincrement centrally now, it will make it easier in the future to migrate the system to incorporate a database, and then use the autoincremented id from that database as the id numbers for the system. 
+
+Booker -> when a new booking starts, call cinema.getNewBooker(). This clears the last booker, so that there cannot be conflict between the seatReservation list if a booking is abandoned. 
