@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=SeatAllocation
+comment0.text=\r\n\ Abstract\ class\ SeatAllocation\ -\ write\ a\ description\ of\ the\ class\ here\r\n\r\n\ @author\ (your\ name\ here)\r\n\ @version\ (version\ number\ or\ date\ here)\r\n
+comment1.params=
+comment1.target=int\ getId()
+comment1.text=\r\n\ get\ the\ id\r\n\ @return\ int\ id\r\n
+comment2.params=
+comment2.target=int\ getRow()
+comment2.text=\r\n\ get\ the\ row\r\n\ @return\ String\ row\r\n
+comment3.params=
+comment3.target=double\ getPrice()
+comment3.text=\r\n\ get\ the\ price\ that\ was\ paid\ for\ the\ ticket\r\n\ @return\ double\ price\r\n
+comment4.params=
+comment4.target=int\ getNum()
+comment4.text=\r\n\ get\ the\ number\r\n\ @return\ int\ number\r\n
+comment5.params=
+comment5.target=Projection\ getProjection()
+comment5.text=\r\n\ get\ the\ projection\r\n\ @return\ Projection\ projection\r\n
+comment6.params=
+comment6.target=java.lang.String\ getType()
+comment6.text=\r\n\ get\ the\ type\r\n\ @return\ String\ type\r\n
+numComments=7

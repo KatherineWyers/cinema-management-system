@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Reservation
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ SeatReservation\ here.\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment1.params=projection\ row\ num
+comment1.target=Reservation(Projection,\ java.lang.Integer,\ java.lang.Integer)
+comment2.params=
+comment2.target=void\ setUsed()
+numComments=3

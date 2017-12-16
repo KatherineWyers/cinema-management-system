@@ -7,31 +7,19 @@ import java.util.Iterator;
  * @author Katherine Wyers
  * @version 1.0 
  */
-public class Booker
+public class Booker extends TicketManager
 {
-    private List<SeatReservation> seatReservations;
-    private final Cinema cinema;
-    private Projection projection;
-    private Booking booking;
+    private List<Reservation> reservations;
     
     /**
      * Constructor for objects of class Booker
      */
     public Booker(Cinema cinema, Projection projection, Customer customer)
-    {
-        this.seatReservations = new ArrayList<SeatReservation>();
-        this.cinema = cinema;
+    { 
+        this.reservations = new ArrayList<Reservation>();
         this.projection = projection;
+        this.cinema = cinema;
         this.booking = new Booking(this.cinema.getNextBookingId(), customer);
-    }
-    
-    /**
-     * get Cinema
-     * @return Cinema cinema
-     */
-    public Cinema getCinema()
-    {
-        return this.cinema;
     }
     
     /**
@@ -41,44 +29,25 @@ public class Booker
     public Booking getBooking()
     {
         return this.booking;
-    }
+    }    
     
-    /**
-     * Get the proposed seating grid updated with the temporary seat reservations
-     * @param Projection p
-     * @return boolean[][]
-     */
-    public boolean[][] getProposedSeatingGrid()
-    {   
-        // initialise
-        boolean[][] proposedSeatingGrid = this.cinema.getSeatingGrid(projection).clone();
-
-        // Update grid with booked tickets        
-        for(SeatReservation seatReservation : seatReservations)
-        {
-            proposedSeatingGrid[seatReservation.getRow()-1][seatReservation.getNum()-1] = true;
-        }
-        return proposedSeatingGrid;
-    }
-
     /**
      * Create a temporary seat reservation
      * 
      * @param int row
      * @param int num
-     * @param double price
      * @return void
      */
-    public void addSeatReservation(int row, int num)
+    public void addReservation(int row, int num)
     {
-        if(!isValidSeatReservation(row, num))
+        if(!isValidSeatSelection(row, num))
         {
             System.out.println("The seat at " + this.cinema.convertToRowLetter(row) + num + " is unavailable");
         }
         else
         {
-            SeatReservation s = new SeatReservation(projection, row, num);
-            this.seatReservations.add(s);
+            Reservation s = new Reservation(projection, row, num);
+            this.reservations.add(s);
         }
     }
 
@@ -92,13 +61,13 @@ public class Booker
      * @param double price
      * @return void
      */
-    public void removeSeatReservation(int row, int num)
+    public void removeReservation(int row, int num)
     {
-        Iterator<SeatReservation> it = seatReservations.iterator();
+        Iterator<Reservation> it = reservations.iterator();
         while (it.hasNext()) 
         {
-            SeatReservation seatReservation = it.next();
-            if(seatReservation.getRow() == row&&seatReservation.getNum()==num)
+            Reservation reservation = it.next();
+            if(reservation.getRow() == row&&reservation.getNum()==num)
             {
                 it.remove();
             }
@@ -112,11 +81,29 @@ public class Booker
     public double getTotalPrice()
     {
         double totalPrice = 0.0;
-        for(SeatReservation s : seatReservations)
+        for(Reservation s : reservations)
         {
             totalPrice = totalPrice + s.getPrice();
         }
         return totalPrice;
+    }
+    
+    /**
+     * Get the proposed seating grid updated with the temporary seat reservations
+     * @param Projection p
+     * @return boolean[][]
+     */
+    public boolean[][] getSeatingGrid()
+    {   
+        // initialise
+        boolean[][] seatingGrid = this.cinema.getSeatingGrid(projection).clone();
+
+        // Update grid with booked tickets        
+        for(Reservation reservation : reservations)
+        {
+            seatingGrid[reservation.getRow()-1][reservation.getNum()-1] = true;
+        }
+        return seatingGrid;
     }
     
     /**
@@ -128,7 +115,7 @@ public class Booker
     {
         System.out.println("###CURRENT BOOKING###");
         System.out.println("SEAT------PRICE------");
-        for(SeatReservation s : seatReservations)
+        for(Reservation s : reservations)
         {
             System.out.println(cinema.convertToRowLetter(s.getRow()) + s.getNum() + "--------" + s.getPrice());
         }
@@ -142,20 +129,9 @@ public class Booker
      * Get the seat reservations and the price of each
      * @return List<SeatReservation> seatReservations 
      */
-    public List<SeatReservation> getSeatReservations()
+    public List<Reservation> getReservations()
     {
-        return seatReservations;
-    }
-    
-    /**
-     * Check whether the seat at the given row and num is available 
-     * @param int row
-     * @param int num
-     * @return boolean
-     */
-    public boolean isValidSeatReservation(int row, int num)
-    {
-        return(!this.getProposedSeatingGrid()[row-1][num-1]);
+        return reservations;
     }
     
     /**
@@ -165,7 +141,7 @@ public class Booker
      * @param int num
      * @return boolean
      */
-    public void finalizeCashBooking()
+    public void finalizeCashPayment()
     {
         Payment payment = new Payment(this.cinema.getNextPaymentId(), this.getTotalPrice(), this.booking);
         this.cinema.addPayment(payment);      
@@ -179,7 +155,7 @@ public class Booker
      * @param int num
      * @return boolean
      */
-    public void finalizeCardBooking(String referenceNumber)
+    public void finalizeCardPayment(String referenceNumber)
     {
         Payment payment = new CardPayment(this.cinema.getNextPaymentId(), this.getTotalPrice(), this.booking, referenceNumber);
         this.cinema.addPayment(payment); 
@@ -200,11 +176,11 @@ public class Booker
             this.cinema.addBooking(this.booking);
         }
         
-        Iterator<SeatReservation> it = seatReservations.iterator();
+        Iterator<Reservation> it = reservations.iterator();
         while (it.hasNext()) 
         {
-            SeatReservation seatReservation = it.next();
-            Ticket ticket = new Ticket(this.cinema.getNextTicketId(), seatReservation, booking);
+            Reservation reservation = it.next();
+            Ticket ticket = new Ticket(this.cinema.getNextTicketId(), reservation, booking);
             this.cinema.addTicket(ticket);
             it.remove();
         }   

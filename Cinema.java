@@ -24,6 +24,7 @@ public class Cinema
     private Map<Integer, Ticket> tickets;
     private Map<Integer, Payment> payments;
     private Booker booker;
+    private Transferer transferer;
     
     /**
      * Constructor for objects of class Cinema
@@ -42,12 +43,22 @@ public class Cinema
     
     /**
      * getNewBooker
-     * @return void
+     * @return Booker booker
      */
     public Booker getNewBooker(Projection projection, Customer customer)
     {
         booker = new Booker(this, projection, customer);
         return this.booker;
+    }
+    
+    /**
+     * getNewTransferer
+     * @return Transferer transferer
+     */
+    public Transferer getNewTransferer(Projection projection, Ticket ticket)
+    {
+        transferer = new Transferer(this, projection, ticket);
+        return this.transferer;
     }
     
     /**
@@ -259,6 +270,15 @@ public class Cinema
     public Map<Integer, Ticket> getTickets()
     {
         return this.tickets;
+    }
+
+    /**
+     * Get a list of tickets
+     * @return List tickets
+     */
+    public List<Ticket> getTicketList()
+    {
+        return new ArrayList<Ticket> (this.tickets.values());
     }
     
     /**

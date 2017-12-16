@@ -17,6 +17,8 @@ public class Tester
     public void testAll()
     {
         testCinema();
+        testBooker();
+        testTransferer();
     }
 
     /**
@@ -65,11 +67,34 @@ public class Tester
         testAddProjection();
         testAddCustomer();
         //testPrintSeatingGrid();
-        testIsValidSeatReservation();
-        testAddTemporarySeatReservation();
-        testRemoveTemporarySeatReservation();
-        testFinalizeCashBooking();
-        testFinalizeCardBooking();
+        System.out.print("");
+    }
+    
+    /**
+     * testBookerMethods()
+     * @return void
+     */
+    public void testBooker()
+    {
+        System.out.println("Testing Booker Methods");
+        testBookerIsValidSeatSelection();
+        testBookerAddTemporarySeatReservation();
+        testBookerRemoveTemporarySeatReservation();
+        testBookerFinalizeCashPayment();
+        testBookerFinalizeCardPayment();
+        System.out.print("");
+    }
+    
+    /**
+     * testTransfererMethods()
+     * @return void
+     */
+    public void testTransferer()
+    {
+        System.out.println("Testing Transferer Methods");
+        testTransfererCashPaymentSamePrice();
+        testTransfererCashPaymentLowerPrice();
+        testTransfererCashPaymentHigherPrice();
         System.out.print("");
     }
 
@@ -208,32 +233,32 @@ public class Tester
     }
     
     /**
-     * testIsValidSeatReservation()
+     * testBookerIsValidSeatSelection()
      * @return void
      */
-    private void testIsValidSeatReservation()
+    private void testBookerIsValidSeatSelection()
     {
         setupTestEnvironment();
         
         // run tests
-        System.out.println("isValidSeatReservation");
+        System.out.println("isValidSeatSelection");
         
         Projection projection = this.cinema.getProjectionList().get(0);        
         Customer customer = this.cinema.getCustomerList().get(0);
         Booker booker = this.cinema.getNewBooker(projection, customer);
       
-        compare(booker.isValidSeatReservation(5, 2),true); 
-        booker.addSeatReservation(5, 2); 
-        compare(booker.isValidSeatReservation(5, 2),false);
+        compare(booker.isValidSeatSelection(5, 2),true); 
+        booker.addReservation(5, 2); 
+        compare(booker.isValidSeatSelection(5, 2),false);
         
         System.out.println("");
     }
     
     /**
-     * testAddTemporarySeatReservation()
+     * testBookerAddTemporarySeatReservation()
      * @return void
      */
-    private void testAddTemporarySeatReservation()
+    private void testBookerAddTemporarySeatReservation()
     {
         setupTestEnvironment();
         
@@ -244,20 +269,20 @@ public class Tester
         Customer customer = this.cinema.getCustomerList().get(0);
         Booker booker = this.cinema.getNewBooker(projection, customer);
     
-        int count = booker.getSeatReservations().size();
-        booker.addSeatReservation(1, 2); 
-        compare(booker.getSeatReservations().size(),count+1);
-        booker.addSeatReservation(2, 2); 
-        compare(booker.getSeatReservations().size(),count+2);
+        int count = booker.getReservations().size();
+        booker.addReservation(1, 2); 
+        compare(booker.getReservations().size(),count+1);
+        booker.addReservation(2, 2); 
+        compare(booker.getReservations().size(),count+2);
         
         System.out.println("");
     }
     
     /**
-     * testRemoveTemporarySeatReservation()
+     * testBookerRemoveTemporarySeatReservation()
      * @return void
      */
-    private void testRemoveTemporarySeatReservation()
+    private void testBookerRemoveTemporarySeatReservation()
     {
         setupTestEnvironment();
         
@@ -268,23 +293,23 @@ public class Tester
         Customer customer = this.cinema.getCustomerList().get(0);
         Booker booker = this.cinema.getNewBooker(projection, customer);
     
-        int count = booker.getSeatReservations().size();
-        booker.addSeatReservation(1, 2); 
-        booker.addSeatReservation(2, 2); 
-        compare(booker.getSeatReservations().size(),count+2);
-        booker.removeSeatReservation(1, 2); 
-        compare(booker.getSeatReservations().size(),count+1);
-        booker.removeSeatReservation(2, 2); 
-        compare(booker.getSeatReservations().size(),count);
+        int count = booker.getReservations().size();
+        booker.addReservation(1, 2); 
+        booker.addReservation(2, 2); 
+        compare(booker.getReservations().size(),count+2);
+        booker.removeReservation(1, 2); 
+        compare(booker.getReservations().size(),count+1);
+        booker.removeReservation(2, 2); 
+        compare(booker.getReservations().size(),count);
         
         System.out.println("");
     }
     
     /**
-     * testFinalizeCashBooking()
+     * testBookerFinalizeCashBooking()
      * @return void
      */
-    private void testFinalizeCashBooking()
+    private void testBookerFinalizeCashPayment()
     {
         setupTestEnvironment();
         
@@ -295,15 +320,15 @@ public class Tester
         Customer customer = this.cinema.getCustomerList().get(0);
         Booker booker = this.cinema.getNewBooker(projection, customer);
         
-        booker.addSeatReservation(1, 2); 
-        booker.addSeatReservation(2, 2); 
-        booker.addSeatReservation(3, 2); 
+        booker.addReservation(1, 2); 
+        booker.addReservation(2, 2); 
+        booker.addReservation(3, 2); 
         
-        int reservationCount = booker.getSeatReservations().size(); 
+        int reservationCount = booker.getReservations().size(); 
         int cashPaymentCountPre = this.cinema.getCashPayments().size();
         int ticketCountPre = this.cinema.getTickets(projection).size();    
         
-        booker.finalizeCashBooking();
+        booker.finalizeCashPayment();
         
         int ticketCountPost = this.cinema.getTickets(projection).size();   
         compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
@@ -313,10 +338,10 @@ public class Tester
         
         // run the same test again to confirm that another new payment has been created
         booker = this.cinema.getNewBooker(projection, customer);
-        booker.addSeatReservation(4, 2); 
-        booker.addSeatReservation(5, 2);
+        booker.addReservation(4, 2); 
+        booker.addReservation(5, 2);
         
-        booker.finalizeCashBooking();
+        booker.finalizeCashPayment();
         
         cashPaymentCountPost = this.cinema.getCashPayments().size();   
         compare((cashPaymentCountPost == (2 + cashPaymentCountPre)), true);
@@ -325,10 +350,10 @@ public class Tester
     }
     
     /**
-     * testFinalizeCardBooking()
+     * testBookerFinalizeCardBooking()
      * @return void
      */
-    private void testFinalizeCardBooking()
+    private void testBookerFinalizeCardPayment()
     {
         setupTestEnvironment();
         
@@ -339,14 +364,14 @@ public class Tester
         Customer customer = this.cinema.getCustomerList().get(0);
         Booker booker = this.cinema.getNewBooker(projection, customer);
         
-        booker.addSeatReservation(1, 2); 
-        booker.addSeatReservation(2, 2); 
+        booker.addReservation(1, 2); 
+        booker.addReservation(2, 2); 
       
-        int reservationCount = booker.getSeatReservations().size(); 
+        int reservationCount = booker.getReservations().size(); 
         int cardPaymentCountPre = this.cinema.getCardPayments().size();
         int ticketCountPre = this.cinema.getTickets(projection).size();    
        
-        booker.finalizeCardBooking("REF:12345657");
+        booker.finalizeCardPayment("REF:12345657");
         
         int ticketCountPost = this.cinema.getTickets(projection).size();   
         compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
@@ -356,14 +381,125 @@ public class Tester
         
         // run the same test again to confirm that another new payment has been created
         booker = this.cinema.getNewBooker(projection, customer);
-        booker.addSeatReservation(4, 2); 
-        booker.addSeatReservation(5, 2);
+        booker.addReservation(4, 2); 
+        booker.addReservation(5, 2);
         
-        booker.finalizeCardBooking("REF:7654321");
+        booker.finalizeCardPayment("REF:7654321");
         
         cardPaymentCountPost = this.cinema.getCardPayments().size();   
         compare((cardPaymentCountPost == (2 + cardPaymentCountPre)), true);
         
+        System.out.println("");
+    }
+    
+    /**
+     * testTransfererCashPaymentSamePrice()
+     * @return void
+     */
+    private void testTransfererCashPaymentSamePrice()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("process CashPayment when new ticket price is the same as old ticket price");
+        
+        // first, book some tickets
+        Projection projection1 = this.cinema.getProjectionList().get(0);
+        Projection projection2 = this.cinema.getProjectionList().get(1);
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = this.cinema.getNewBooker(projection1, customer);
+        
+        booker.addReservation(1, 2); 
+        
+        booker.finalizeCashPayment();
+       
+        // get the first of those tickets
+        Ticket ticket = this.cinema.getTicketList().get(0);
+        
+        // Transfer that ticket to a new projection
+        Transferer transferer = this.cinema.getNewTransferer(projection2, ticket);
+        int count = this.cinema.getCashPayments().size();
+        transferer.setReservation(1, 3);
+        transferer.finalizeCashPayment();
+        
+        // cash payment has not gone up, but the ticket details have changed
+        compare(this.cinema.getCashPayments().size(),count);
+        compare(ticket.getRow(),1);
+        compare(ticket.getNum(),3);
+        System.out.println("");
+    }
+    
+    /**
+     * testTransfererCashPaymentSamePrice()
+     * @return void
+     */
+    private void testTransfererCashPaymentLowerPrice()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("process CashPayment when new ticket price is lower than old ticket price");
+        
+        // first, book some tickets
+        Projection projection1 = this.cinema.getProjectionList().get(0);
+        Projection projection2 = this.cinema.getProjectionList().get(1);
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = this.cinema.getNewBooker(projection1, customer);
+        
+        booker.addReservation(5, 2); 
+        
+        booker.finalizeCashPayment();
+       
+        // get the first of those tickets
+        Ticket ticket = this.cinema.getTicketList().get(0);
+        
+        // Transfer that ticket to a new projection
+        Transferer transferer = this.cinema.getNewTransferer(projection2, ticket);
+        int count = this.cinema.getCashPayments().size();
+        transferer.setReservation(1, 3);
+        transferer.finalizeCashPayment();
+        
+        // cash payment has not gone up, but the ticket details have changed
+        compare(this.cinema.getCashPayments().size(),count);
+        compare(ticket.getRow(),1);
+        compare(ticket.getNum(),3);
+        System.out.println("");
+    }
+    
+    /**
+     * testTransfererCashPaymentHigherPrice()
+     * @return void
+     */
+    private void testTransfererCashPaymentHigherPrice()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("process CashPayment when new ticket price is higher than old ticket price");
+        
+        // first, book some tickets
+        Projection projection1 = this.cinema.getProjectionList().get(0);
+        Projection projection2 = this.cinema.getProjectionList().get(1);
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = this.cinema.getNewBooker(projection1, customer);
+        
+        booker.addReservation(1, 2); 
+        
+        booker.finalizeCashPayment();
+       
+        // get the first of those tickets
+        Ticket ticket = this.cinema.getTicketList().get(0);
+        
+        // Transfer that ticket to a new projection
+        Transferer transferer = this.cinema.getNewTransferer(projection2, ticket);
+        int count = this.cinema.getCashPayments().size();
+        transferer.setReservation(5, 3);
+        transferer.finalizeCashPayment();
+        
+        // cash payment has not gone up, but the ticket details have changed
+        compare(this.cinema.getCashPayments().size(),count+1);
+        compare(ticket.getRow(),5);
+        compare(ticket.getNum(),3);
         System.out.println("");
     }
     
