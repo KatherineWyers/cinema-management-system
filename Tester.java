@@ -74,6 +74,7 @@ public class Tester
         testAddProjection();
         testAddCustomer();
         //testPrintSeatingGrid();
+        testAddReview();
         System.out.print("");
     }
     
@@ -524,6 +525,71 @@ public class Tester
         compare(ticket.getNum(),3);
         System.out.println("");
     }
+    
+    /**
+     * testBookerFinalizeCashBooking()
+     * @return void
+     */
+    private void testAddReview()
+    {
+        setupTestEnvironment();
+        
+        // run tests
+        System.out.println("addReview");
+        
+        Projection projection = this.cinema.getProjectionList().get(0);
+        Customer customer = this.cinema.getCustomerList().get(0);
+        Booker booker = this.cinema.getNewBooker(projection, customer);
+        
+        booker.addReservation(1, 2); 
+        booker.addReservation(2, 2); 
+        booker.addReservation(3, 2);   
+        booker.finalizeCashPayment();
+        
+        Ticket ticket = this.cinema.getTicketList().get(0);
+        int reviewCount = this.cinema.getReviews().size(); 
+        
+        System.out.println("Print error saying the value was out of range");
+        try
+        {
+            this.cinema.addReview(ticket, "This movie was terrible!", -1);
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+        }
+        compare((this.cinema.getReviews().size() == reviewCount), true);
+        
+        System.out.println("Print error saying the value was out of range");
+        try
+        {
+            this.cinema.addReview(ticket, "This movie was incredibly good!", 6);
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+        }
+        compare((this.cinema.getReviews().size() == reviewCount), true);
+        
+        
+        try
+        {
+            this.cinema.addReview(ticket, "This movie was average!", 3);
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+        }
+        compare((this.cinema.getReviews().size() == (reviewCount + 1)), true);
+        
+        
+        
+        try
+        {
+            this.cinema.addReview(ticket, "This movie was average!", 4);
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+        }
+        compare((this.cinema.getReviews().size() == (reviewCount + 1)), true);
+        
+        
+        System.out.println("");
+    }
+    
     
     /**
      * compare two boolean values and call printResult

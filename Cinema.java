@@ -23,6 +23,7 @@ public class Cinema
     private Map<Integer, Booking> bookings; 
     private Map<Integer, Ticket> tickets;
     private Map<Integer, Payment> payments;
+    private Map<Integer, Review> reviews;
     private Booker booker;
     private Transferer transferer;
     
@@ -38,7 +39,7 @@ public class Cinema
         bookings = new HashMap<Integer, Booking>();
         tickets = new HashMap<Integer, Ticket>();
         payments = new HashMap<Integer, Payment>();
-        //reviews = new HashMap<Integer, Review>();
+        reviews = new HashMap<Integer, Review>();
     }
     
     /**
@@ -165,13 +166,13 @@ public class Cinema
         {
             Projection proj = (Projection) (  it.next()  );
             // Check if there is already a projection in that screen at that time
-            if(proj.getScreen() == screen&&proj.getDate() == date)
+            if(proj.getScreen() == screen&&proj.getDate().equals(date))
             {
                 return false;
             }
             
             // Check if that film has already been scheduled to be screened at that time    
-            if(proj.getFilm() == film&&proj.getDate() == date)
+            if(proj.getFilm() == film&&proj.getDate().equals(date))
             {
                 return false;
             }
@@ -352,6 +353,28 @@ public class Cinema
     public void addBooking(Booking booking)
     {
         this.bookings.put(booking.getId(), booking);
+    }
+    
+    /**
+     * Add new Review
+     * @param Ticket ticket
+     * @param String review
+     * @param int rating
+     * @return void
+     */
+    public void addReview(Ticket ticket, String review, int rating)
+    {
+        Review r = new Review(ticket, review, rating);
+        this.reviews.put(ticket.getId(), r);
+    }
+    
+    /**
+     * Get Map of all Reivews
+     * @return Map reviews
+     */
+    public Map<Integer, Review> getReviews()
+    {
+        return this.reviews;
     }
     
     /**
