@@ -1,3 +1,6 @@
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  * Write a description of class Projection here.
  *
@@ -9,19 +12,17 @@ public class Projection
     private int id;
     private Screen screen;
     private Film film;
-    private String date;
-    private String slot;
+    private Calendar date;
     private float priceRegular;
     private float priceVip;
     
     /**
      * Constructor for objects of class Projection
      */
-    public Projection(int id, String date, String slot, Screen screen, Film film, float priceRegular, float priceVip)
+    public Projection(int id, Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
     {
         this.id = id;
         this.date = date;
-        this.slot = slot;
         this.screen = screen;
         this.film = film;
         this.priceRegular = priceRegular;
@@ -57,21 +58,11 @@ public class Projection
 
     /**
      * get the date
-     * @return String date
+     * @return Date date
      */
-    public String getDate()
+    public Calendar getDate()
     {
         return this.date;
-    }
-    
-
-    /**
-     * get the slot
-     * @return String slot
-     */
-    public String getSlot()
-    {
-        return this.slot;
     }
     
 

@@ -152,26 +152,26 @@ public class Cinema
     
     /**
      * Check whether the screen or the film is in use at a given time.  
-     * @param String date
+     * @param Date date
      * @param String slot
      * @param int screenId
      * @param int filmId
      * @return boolean
      */
-    public boolean isValidProjection(String date, String slot, Screen screen, Film film)
+    public boolean isValidProjection(Calendar date, Screen screen, Film film)
     {
         Iterator it = projections.values().iterator();
         while (it.hasNext())
         {
             Projection proj = (Projection) (  it.next()  );
             // Check if there is already a projection in that screen at that time
-            if(proj.getScreen() == screen&&proj.getDate() == date&&proj.getSlot().equals(slot))
+            if(proj.getScreen() == screen&&proj.getDate() == date)
             {
                 return false;
             }
             
             // Check if that film has already been scheduled to be screened at that time    
-            if(proj.getFilm() == film&&proj.getDate() == date&&proj.getSlot().equals(slot))
+            if(proj.getFilm() == film&&proj.getDate() == date)
             {
                 return false;
             }
@@ -182,22 +182,21 @@ public class Cinema
     /**
      * Add new projection
      *
-     * @param  String date 
-     * @param String slot
-     * @param int screenId
-     * @param int filmId
+     * @param  Date date 
+     * @param Screen screen
+     * @param Film film
      * @param float priceRegular
      * @param float priceVip
      * @return void
      */
-    public void addProjection(String date, String slot, Screen screen, Film film, float priceRegular, float priceVip)
+    public void addProjection(Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
     {
-        if(!isValidProjection(date, slot, screen, film))
+        if(!isValidProjection(date, screen, film))
         {
             System.out.println("The Projection could not be created. The Screen or the Film is already being used at that time");
             return;
         }
-        Projection projection = new Projection(getNextProjectionId(), date, slot, screen, film, priceRegular, priceVip);
+        Projection projection = new Projection(getNextProjectionId(), date, screen, film, priceRegular, priceVip);
         this.projections.put(projection.getId(), projection);
     }
 

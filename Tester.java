@@ -1,3 +1,5 @@
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Write a description of class Tester here.
@@ -41,9 +43,14 @@ public class Tester
         
         Screen screen = this.cinema.getScreenList().get(0);
         Film film = this.cinema.getFilmList().get(0);
-        this.cinema.addProjection("01/12/2016", "Afternoon", screen, film, (float)12.50, (float)15.00);
-        this.cinema.addProjection("02/12/2016", "Afternoon", screen, film, (float)12.50, (float)15.00);
-        this.cinema.addProjection("03/12/2016", "Afternoon", screen, film, (float)12.50, (float)15.00);
+        
+        Calendar date1 = new GregorianCalendar(2016, 12, 01, 11, 00);
+        Calendar date2 = new GregorianCalendar(2016, 12, 02, 11, 00);
+        Calendar date3 = new GregorianCalendar(2016, 12, 03, 11, 00);
+        
+        this.cinema.addProjection(date1, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addProjection(date2, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addProjection(date3, screen, film, (float)12.50, (float)15.00);
         
         this.cinema.addCustomer("John Malone"); 
         this.cinema.addCustomer("Sean Jones"); 
@@ -154,18 +161,28 @@ public class Tester
         Screen screen2 = this.cinema.getScreenList().get(1);
         Film film1 = this.cinema.getFilmList().get(0);
         Film film2 = this.cinema.getFilmList().get(1);
-        this.cinema.addProjection("20/12/2017", "Afternoon", screen1, film1, (float)12.50, (float)15.00);
+        
+        
+        
+        Calendar date1 = new GregorianCalendar(2017, 12, 20, 14, 00);
+        Calendar date2 = new GregorianCalendar(2017, 12, 20, 14, 00);
+        Calendar date3 = new GregorianCalendar(2017, 12, 21, 14, 00);
+        Calendar date4 = new GregorianCalendar(2017, 12, 20, 19, 00);
+        Calendar date5 = new GregorianCalendar(2017, 12, 20, 14, 00);
+        Calendar date6 = new GregorianCalendar(2017, 12, 20, 14, 00);
+        
+        this.cinema.addProjection(date1, screen1, film1, (float)12.50, (float)15.00);
         
         // All four arguments clash
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film1),false); 
+        compare(this.cinema.isValidProjection(date2, screen1, film1),false); 
         // No clashes because date is different
-        compare(this.cinema.isValidProjection("21/12/2017", "Afternoon", screen1, film1),true);
+        compare(this.cinema.isValidProjection(date3, screen1, film1),true);
         // No clashes becase slot is different
-        compare(this.cinema.isValidProjection("20/12/2017", "Night1", screen1, film1),true);
+        compare(this.cinema.isValidProjection(date4, screen1, film1),true);
         // Film clashes
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen2, film1),false);
+        compare(this.cinema.isValidProjection(date5, screen2, film1),false);
         // Screen clashes
-        compare(this.cinema.isValidProjection("20/12/2017", "Afternoon", screen1, film2),false);        
+        compare(this.cinema.isValidProjection(date6, screen1, film2),false);        
    
         System.out.println("");
     }
@@ -185,11 +202,16 @@ public class Tester
         Film film = this.cinema.getFilmList().get(0);
         int count = this.cinema.getProjectionList().size();
         
-        this.cinema.addProjection("20/12/2017", "Afternoon", screen, film, (float)12.50, (float)15.00); 
+        
+        Calendar date1 = new GregorianCalendar(2017, 12, 20, 14, 00);
+        Calendar date2 = new GregorianCalendar(2017, 12, 20, 19, 00);
+        Calendar date3 = new GregorianCalendar(2017, 12, 21, 19, 00);
+        
+        this.cinema.addProjection(date1, screen, film, (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+1);
-        this.cinema.addProjection("20/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
+        this.cinema.addProjection(date2, screen, film, (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+2);
-        this.cinema.addProjection("21/12/2017", "Night1", screen, film, (float)12.50, (float)15.00); 
+        this.cinema.addProjection(date3, screen, film, (float)12.50, (float)15.00); 
         compare(this.cinema.getProjectionList().size(),count+3);
         
         System.out.println("");
