@@ -24,7 +24,7 @@ public class Film
         this.year = year;
         this.director = director;
         this.language = language;
-        this.subtitles = "";
+        this.subtitles = "N/A";
     }
     
     public Film(int id, String title, int year, String director, String language, String subtitles)
@@ -53,6 +53,15 @@ public class Film
     public String getTitle()
     {
         return this.title;
+    }
+    
+    /**
+     * getYear
+     * @return int year
+     */
+    public int getYear()
+    {
+        return this.year;
     }
     
     /**
@@ -88,6 +97,6 @@ public class Film
      */
     public String toString()
     {
-        return this.id + ", " + this.title + "(" + this.year + "), Dir: " + this.director + ", Lang: " + this.language + ", Sub: " + this.subtitles;
+        return this.title + "(" + this.year + "), Dir: " + this.director + ", Lang: " + this.language + ", Sub: " + this.subtitles;
     }
 }

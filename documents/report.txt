@@ -31,3 +31,7 @@ Autoincrementing the IDs -> while it is more intuitive to allow the objects to a
 Booker -> when a new booking starts, call cinema.getNewBooker(). This clears the last booker, so that there cannot be conflict between the seatReservation list if a booking is abandoned. 
 
 Payment -> Customers can switch their ticket for another projection or another seat. I decided that the cinema does not offer refunds if the new seat is cheaper than the old one. However, the customer does need to pay the difference if the price of the old ticket is lower than the new ticket. Therefore, each booking can have more than one payment. 
+
+CLI -> When a booking is made, the user will enter the customer id. Customers carry ODEON cards with an id number. Unfortunately, some customers tend to forget to bring their card, so there needs to be a way to retrieve this id number. The user can view an index of all customers in the database, ordered by the customer's name. It only shows the customers whose names we know. If there is no name, then the customer has not given their name, and they are therefore not a member. 
+
+CLI -> when booking a new ticket, 

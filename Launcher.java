@@ -9,7 +9,8 @@ public class Launcher
 {
     public static void main(String[] args)
     {
-        Gui gui = new Gui();
-        gui.run();
+        //Gui app = new Gui();
+        Cli app = new Cli();
+        app.run();
     }
 }

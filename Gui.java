@@ -5,7 +5,7 @@
  * @author Katherine Wyers
  * @version 1.0
  */
-public class Gui
+public class Gui implements Runnable
 {
     private Cinema cinema;
     /**
@@ -27,6 +27,7 @@ public class Gui
      *
      * @return void
      */
+    @Override
     public void setupSystem()
     {
         cinema.addScreen("Screen 1");
@@ -43,9 +44,10 @@ public class Gui
      * Run the Application
      * @return void
      */
+    @Override
     public void run()
     {
-        System.out.println("Running the application...");
+        System.out.println("Running the application from Gui...");
         System.out.println("Application-run complete");
     }
 }
