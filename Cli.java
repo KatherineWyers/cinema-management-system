@@ -200,6 +200,83 @@ public class Cli implements Runnable
     }
     
     /**
+     * filmsCreate()
+     * @return void
+     * 
+     */
+    public void filmsCreate()
+    {
+        int input;
+        
+        this.includeHeader();
+        // Point to Films
+        this.includePointer(1);
+        this.includeSecondaryNavFilms();
+        // Point to Index
+        this.includePointer(2);
+        this.includeTitle("films");
+        System.out.println("ADD FILM");  
+        System.out.println("");
+        System.out.println("[20, Create New Film]  [21, Cancel]");
+
+        input = this.getUserInputInteger(21);
+
+        //Clear the screen
+        this.clear();
+        
+        if(input<10)
+        {
+            // Primary Navigation
+            this.primaryNav(input);
+        }
+        
+        else if(input>=10&&input<20)
+        {
+            // Secondary Navigation
+            this.secondaryNavFilms(input);
+        }
+        
+        else if(input == 20)
+        {
+            String title;
+            int year;
+            String director;
+            String language;
+            String subtitles;
+            
+            this.includeTitleBar();
+            this.includeTitle("films");
+            System.out.println("ADD FILM");  
+            System.out.println("");
+            
+            System.out.println("Create New Film");
+            title = this.getUserInputString(255, "Enter the title:");
+            year = this.getUserInputInteger(2020, "Enter the year:");
+            director = this.getUserInputString(20, "Enter the director:");
+            language = this.getUserInputString(20, "Enter the language:");
+            subtitles = this.getUserInputString(3, "Enter the subtitles (2-letter acronym or N/A):");
+            
+            System.out.println("Save Film? (Y/N):");
+            if(this.getUserInputYN().equals("Y"))
+            {
+                this.cinema.addFilm(title, year, director, language, subtitles);
+            };
+            
+            //Clear the screen
+            this.clear();
+            
+            // redirect to filmsIndex
+            this.filmsIndex();            
+        }
+        else
+        {
+            this.filmsIndex();
+        }
+        
+
+    }
+    
+    /**
      * ShowsIndex()
      * @return void
      * 
@@ -253,10 +330,10 @@ public class Cli implements Runnable
     
     /**
      * acceptIntegerInput()
-     * @param int max
+     * @param int maxValue
      * @return int input
      */
-    public int getUserInputInteger(int max)
+    public int getUserInputInteger(int maxValue)
     {
         Scanner scanner = new Scanner(System.in);
         int selection = 0;
@@ -272,9 +349,9 @@ public class Cli implements Runnable
                 selection = scanner.nextInt();
 
                 // Validate the input in range
-                if(selection==0||selection>max)
+                if(selection==0||selection>maxValue)
                 {
-                    System.out.println("The number you entered is not in range 1 to " + max);
+                    System.out.println("The number you entered is not in range 1 to " + maxValue);
                 }
                 else
                 {
@@ -294,6 +371,212 @@ public class Cli implements Runnable
             
 
         }    
+    }
+
+        
+    /**
+     * acceptIntegerInput()
+     * @param int maxValue
+     * @param String question
+     * @return int input
+     */
+    public int getUserInputInteger(int maxValue, String question)
+    {
+        Scanner scanner = new Scanner(System.in);
+        int selection = 0;
+        while(true)
+        {
+            System.out.println("----------------------------------------------------------------------");
+            System.out.println(question + ":");
+            if(scanner.hasNextInt())
+            {
+                // Input is an integer
+                
+                // Update the choice
+                selection = scanner.nextInt();
+
+                // Validate the input in range
+                if(selection==0||selection>maxValue)
+                {
+                    System.out.println("The number you entered is not in range 1 to " + maxValue);
+                }
+                else
+                {
+                    // input is valid 
+                    return selection;
+                }            
+            
+            }
+            else
+            {
+                // Input is not an integer
+                
+                // Remove input from scanner and display notification
+                scanner.next();
+                System.out.println("The input was not a number");
+            }
+            
+
+        }    
+    }
+    
+    
+    /**
+     * getUserInputString()
+     * @param int maxLength
+     * @return String input
+     */
+    public String getUserInputString(int maxLength)
+    {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        while(true)
+        {
+            System.out.println("----------------------------------------------------------------------");
+            System.out.println("Please make your selection:");
+            if(scanner.hasNextLine())
+            {
+                // Input is an integer
+                
+                // Update the choice
+                input = scanner.nextLine();
+
+                // Validate the input in range
+                if(input=="")
+                {
+                    System.out.println("Input cannot be blank");
+                }
+                else if(input.length()>maxLength)
+                {
+                    System.out.println("Input too long. Input must be less than " + maxLength + " characters.");
+                }
+                else
+                {
+                    // input is valid 
+                    return input;
+                }            
+            
+            }
+            else
+            {
+                // Input is not a string
+                
+                // Remove input from scanner and display notification
+                scanner.next();
+                System.out.println("The input is not valid");
+            }
+            
+
+        }     
+    }
+    
+    /**
+     * getUserInputString()
+     * @param int maxLength
+     * @param String question
+     * @return String input
+     */
+    public String getUserInputString(int maxLength, String question)
+    {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        while(true)
+        {
+            System.out.println("----------------------------------------------------------------------");
+            System.out.println(question + ":");
+            if(scanner.hasNextLine())
+            {
+                // Input is an integer
+                
+                // Update the choice
+                input = scanner.nextLine();
+
+                // Validate the input in range
+                if(input=="")
+                {
+                    System.out.println("Input cannot be blank");
+                }
+                else if(input.length()>maxLength)
+                {
+                    System.out.println("Input too long. Input must be less than " + maxLength + " characters.");
+                }
+                else
+                {
+                    // input is valid 
+                    return input;
+                }            
+            
+            }
+            else
+            {
+                // Input is not a string
+                
+                // Remove input from scanner and display notification
+                scanner.next();
+                System.out.println("The input is not valid");
+            }
+            
+
+        }    
+    }   
+    
+    /**
+     * getUserInputYN()
+     * @param String yn
+     * @return String input
+     */
+    public String getUserInputYN()
+    {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        while(true)
+        {
+            System.out.println("----------------------------------------------------------------------");
+            System.out.println("Enter Y or N:");
+            if(scanner.hasNextLine())
+            {
+                // Input is an integer
+                
+                // Update the choice
+                input = scanner.nextLine();
+
+                // Validate the input in range
+                if((input.equals("Y"))||(input.equals("y")))
+                {
+                    return "Y";
+                }
+                else if((input.equals("N"))||(input.equals("n")))
+                {
+                    return "N";
+                }
+                else
+                {
+                    System.out.println("Input must be either Y or N");
+                }            
+            
+            }
+            else
+            {
+                // Input is not a string
+                
+                // Remove input from scanner and display notification
+                scanner.next();
+                System.out.println("The input is not valid");
+            }
+            
+
+        }     
+    }
+    
+    
+    /**
+     * includeTitleBar()
+     * @return void
+     * 
+     */
+    public void includeTitleBar()
+    {
+        System.out.println("==========================ODEON CINEMA SYSTEM=========================");
     }
     
     
@@ -439,7 +722,7 @@ public class Cli implements Runnable
                 this.filmsIndex();
                 break;
             case 11:
-                System.out.println("Add new Film");
+                this.filmsCreate();
                 break;
         }
     }
