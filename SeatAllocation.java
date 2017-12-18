@@ -11,7 +11,7 @@ public abstract class SeatAllocation
     protected int row; 
     protected int num;
     protected double price;
-    protected Projection projection;
+    protected Show show;
     
     /**
      * get the id
@@ -51,12 +51,12 @@ public abstract class SeatAllocation
     }
 
     /**
-     * get the projection
-     * @return Projection projection
+     * get the show
+     * @return Show show
      */
-    public Projection getProjection()
+    public Show getShow()
     {
-        return this.projection;
+        return this.show;
     }
     
 

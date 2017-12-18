@@ -7,7 +7,7 @@
 public abstract class TicketManager
 {
     protected Cinema cinema;
-    protected Projection projection;
+    protected Show show;
     protected Booking booking;
     
     /**
@@ -20,12 +20,12 @@ public abstract class TicketManager
     }
     
     /**
-     * get Projection
-     * @return Projection projection
+     * get Show
+     * @return Show show
      */
-    public Projection getProjection()
+    public Show getShow()
     {
-        return this.projection;
+        return this.show;
     }
     
     /**

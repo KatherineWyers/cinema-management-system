@@ -1,6 +1,6 @@
 
 /**
- * Transferer manages the rescheduling of Tickets to a new projection
+ * Transferer manages the rescheduling of Tickets to a new show
  * or a new seat
  *
  * @author Katherine Wyers
@@ -17,23 +17,23 @@ public class Transferer extends TicketManager
     /**
      * Constructor for objects of class Rescheduler
      */
-    public Transferer(Cinema cinema, Projection projection, Ticket ticket)
+    public Transferer(Cinema cinema, Show show, Ticket ticket)
     {
         this.cinema = cinema;
-        this.projection = projection;
+        this.show = show;
         this.ticket = ticket;
         this.booking = ticket.getBooking();
     }
     
     /**
      * Get the proposed seating grid updated with the temporary seat reservations
-     * @param Projection p
+     * @param Show p
      * @return boolean[][]
      */
     public boolean[][] getSeatingGrid()
     {   
         // initialise
-        boolean[][] seatingGrid = this.cinema.getSeatingGrid(projection).clone();
+        boolean[][] seatingGrid = this.cinema.getSeatingGrid(show).clone();
 
         if(reservation != null)
         {
@@ -60,12 +60,12 @@ public class Transferer extends TicketManager
         }
         else
         {
-            this.reservation = new Reservation(projection, row, num);
+            this.reservation = new Reservation(show, row, num);
         }
     }
     
     /**
-     * Finalize the changing of the for the selected seat in the current projection
+     * Finalize the changing of the for the selected seat in the current show
      * This method will also be used if the transfer is free. 
      * @return void
      */
@@ -84,7 +84,7 @@ public class Transferer extends TicketManager
     }
     
     /**
-     * Finalize the changing of the for the selected seat in the current projection
+     * Finalize the changing of the for the selected seat in the current show
      * @return void
      */
     public void finalizeCardPayment(String referenceNumber)
@@ -107,7 +107,7 @@ public class Transferer extends TicketManager
      */
     private void setNewDetailsForTicket()
     {
-        ticket.setDetails(reservation.getProjection(), reservation.getRow(), reservation.getNum());
+        ticket.setDetails(reservation.getShow(), reservation.getRow(), reservation.getNum());
     }
 
 }

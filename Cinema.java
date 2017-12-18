@@ -18,7 +18,7 @@ public class Cinema
     
     private Map<Integer, Screen> screens; 
     private Map<Integer, Film> films; 
-    private Map<Integer, Projection> projections; 
+    private Map<Integer, Show> shows; 
     private Map<Integer, Customer> customers; 
     private Map<Integer, Booking> bookings; 
     private Map<Integer, Ticket> tickets;
@@ -34,7 +34,7 @@ public class Cinema
     {
         screens = new HashMap<Integer, Screen>();
         films = new HashMap<Integer, Film>();
-        projections = new HashMap<Integer, Projection>();
+        shows = new HashMap<Integer, Show>();
         customers = new HashMap<Integer, Customer>();
         bookings = new HashMap<Integer, Booking>();
         tickets = new HashMap<Integer, Ticket>();
@@ -46,9 +46,9 @@ public class Cinema
      * getNewBooker
      * @return Booker booker
      */
-    public Booker getNewBooker(Projection projection, Customer customer)
+    public Booker getNewBooker(Show show, Customer customer)
     {
-        booker = new Booker(this, projection, customer);
+        booker = new Booker(this, show, customer);
         return this.booker;
     }
     
@@ -56,9 +56,9 @@ public class Cinema
      * getNewTransferer
      * @return Transferer transferer
      */
-    public Transferer getNewTransferer(Projection projection, Ticket ticket)
+    public Transferer getNewTransferer(Show show, Ticket ticket)
     {
-        transferer = new Transferer(this, projection, ticket);
+        transferer = new Transferer(this, show, ticket);
         return this.transferer;
     }
     
@@ -146,7 +146,7 @@ public class Cinema
      *
      * @return int nextScreenId
      */
-    public int getNextProjectionId()
+    public int getNextShowId()
     {
         return NEXT_UNUSED_PROJECTION_ID++;
     }
@@ -159,13 +159,13 @@ public class Cinema
      * @param int filmId
      * @return boolean
      */
-    public boolean isValidProjection(Calendar date, Screen screen, Film film)
+    public boolean isValidShow(Calendar date, Screen screen, Film film)
     {
-        Iterator it = projections.values().iterator();
+        Iterator it = shows.values().iterator();
         while (it.hasNext())
         {
-            Projection proj = (Projection) (  it.next()  );
-            // Check if there is already a projection in that screen at that time
+            Show proj = (Show) (  it.next()  );
+            // Check if there is already a show in that screen at that time
             if(proj.getScreen() == screen&&proj.getDate().equals(date))
             {
                 return false;
@@ -181,7 +181,7 @@ public class Cinema
     }
 
     /**
-     * Add new projection
+     * Add new show
      *
      * @param  Date date 
      * @param Screen screen
@@ -190,24 +190,24 @@ public class Cinema
      * @param float priceVip
      * @return void
      */
-    public void addProjection(Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
+    public void addShow(Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
     {
-        if(!isValidProjection(date, screen, film))
+        if(!isValidShow(date, screen, film))
         {
-            System.out.println("The Projection could not be created. The Screen or the Film is already being used at that time");
+            System.out.println("The Show could not be created. The Screen or the Film is already being used at that time");
             return;
         }
-        Projection projection = new Projection(getNextProjectionId(), date, screen, film, priceRegular, priceVip);
-        this.projections.put(projection.getId(), projection);
+        Show show = new Show(getNextShowId(), date, screen, film, priceRegular, priceVip);
+        this.shows.put(show.getId(), show);
     }
 
     /**
-     * Get a list of projections
-     * @return List projections
+     * Get a list of shows
+     * @return List shows
      */
-    public List<Projection> getProjectionList()
+    public List<Show> getShowList()
     {
-        return new ArrayList<Projection> (this.projections.values());
+        return new ArrayList<Show> (this.shows.values());
     }
     
     /**
@@ -282,25 +282,25 @@ public class Cinema
     }
     
     /**
-     * Get Map of all Tickets for the projection
-     * @param Projection p
+     * Get Map of all Tickets for the show
+     * @param Show p
      * @return Map tickets
      */
-    public Map<Integer, Ticket> getTickets(Projection projection)
+    public Map<Integer, Ticket> getTickets(Show show)
     {
-        Map<Integer, Ticket> projectionTickets = new HashMap<Integer, Ticket>();
+        Map<Integer, Ticket> showTickets = new HashMap<Integer, Ticket>();
         Iterator it = this.tickets.values().iterator();
         
         while (it.hasNext())
         {
             Ticket ticket = (Ticket) (  it.next()  );
-            // Check if there is already a projection in that screen at that time
-            if(ticket.getProjection() == projection)
+            // Check if there is already a show in that screen at that time
+            if(ticket.getShow() == show)
             {
-                projectionTickets.put(ticket.getId(), ticket);
+                showTickets.put(ticket.getId(), ticket);
             }
         }
-        return projectionTickets;
+        return showTickets;
     }
     
     /**
@@ -315,7 +315,7 @@ public class Cinema
         while (it.hasNext())
         {
             Ticket ticket = (Ticket) (  it.next()  );
-            // Check if there is already a projection in that screen at that time
+            // Check if there is already a show in that screen at that time
             if(ticket.getBooking() == booking)
             {
                 bookingTickets.put(ticket.getId(), ticket);
@@ -451,7 +451,7 @@ public class Cinema
      * getSeatingGrid
      * @return boolean[][] seatingGrid
      */
-    public boolean[][] getSeatingGrid(Projection projection)
+    public boolean[][] getSeatingGrid(Show show)
     {
         boolean seatingGrid[][] = new boolean[5][10];
         
@@ -465,12 +465,12 @@ public class Cinema
         }
         
         // Update grid with booked tickets
-        Iterator it = this.getTickets(projection).values().iterator();
+        Iterator it = this.getTickets(show).values().iterator();
         
         while (it.hasNext())
         {
             Ticket ticket = (Ticket) (  it.next()  );
-            // Check if there is already a projection in that screen at that time
+            // Check if there is already a show in that screen at that time
             seatingGrid[ticket.getRow()-1][ticket.getNum()-1] = true;
         }
         return seatingGrid;

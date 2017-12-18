@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Projection
+public class Show
 {
     private int id;
     private Screen screen;
@@ -19,7 +19,7 @@ public class Projection
     /**
      * Constructor for objects of class Projection
      */
-    public Projection(int id, Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
+    public Show(int id, Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
     {
         this.id = id;
         this.date = date;

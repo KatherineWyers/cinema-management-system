@@ -16,7 +16,7 @@ public class Ticket extends SeatAllocation
     public Ticket(int id, Reservation reservation, Booking booking)
     {
         this.id = id;
-        this.projection = reservation.getProjection();
+        this.show = reservation.getShow();
         this.booking = booking;
         this.row = reservation.getRow();
         this.num = reservation.getNum();
@@ -25,13 +25,13 @@ public class Ticket extends SeatAllocation
     }
     
     /**
-     * set the projection
-     * @param Projection projection
+     * set the show
+     * @param Show show
      * @return void
      */
-    public void setDetails(Projection projection, int row, int num)
+    public void setDetails(Show show, int row, int num)
     {
-        this.projection = projection;
+        this.show = show;
         this.row = row;
         this.num = num;
     }

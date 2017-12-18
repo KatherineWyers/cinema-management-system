@@ -48,9 +48,9 @@ public class Tester
         Calendar date2 = new GregorianCalendar(2016, 12, 02, 11, 00);
         Calendar date3 = new GregorianCalendar(2016, 12, 03, 11, 00);
         
-        this.cinema.addProjection(date1, screen, film, (float)12.50, (float)15.00);
-        this.cinema.addProjection(date2, screen, film, (float)12.50, (float)15.00);
-        this.cinema.addProjection(date3, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addShow(date1, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addShow(date2, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addShow(date3, screen, film, (float)12.50, (float)15.00);
         
         this.cinema.addCustomer("John Malone"); 
         this.cinema.addCustomer("Sean Jones"); 
@@ -70,8 +70,8 @@ public class Tester
         System.out.println("Testing Cinema Methods");
         testAddScreen();
         testAddFilm();
-        testIsValidProjection();
-        testAddProjection();
+        testIsValidShow();
+        testAddShow();
         testAddCustomer();
         //testPrintSeatingGrid();
         testAddReview();
@@ -147,16 +147,16 @@ public class Tester
     }
     
     /**
-     * testIsValidProjection()
-     * test whether both the screen and film are available before creating the projection
+     * testIsValidShow()
+     * test whether both the screen and film are available before creating the show
      * @return void
      */
-    private void testIsValidProjection()
+    private void testIsValidShow()
     {
         setupTestEnvironment();
        
         // run tests
-        System.out.println("isValidProjection");
+        System.out.println("isValidShow");
         
         Screen screen1 = this.cinema.getScreenList().get(0);
         Screen screen2 = this.cinema.getScreenList().get(1);
@@ -172,48 +172,48 @@ public class Tester
         Calendar date5 = new GregorianCalendar(2017, 12, 20, 14, 00);
         Calendar date6 = new GregorianCalendar(2017, 12, 20, 14, 00);
         
-        this.cinema.addProjection(date1, screen1, film1, (float)12.50, (float)15.00);
+        this.cinema.addShow(date1, screen1, film1, (float)12.50, (float)15.00);
         
         // All four arguments clash
-        compare(this.cinema.isValidProjection(date2, screen1, film1),false); 
+        compare(this.cinema.isValidShow(date2, screen1, film1),false); 
         // No clashes because date is different
-        compare(this.cinema.isValidProjection(date3, screen1, film1),true);
+        compare(this.cinema.isValidShow(date3, screen1, film1),true);
         // No clashes becase slot is different
-        compare(this.cinema.isValidProjection(date4, screen1, film1),true);
+        compare(this.cinema.isValidShow(date4, screen1, film1),true);
         // Film clashes
-        compare(this.cinema.isValidProjection(date5, screen2, film1),false);
+        compare(this.cinema.isValidShow(date5, screen2, film1),false);
         // Screen clashes
-        compare(this.cinema.isValidProjection(date6, screen1, film2),false);        
+        compare(this.cinema.isValidShow(date6, screen1, film2),false);        
    
         System.out.println("");
     }
 
     /**
-     * testAddProjection()
+     * testAddShow()
      * @return void
      */
-    private void testAddProjection()
+    private void testAddShow()
     {
         setupTestEnvironment();
         
         // run tests
-        System.out.println("addProjection");
+        System.out.println("addShow");
         
         Screen screen = this.cinema.getScreenList().get(0);
         Film film = this.cinema.getFilmList().get(0);
-        int count = this.cinema.getProjectionList().size();
+        int count = this.cinema.getShowList().size();
         
         
         Calendar date1 = new GregorianCalendar(2017, 12, 20, 14, 00);
         Calendar date2 = new GregorianCalendar(2017, 12, 20, 19, 00);
         Calendar date3 = new GregorianCalendar(2017, 12, 21, 19, 00);
         
-        this.cinema.addProjection(date1, screen, film, (float)12.50, (float)15.00); 
-        compare(this.cinema.getProjectionList().size(),count+1);
-        this.cinema.addProjection(date2, screen, film, (float)12.50, (float)15.00); 
-        compare(this.cinema.getProjectionList().size(),count+2);
-        this.cinema.addProjection(date3, screen, film, (float)12.50, (float)15.00); 
-        compare(this.cinema.getProjectionList().size(),count+3);
+        this.cinema.addShow(date1, screen, film, (float)12.50, (float)15.00); 
+        compare(this.cinema.getShowList().size(),count+1);
+        this.cinema.addShow(date2, screen, film, (float)12.50, (float)15.00); 
+        compare(this.cinema.getShowList().size(),count+2);
+        this.cinema.addShow(date3, screen, film, (float)12.50, (float)15.00); 
+        compare(this.cinema.getShowList().size(),count+3);
         
         System.out.println("");
     }
@@ -249,8 +249,8 @@ public class Tester
         //run tests
         System.out.println("printSeatingGrid");
         
-        Projection projection = this.cinema.getProjectionList().get(0);
-        this.cinema.printSeatingGrid(this.cinema.getSeatingGrid(projection)); 
+        Show show = this.cinema.getShowList().get(0);
+        this.cinema.printSeatingGrid(this.cinema.getSeatingGrid(show)); 
 
         System.out.println("");
     }
@@ -266,9 +266,9 @@ public class Tester
         // run tests
         System.out.println("isValidSeatSelection");
         
-        Projection projection = this.cinema.getProjectionList().get(0);        
+        Show show = this.cinema.getShowList().get(0);        
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection, customer);
+        Booker booker = this.cinema.getNewBooker(show, customer);
       
         compare(booker.isValidSeatSelection(5, 2),true); 
         booker.addReservation(5, 2); 
@@ -288,9 +288,9 @@ public class Tester
         // run tests
         System.out.println("addSeatReservation");
         
-        Projection projection = this.cinema.getProjectionList().get(0);        
+        Show show = this.cinema.getShowList().get(0);        
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection, customer);
+        Booker booker = this.cinema.getNewBooker(show, customer);
     
         int count = booker.getReservations().size();
         booker.addReservation(1, 2); 
@@ -312,9 +312,9 @@ public class Tester
         // run tests
         System.out.println("removeSeatReservation");
         
-        Projection projection = this.cinema.getProjectionList().get(0);        
+        Show show = this.cinema.getShowList().get(0);        
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection, customer);
+        Booker booker = this.cinema.getNewBooker(show, customer);
     
         int count = booker.getReservations().size();
         booker.addReservation(1, 2); 
@@ -339,9 +339,9 @@ public class Tester
         // run tests
         System.out.println("finalizeCashBooking");
         
-        Projection projection = this.cinema.getProjectionList().get(0);
+        Show show = this.cinema.getShowList().get(0);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection, customer);
+        Booker booker = this.cinema.getNewBooker(show, customer);
         
         booker.addReservation(1, 2); 
         booker.addReservation(2, 2); 
@@ -349,18 +349,18 @@ public class Tester
         
         int reservationCount = booker.getReservations().size(); 
         int cashPaymentCountPre = this.cinema.getCashPayments().size();
-        int ticketCountPre = this.cinema.getTickets(projection).size();    
+        int ticketCountPre = this.cinema.getTickets(show).size();    
         
         booker.finalizeCashPayment();
         
-        int ticketCountPost = this.cinema.getTickets(projection).size();   
+        int ticketCountPost = this.cinema.getTickets(show).size();   
         compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
         
         int cashPaymentCountPost = this.cinema.getCashPayments().size();   
         compare((cashPaymentCountPost == (1 + cashPaymentCountPre)), true);
         
         // run the same test again to confirm that another new payment has been created
-        booker = this.cinema.getNewBooker(projection, customer);
+        booker = this.cinema.getNewBooker(show, customer);
         booker.addReservation(4, 2); 
         booker.addReservation(5, 2);
         
@@ -383,27 +383,27 @@ public class Tester
         // run tests
         System.out.println("finalizeCardBooking");
         
-        Projection projection = this.cinema.getProjectionList().get(0);
+        Show show = this.cinema.getShowList().get(0);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection, customer);
+        Booker booker = this.cinema.getNewBooker(show, customer);
         
         booker.addReservation(1, 2); 
         booker.addReservation(2, 2); 
       
         int reservationCount = booker.getReservations().size(); 
         int cardPaymentCountPre = this.cinema.getCardPayments().size();
-        int ticketCountPre = this.cinema.getTickets(projection).size();    
+        int ticketCountPre = this.cinema.getTickets(show).size();    
        
         booker.finalizeCardPayment("REF:12345657");
         
-        int ticketCountPost = this.cinema.getTickets(projection).size();   
+        int ticketCountPost = this.cinema.getTickets(show).size();   
         compare((ticketCountPost == (reservationCount + ticketCountPre)), true);
         
         int cardPaymentCountPost = this.cinema.getCardPayments().size();   
         compare((cardPaymentCountPost == (1 + cardPaymentCountPre)), true);
         
         // run the same test again to confirm that another new payment has been created
-        booker = this.cinema.getNewBooker(projection, customer);
+        booker = this.cinema.getNewBooker(show, customer);
         booker.addReservation(4, 2); 
         booker.addReservation(5, 2);
         
@@ -427,10 +427,10 @@ public class Tester
         System.out.println("process CashPayment when new ticket price is the same as old ticket price");
         
         // first, book some tickets
-        Projection projection1 = this.cinema.getProjectionList().get(0);
-        Projection projection2 = this.cinema.getProjectionList().get(1);
+        Show show1 = this.cinema.getShowList().get(0);
+        Show show2 = this.cinema.getShowList().get(1);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection1, customer);
+        Booker booker = this.cinema.getNewBooker(show1, customer);
         
         booker.addReservation(1, 2); 
         
@@ -439,8 +439,8 @@ public class Tester
         // get the first of those tickets
         Ticket ticket = this.cinema.getTicketList().get(0);
         
-        // Transfer that ticket to a new projection
-        Transferer transferer = this.cinema.getNewTransferer(projection2, ticket);
+        // Transfer that ticket to a new show
+        Transferer transferer = this.cinema.getNewTransferer(show2, ticket);
         int count = this.cinema.getCashPayments().size();
         transferer.setReservation(1, 3);
         transferer.finalizeCashPayment();
@@ -464,10 +464,10 @@ public class Tester
         System.out.println("process CashPayment when new ticket price is lower than old ticket price");
         
         // first, book some tickets
-        Projection projection1 = this.cinema.getProjectionList().get(0);
-        Projection projection2 = this.cinema.getProjectionList().get(1);
+        Show show1 = this.cinema.getShowList().get(0);
+        Show show2 = this.cinema.getShowList().get(1);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection1, customer);
+        Booker booker = this.cinema.getNewBooker(show1, customer);
         
         booker.addReservation(5, 2); 
         
@@ -476,8 +476,8 @@ public class Tester
         // get the first of those tickets
         Ticket ticket = this.cinema.getTicketList().get(0);
         
-        // Transfer that ticket to a new projection
-        Transferer transferer = this.cinema.getNewTransferer(projection2, ticket);
+        // Transfer that ticket to a new show
+        Transferer transferer = this.cinema.getNewTransferer(show2, ticket);
         int count = this.cinema.getCashPayments().size();
         transferer.setReservation(1, 3);
         transferer.finalizeCashPayment();
@@ -501,10 +501,10 @@ public class Tester
         System.out.println("process CashPayment when new ticket price is higher than old ticket price");
         
         // first, book some tickets
-        Projection projection1 = this.cinema.getProjectionList().get(0);
-        Projection projection2 = this.cinema.getProjectionList().get(1);
+        Show show1 = this.cinema.getShowList().get(0);
+        Show show2 = this.cinema.getShowList().get(1);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection1, customer);
+        Booker booker = this.cinema.getNewBooker(show1, customer);
         
         booker.addReservation(1, 2); 
         
@@ -513,8 +513,8 @@ public class Tester
         // get the first of those tickets
         Ticket ticket = this.cinema.getTicketList().get(0);
         
-        // Transfer that ticket to a new projection
-        Transferer transferer = this.cinema.getNewTransferer(projection2, ticket);
+        // Transfer that ticket to a new show
+        Transferer transferer = this.cinema.getNewTransferer(show2, ticket);
         int count = this.cinema.getCashPayments().size();
         transferer.setReservation(5, 3);
         transferer.finalizeCashPayment();
@@ -537,9 +537,9 @@ public class Tester
         // run tests
         System.out.println("addReview");
         
-        Projection projection = this.cinema.getProjectionList().get(0);
+        Show show = this.cinema.getShowList().get(0);
         Customer customer = this.cinema.getCustomerList().get(0);
-        Booker booker = this.cinema.getNewBooker(projection, customer);
+        Booker booker = this.cinema.getNewBooker(show, customer);
         
         booker.addReservation(1, 2); 
         booker.addReservation(2, 2); 

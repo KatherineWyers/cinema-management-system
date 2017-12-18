@@ -47,9 +47,9 @@ public class Cli implements Runnable
         Calendar date2 = new GregorianCalendar(2016, 12, 02, 11, 00);
         Calendar date3 = new GregorianCalendar(2016, 12, 03, 11, 00);
         
-        this.cinema.addProjection(date1, screen, film, (float)12.50, (float)15.00);
-        this.cinema.addProjection(date2, screen, film, (float)12.50, (float)15.00);
-        this.cinema.addProjection(date3, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addShow(date1, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addShow(date2, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addShow(date3, screen, film, (float)12.50, (float)15.00);
         
         this.cinema.addCustomer("John Malone"); 
         this.cinema.addCustomer("Sean Jones"); 
@@ -200,31 +200,31 @@ public class Cli implements Runnable
     }
     
     /**
-     * projectionsIndex()
+     * ShowsIndex()
      * @return void
      * 
      */
-    public void projectionsIndex()
+    public void showsIndex()
     {
         // HashMap to relate UserInput to Film
-        Map <Integer, Projection> optionToProjection = new HashMap<Integer, Projection>();
+        Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
         this.includeHeader();
         // Point to Films
         this.includePointer(2);
-        this.includeSecondaryNavProjections();
+        this.includeSecondaryNavShows();
         // Point to Index
         this.includePointer(1);
-        this.includeTitle("projections");
+        this.includeTitle("shows");
         
         int option = 20;
         System.out.println("");
         System.out.println("Select");
 
-        for(Projection projection : this.cinema.getProjectionList())
+        for(Show show : this.cinema.getShowList())
         {
-            optionToProjection.put(option, projection);
+            optionToShow.put(option, show);
             System.out.print("[" + option + "]       ");
-            System.out.println(projection.toString());
+            System.out.println(show.toString());
             option++;
         }
 
@@ -305,7 +305,7 @@ public class Cli implements Runnable
     public void includeHeader()
     {
         System.out.println("==========================ODEON CINEMA SYSTEM=========================");
-        System.out.println("[1, Films]  [2, Prjts]  [3, Cstmr]  [4, Bkngs]  [5, Reprt]  [6, Quit ]");
+        System.out.println("[1, Films]  [2, Shows]  [3, Cstmr]  [4, Bkngs]  [5, Reprt]  [6, Quit ]");
     }
     
     /**
@@ -332,14 +332,15 @@ public class Cli implements Runnable
                 System.out.println("| |    _| |_| |____| |  | |/\\__/ /");
                 System.out.println("\\_|    \\___/\\_____/\\_|  |_/\\____/ ");
                 break;
-            case "projections":
-                System.out.println("____________ _____   ___ _____ _____ _____ _____ _____ _   _  _____ ");
-                System.out.println("| ___ \\ ___ \\  _  | |_  |  ___/  __ \\_   _|_   _|  _  | \\ | |/  ___|");
-                System.out.println("| |_/ / |_/ / | | |   | | |__ | /  \\/ | |   | | | | | |  \\| |\\ `--. ");
-                System.out.println("|  __/|    /| | | |   | |  __|| |     | |   | | | | | | . ` | `--. \\");
-                System.out.println("| |   | |\\ \\\\ \\_/ /\\__/ / |___| \\__/\\ | |  _| |_\\ \\_/ / |\\  |/\\__/ /");
-                System.out.println("\\_|   \\_| \\_|\\___/\\____/\\____/ \\____/ \\_/  \\___/ \\___/\\_| \\_/\\____/ ");
+            case "shows":
+                System.out.println(" _____ _   _ _____  _    _ _____");
+                System.out.println("/  ___| | | |  _  || |  | /  ___|");
+                System.out.println("\\ `--.| |_| | | | || |  | \\ `--. ");
+                System.out.println(" `--. \\  _  | | | || |/\\| |`--. \\");
+                System.out.println("/\\__/ / | | \\ \\_/ /\\  /\\  /\\__/ /");
+                System.out.println("\\____/\\_| |_/\\___/  \\/  \\/\\____/");
                 break;
+               
         }
         
         
@@ -362,11 +363,11 @@ public class Cli implements Runnable
     }
     
     /**
-     * includeSecondaryNavProjections()
+     * includeSecondaryNavShows()
      * @return void
      * 
      */
-    public void includeSecondaryNavProjections()
+    public void includeSecondaryNavShows()
     {
         System.out.println("----------------------------------------------------------------------");
         System.out.println("[10, Indx]  [11,  Add]");
@@ -406,7 +407,7 @@ public class Cli implements Runnable
                 this.filmsIndex();
                 break;
             case 2:
-                this.projectionsIndex();
+                this.showsIndex();
                 break;
             case 3:
                 System.out.println("Customers Index");
@@ -445,20 +446,20 @@ public class Cli implements Runnable
     
     
     /**
-     * secondaryNavProjections()
+     * secondaryNavShows()
      * @param int input
      * @return void
      * 
      */
-    public void secondaryNavProjections(int input)
+    public void secondaryNavShows(int input)
     {
         switch(input)
         {
             case 10:
-                this.projectionsIndex();
+                this.showsIndex();
                 break;
             case 11:
-                System.out.println("Add new Projection");
+                System.out.println("Add new Show");
                 break;
         }
     }

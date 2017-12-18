@@ -14,10 +14,10 @@ public class Booker extends TicketManager
     /**
      * Constructor for objects of class Booker
      */
-    public Booker(Cinema cinema, Projection projection, Customer customer)
+    public Booker(Cinema cinema, Show show, Customer customer)
     { 
         this.reservations = new ArrayList<Reservation>();
-        this.projection = projection;
+        this.show = show;
         this.cinema = cinema;
         this.booking = new Booking(this.cinema.getNextBookingId(), customer);
     }
@@ -46,7 +46,7 @@ public class Booker extends TicketManager
         }
         else
         {
-            Reservation s = new Reservation(projection, row, num);
+            Reservation s = new Reservation(show, row, num);
             this.reservations.add(s);
         }
     }
@@ -90,13 +90,13 @@ public class Booker extends TicketManager
     
     /**
      * Get the proposed seating grid updated with the temporary seat reservations
-     * @param Projection p
+     * @param Show p
      * @return boolean[][]
      */
     public boolean[][] getSeatingGrid()
     {   
         // initialise
-        boolean[][] seatingGrid = this.cinema.getSeatingGrid(projection).clone();
+        boolean[][] seatingGrid = this.cinema.getSeatingGrid(show).clone();
 
         // Update grid with booked tickets        
         for(Reservation reservation : reservations)
@@ -136,7 +136,7 @@ public class Booker extends TicketManager
     
     /**
      * Finalize the current booking
-     * Add seatReservations to the projection and create the payment
+     * Add seatReservations to the show and create the payment
      * @param int row
      * @param int num
      * @return boolean
@@ -150,7 +150,7 @@ public class Booker extends TicketManager
     
     /**
      * Finalize the current booking
-     * Add seatReservations to the projection and create the payment
+     * Add seatReservations to the show and create the payment
      * @param int row
      * @param int num
      * @return boolean

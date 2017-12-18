@@ -1,21 +1,21 @@
 #BlueJ class context
 comment0.target=Transferer
-comment0.text=\r\n\ Transferer\ manages\ the\ rescheduling\ of\ Tickets\ to\ a\ new\ projection\r\n\ or\ a\ new\ seat\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
-comment1.params=cinema\ projection\ ticket
-comment1.target=Transferer(Cinema,\ Projection,\ Ticket)
+comment0.text=\r\n\ Transferer\ manages\ the\ rescheduling\ of\ Tickets\ to\ a\ new\ show\r\n\ or\ a\ new\ seat\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment1.params=cinema\ show\ ticket
+comment1.target=Transferer(Cinema,\ Show,\ Ticket)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Rescheduler\r\n
 comment2.params=
 comment2.target=boolean[][]\ getSeatingGrid()
-comment2.text=\r\n\ Get\ the\ proposed\ seating\ grid\ updated\ with\ the\ temporary\ seat\ reservations\r\n\ @param\ Projection\ p\r\n\ @return\ boolean[][]\r\n
+comment2.text=\r\n\ Get\ the\ proposed\ seating\ grid\ updated\ with\ the\ temporary\ seat\ reservations\r\n\ @param\ Show\ p\r\n\ @return\ boolean[][]\r\n
 comment3.params=row\ num
 comment3.target=void\ setReservation(int,\ int)
 comment3.text=\r\n\ Set\ the\ temporary\ seat\ reservation\r\n\ Can\ be\ used\ to\ create\ a\ new\ reservation,\ or\ to\ change\ the\ current\ reservation\r\n\ \r\n\ @param\ int\ row\r\n\ @param\ int\ num\r\n\ @return\ void\r\n
 comment4.params=
 comment4.target=void\ finalizeCashPayment()
-comment4.text=\r\n\ Finalize\ the\ changing\ of\ the\ for\ the\ selected\ seat\ in\ the\ current\ projection\r\n\ This\ method\ will\ also\ be\ used\ if\ the\ transfer\ is\ free.\ \r\n\ @return\ void\r\n
+comment4.text=\r\n\ Finalize\ the\ changing\ of\ the\ for\ the\ selected\ seat\ in\ the\ current\ show\r\n\ This\ method\ will\ also\ be\ used\ if\ the\ transfer\ is\ free.\ \r\n\ @return\ void\r\n
 comment5.params=referenceNumber
 comment5.target=void\ finalizeCardPayment(java.lang.String)
-comment5.text=\r\n\ Finalize\ the\ changing\ of\ the\ for\ the\ selected\ seat\ in\ the\ current\ projection\r\n\ @return\ void\r\n
+comment5.text=\r\n\ Finalize\ the\ changing\ of\ the\ for\ the\ selected\ seat\ in\ the\ current\ show\r\n\ @return\ void\r\n
 comment6.params=
 comment6.target=void\ setNewDetailsForTicket()
 comment6.text=\r\n\ Change\ Ticket\ details\r\n\ @return\ void\r\n
