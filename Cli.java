@@ -43,9 +43,9 @@ public class Cli implements Runnable
         Screen screen = this.cinema.getScreenList().get(0);
         Film film = this.cinema.getFilmList().get(0);
         
-        Calendar date1 = new GregorianCalendar(2016, 12, 01, 11, 00);
-        Calendar date2 = new GregorianCalendar(2016, 12, 02, 11, 00);
-        Calendar date3 = new GregorianCalendar(2016, 12, 03, 11, 00);
+        Calendar date1 = new GregorianCalendar(2017, 0, 01, 11, 00);
+        Calendar date2 = new GregorianCalendar(2017, 0, 02, 11, 00);
+        Calendar date3 = new GregorianCalendar(2017, 0, 03, 11, 00);
         
         this.cinema.addShow(date1, screen, film, (float)12.50, (float)15.00);
         this.cinema.addShow(date2, screen, film, (float)12.50, (float)15.00);
@@ -193,8 +193,8 @@ public class Cli implements Runnable
         }
         else
         {
-            // Tertiary Nav
-            System.out.println("Tertiary Nav");
+            // Reload this page
+            this.filmsShow(film);
         }
         
     }
@@ -319,7 +319,7 @@ public class Cli implements Runnable
         else if(input>=10&&input<20)
         {
             // Secondary Navigation
-            // this.secondaryNavFilms(input);
+            this.secondaryNavShows(input);
         }
         else
         {
@@ -337,8 +337,8 @@ public class Cli implements Runnable
     public void showsShow(Show show)
     {
         this.includeHeader();
-        // Point to Films
-        this.includePointer(1);
+        // Point to Shows
+        this.includePointer(2);
         this.includeSecondaryNavShows();
         // Point to Index
         this.includePointer(1);
@@ -372,18 +372,121 @@ public class Cli implements Runnable
         else if(input>=10&&input<20)
         {
             // Secondary Navigation
-            //this.secondaryNavFilms(input);
+            this.secondaryNavShows(input);
         }
         else
         {
-            // Tertiary Nav
-            //System.out.println("Tertiary Nav");
+            // Reload this page
+            this.showsShow(show);
         }
         
     }
     
+
+    
     /**
-     * acceptIntegerInput()
+     * showsCreate()
+     * @return void
+     * 
+     */
+    public void showsCreate()
+    {
+        int input;
+        
+        this.includeHeader();
+        // Point to Shows
+        this.includePointer(2);
+        this.includeSecondaryNavShows();
+        // Point to Add
+        this.includePointer(2);
+        this.includeTitle("shows");
+        System.out.println("ADD SHOW");  
+        System.out.println("");
+        System.out.println("[20, Create New Show]  [21, Cancel]");
+
+        input = this.getUserInputInteger(21);
+
+        //Clear the screen
+        this.clear();
+        
+        int option = 30;
+        
+        if(input<10)
+        {
+            // Primary Navigation
+            this.primaryNav(input);
+        }
+        
+        else if(input>=10&&input<20)
+        {
+            // Secondary Navigation
+            this.secondaryNavShows(input);
+        }
+        
+        else if(input == 20)
+        {
+            Map<Integer, Film> optionToFilm = new HashMap<Integer, Film>();
+            Map<Integer, Screen> optionToScreen = new HashMap<Integer, Screen>();
+            
+            this.includeTitleBar();
+            this.includeTitle("shows");
+            System.out.println("ADD SHOW");  
+            
+            System.out.println("***Select Film***");
+            for(Film film : this.cinema.getFilmList())
+            {
+                optionToFilm.put(option, film);
+                System.out.print("[" + option + "]       ");
+                System.out.println(film.getTitle());
+                option++;
+            }
+            
+            Film film = optionToFilm.get(this.getUserInputInteger(option, "Enter Film selection:"));
+            
+            System.out.println("***Select Screen***");
+            for(Screen screen : this.cinema.getScreenList())
+            {
+                optionToScreen.put(option, screen);
+                System.out.print("[" + option + "]       ");
+                System.out.println(screen.getTitle());
+                option++;
+            }
+            
+            Screen screen = optionToScreen.get(this.getUserInputInteger(option, "Enter Screen selection:"));
+            
+            int dd = this.getUserInputIntegerRange(1, 31, "Enter Date. For example: 22");
+            int mm = this.getUserInputIntegerRange(1, 12, "Enter Month. For example: 6");
+            int yyyy = this.getUserInputIntegerRange(2015, 2050, "Enter Year. For example 2017");
+            int hh = this.getUserInputIntegerRange(0, 23, "Enter Hour in 24-hour clock. For example 19");
+            int ii = this.getUserInputIntegerRange(0, 59, "Enter Minute. For example 30");
+            
+            Calendar date = new GregorianCalendar(yyyy, mm-1, dd, hh, ii);
+            
+            float priceRegular = this.getUserInputFloat("Enter Price for Regular Tickets. For example 8.50");
+            float priceVip = this.getUserInputFloat("Enter Price for VIP Tickets. For example 12.50");
+            
+            System.out.println("Save Show? (Y/N):");
+            if(this.getUserInputYN().equals("Y"))
+            {
+                this.cinema.addShow(date, screen, film, priceRegular, priceVip);
+            };
+            
+            //Clear the screen
+            this.clear();
+            
+            // redirect to showsIndex
+            this.showsIndex();            
+        }
+        else
+        {
+            this.showsIndex();
+        }
+        
+
+    }
+    
+    /**
+     * getUserInputInteger()
      * @param int maxValue
      * @return int input
      */
@@ -471,6 +574,99 @@ public class Cli implements Runnable
             }
             
 
+        }    
+    }
+
+    
+
+        
+    /**
+     * getUserInputIntegerRange()
+     * @param int minValue
+     * @param int maxValue
+     * @param String question
+     * @return int input
+     */
+    public int getUserInputIntegerRange(int minValue, int maxValue, String question)
+    {
+        Scanner scanner = new Scanner(System.in);
+        int selection = -1;
+        while(true)
+        {
+            System.out.println("----------------------------------------------------------------------");
+            System.out.println(question + ":");
+            if(scanner.hasNextInt())
+            {
+                // Input is an integer
+                
+                // Update the choice
+                selection = scanner.nextInt();
+
+                // Validate the input in range
+                if(selection==-1||selection<minValue||selection>maxValue)
+                {
+                    System.out.println("The number you entered is not in range " + minValue + " to " + maxValue);
+                }
+                else
+                {
+                    // input is valid 
+                    return selection;
+                }            
+            
+            }
+            else
+            {
+                // Input is not an integer
+                
+                // Remove input from scanner and display notification
+                scanner.next();
+                System.out.println("The input was not a number");
+            }
+            
+
+        }    
+    }
+        
+    /**
+     * getUserInputDouble()
+     * @param String question
+     * @return float input
+     */
+    public float getUserInputFloat(String question)
+    {
+        Scanner scanner = new Scanner(System.in);
+        float selection = 0;
+        while(true)
+        {
+            System.out.println("----------------------------------------------------------------------");
+            System.out.println(question + ":");
+            if(scanner.hasNextFloat())
+            {
+                // Input is an float
+                
+                // Update the choice
+                selection = scanner.nextFloat();
+
+                // Validate the input in range
+                if(selection==0)
+                {
+                    System.out.println("The number you entered is not valid");
+                }
+                else
+                {
+                    // input is valid 
+                    return selection;
+                }            
+            
+            }
+            else
+            {
+                // Input is not a double
+                
+                // Remove input from scanner and display notification
+                scanner.next();
+                System.out.println("The input was not a number");
+            }
         }    
     }
     
@@ -796,7 +992,7 @@ public class Cli implements Runnable
                 this.showsIndex();
                 break;
             case 11:
-                System.out.println("Add new Show");
+                this.showsCreate();
                 break;
         }
     }

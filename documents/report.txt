@@ -37,3 +37,5 @@ CLI -> When a booking is made, the user will enter the customer id. Customers ca
 CLI -> when booking a new ticket, take the customer id. If they are a new customer, create a new customer. 
 
 Projection was renamed to Show because it is a term that will be easier for the end-user to understand. 
+
+CLI -> whatever input the user gives, the application will do something. If the integer entered is out of range (for example, in filmsShow), the application will reload the current page, rather than showing an error notification and quitting. 

@@ -38,7 +38,8 @@ public class Show
     public String getDateTime()
     {
         int dd = this.date.get(Calendar.DAY_OF_MONTH);
-        int mm = this.date.get(Calendar.MONTH + 1); // add 1 because months run 0 to 11
+        int mm = this.date.get(Calendar.MONTH); 
+        mm++; // add 1 because months run 0 to 11
         int yyyy = this.date.get(Calendar.YEAR);
         int hh = this.date.get(Calendar.HOUR_OF_DAY);
         int ii = this.date.get(Calendar.MINUTE);
