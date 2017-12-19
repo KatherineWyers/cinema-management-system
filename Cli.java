@@ -323,7 +323,61 @@ public class Cli implements Runnable
         }
         else
         {
-            // this.filmsShow(optionToFilm.get(input));
+            this.showsShow(optionToShow.get(input));
+        }
+        
+    }
+    
+    /**
+     * showsShow()
+     * @param Show show
+     * @return void
+     * 
+     */
+    public void showsShow(Show show)
+    {
+        this.includeHeader();
+        // Point to Films
+        this.includePointer(1);
+        this.includeSecondaryNavShows();
+        // Point to Index
+        this.includePointer(1);
+        this.includeTitle("shows");
+        System.out.println("DISPLAY SHOW");
+        System.out.println(" ");
+        
+        System.out.println("***Film Details***");
+        System.out.println("Film:       " + show.getFilm().getTitle());
+        System.out.println("Year:       " + show.getFilm().getYear());
+        System.out.println("Director:   " + show.getFilm().getDirector());
+        System.out.println("Language:   " + show.getFilm().getLanguage());
+        System.out.println("Subtitles:  " + show.getFilm().getSubtitles());
+        System.out.println(" ");
+        System.out.println("***Schedule Details***");
+        System.out.println("Screen:     " + show.getScreen().getTitle());
+        System.out.println("Date & Time:" + show.getDateTime());
+        
+
+        // Set max input as highest option number
+        int input = this.getUserInputInteger(19);
+        
+        //Clear the screen
+        this.clear();
+        
+        if(input<10)
+        {
+            // Primary Navigation
+            this.primaryNav(input);
+        }
+        else if(input>=10&&input<20)
+        {
+            // Secondary Navigation
+            //this.secondaryNavFilms(input);
+        }
+        else
+        {
+            // Tertiary Nav
+            //System.out.println("Tertiary Nav");
         }
         
     }

@@ -32,10 +32,10 @@ public class Show
     }
     
     /**
-     * formatDatetime
+     * dateTime
      * @return String date as dd/mm/yyyy HH:mm
      */
-    public String formatDatetime()
+    public String getDateTime()
     {
         int dd = this.date.get(Calendar.DAY_OF_MONTH);
         int mm = this.date.get(Calendar.MONTH + 1); // add 1 because months run 0 to 11
@@ -53,13 +53,12 @@ public class Show
      */
     public String formatToTwoDigitString(int value)
     {
-        if(value%10==0)
+        if(value<10)
         {
             return "0" + value;
         }
         return Integer.toString(value);
     }
-    
     
     /**
      * toString()
@@ -68,7 +67,7 @@ public class Show
     @Override
     public String toString()
     {
-        return this.film.getTitle().toUpperCase() + ", " + this.screen.getTitle() + ", Date: " + this.formatDatetime();
+        return this.film.getTitle().toUpperCase() + ", " + this.screen.getTitle() + ", Date: " + this.getDateTime();
     }
 
     /**
