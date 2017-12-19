@@ -34,4 +34,6 @@ Payment -> Customers can switch their ticket for another projection or another s
 
 CLI -> When a booking is made, the user will enter the customer id. Customers carry ODEON cards with an id number. Unfortunately, some customers tend to forget to bring their card, so there needs to be a way to retrieve this id number. The user can view an index of all customers in the database, ordered by the customer's name. It only shows the customers whose names we know. If there is no name, then the customer has not given their name, and they are therefore not a member. 
 
-CLI -> when booking a new ticket, 
+CLI -> when booking a new ticket, take the customer id. If they are a new customer, create a new customer. 
+
+Projection was renamed to Show because it is a term that will be easier for the end-user to understand. 
