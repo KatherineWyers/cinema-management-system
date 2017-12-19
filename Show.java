@@ -1,5 +1,7 @@
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * Write a description of class Projection here.
@@ -27,6 +29,46 @@ public class Show
         this.film = film;
         this.priceRegular = priceRegular;
         this.priceVip = priceVip;
+    }
+    
+    /**
+     * formatDatetime
+     * @return String date as dd/mm/yyyy HH:mm
+     */
+    public String formatDatetime()
+    {
+        int dd = this.date.get(Calendar.DAY_OF_MONTH);
+        int mm = this.date.get(Calendar.MONTH + 1); // add 1 because months run 0 to 11
+        int yyyy = this.date.get(Calendar.YEAR);
+        int hh = this.date.get(Calendar.HOUR_OF_DAY);
+        int ii = this.date.get(Calendar.MINUTE);
+        return this.formatToTwoDigitString(dd) + "/" + this.formatToTwoDigitString(mm) + "/" + yyyy + " " + this.formatToTwoDigitString(hh) + ":" + this.formatToTwoDigitString(ii);
+    }
+    
+    /**
+     * formatToTwoDigitString
+     * Add a leading zero to an int if its length is 1 digit
+     * @param int value
+     * @return String result
+     */
+    public String formatToTwoDigitString(int value)
+    {
+        if(value%10==0)
+        {
+            return "0" + value;
+        }
+        return Integer.toString(value);
+    }
+    
+    
+    /**
+     * toString()
+     * @return String 
+     */
+    @Override
+    public String toString()
+    {
+        return this.film.getTitle().toUpperCase() + ", " + this.screen.getTitle() + ", Date: " + this.formatDatetime();
     }
 
     /**
