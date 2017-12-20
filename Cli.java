@@ -486,6 +486,103 @@ public class Cli implements Runnable
     }
     
     /**
+     * customersIndex()
+     * @return void
+     * 
+     */
+    public void customersIndex()
+    {
+        // HashMap to relate UserInput to Film
+        Map <Integer, Customer> optionToCustomer = new HashMap<Integer, Customer>();
+        this.includeHeader();
+        // Point to Customer
+        this.includePointer(3);
+        this.includeSecondaryNavCustomers();
+        // Point to Index
+        this.includePointer(1);
+        this.includeTitle("customers");
+        
+        int option = 20;
+        System.out.println("");
+        System.out.println("Select");
+
+        for(Customer customer : this.cinema.getCustomerList())
+        {
+            optionToCustomer.put(option, customer);
+            System.out.print("[" + option + "]       ");
+            System.out.println(customer.toString());
+            option++;
+        }
+
+        // Set max input as highest option number
+        int input = this.getUserInputInteger(option);
+        
+        //Clear the screen
+        this.clear();
+            
+        if(input<10)
+        {
+            // Primary Navigation
+            this.primaryNav(input);
+        }
+        else if(input>=10&&input<20)
+        {
+            // Secondary Navigation
+            this.secondaryNavCustomers(input);
+        }
+        else
+        {
+            this.customersShow(optionToCustomer.get(input));
+        }
+        
+    }
+    
+    /** 
+     * customersShow()
+     * @param Customer customer
+     * @return void
+     * 
+     */
+    public void customersShow(Customer customer)
+    {
+        this.includeHeader();
+        // Point to Customer
+        this.includePointer(3);
+        this.includeSecondaryNavCustomers();
+        // Point to Index
+        this.includePointer(1);
+        this.includeTitle("customers");
+        this.includeTitle("SHOW CUSTOMER");
+ 
+        
+        System.out.println("CustomerID:       " + customer.getId());
+        System.out.println("Name:       " + customer.getName());
+
+        // Set max input as highest option number
+        int input = this.getUserInputInteger(19);
+        
+        //Clear the screen
+        this.clear();
+        
+        if(input<10)
+        {
+            // Primary Navigation
+            this.primaryNav(input);
+        }
+        else if(input>=10&&input<20)
+        {
+            // Secondary Navigation
+            this.secondaryNavCustomers(input);
+        }
+        else
+        {
+            // Reload this page
+            this.customersShow(customer);
+        }
+        
+    }
+    
+    /**
      * getUserInputInteger()
      * @param int maxValue
      * @return int input
@@ -873,6 +970,15 @@ public class Cli implements Runnable
                 System.out.println("/\\__/ / | | \\ \\_/ /\\  /\\  /\\__/ /");
                 System.out.println("\\____/\\_| |_/\\___/  \\/  \\/\\____/");
                 break;
+            case "customers":
+                System.out.println(" _____ _   _ _____ _____ ________  ___ ___________  _____"); 
+                System.out.println("/  __ \\ | | /  ___|_   _|  _  |  \\/  ||  ___| ___ \\/  ___|");
+                System.out.println("| /  \\/ | | \\ `--.  | | | | | | .  . || |__ | |_/ /\\ `--. ");
+                System.out.println("| |   | | | |`--. \\ | | | | | | |\\/| ||  __||    /  `--. \\");
+                System.out.println("| \\__/\\ |_| /\\__/ / | | \\ \\_/ / |  | || |___| |\\ \\ /\\__/ /");
+                System.out.println(" \\____/\\___/\\____/  \\_/  \\___/\\_|  |_/\\____/\\_| \\_|\\____/");
+                break;
+            
                
         }
         
@@ -904,6 +1010,17 @@ public class Cli implements Runnable
     {
         System.out.println("----------------------------------------------------------------------");
         System.out.println("[10, Indx]  [11,  Add]");
+    }
+    
+    /**
+     * includeSecondaryNavCustomers()
+     * @return void
+     * 
+     */
+    public void includeSecondaryNavCustomers()
+    {
+        System.out.println("----------------------------------------------------------------------");
+        System.out.println("[10, Indx]");
     }
     
     
@@ -943,7 +1060,7 @@ public class Cli implements Runnable
                 this.showsIndex();
                 break;
             case 3:
-                System.out.println("Customers Index");
+                this.customersIndex();
                 break;
             case 4:
                 System.out.println("Bookings Index");
@@ -993,6 +1110,23 @@ public class Cli implements Runnable
                 break;
             case 11:
                 this.showsCreate();
+                break;
+        }
+    }
+    
+    
+    /**
+     * secondaryNavCustomers()
+     * @param int input
+     * @return void
+     * 
+     */
+    public void secondaryNavCustomers(int input)
+    {
+        switch(input)
+        {
+            case 10:
+                this.customersIndex();
                 break;
         }
     }

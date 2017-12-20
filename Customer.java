@@ -42,4 +42,14 @@ public class Customer
     {
         return this.name;
     }
+    
+    /**
+     * toString
+     * @return String
+     */
+    @Override
+    public String toString()
+    {
+        return this.name + "(CustomerID: " + this.id + ")"; 
+    }
 }
