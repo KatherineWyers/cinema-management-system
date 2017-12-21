@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=SeatAllocation
-comment0.text=\r\n\ Abstract\ class\ SeatAllocation\ -\ write\ a\ description\ of\ the\ class\ here\r\n\r\n\ @author\ (your\ name\ here)\r\n\ @version\ (version\ number\ or\ date\ here)\r\n
+comment0.text=\r\n\ Abstract\ class\ SeatAllocation\ -\ write\ a\ description\ of\ the\ class\ here\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
 comment1.params=
 comment1.target=int\ getId()
 comment1.text=\r\n\ get\ the\ id\r\n\ @return\ int\ id\r\n
@@ -19,4 +19,7 @@ comment5.text=\r\n\ get\ the\ show\r\n\ @return\ Show\ show\r\n
 comment6.params=
 comment6.target=java.lang.String\ getType()
 comment6.text=\r\n\ get\ the\ type\r\n\ @return\ String\ type\r\n
-numComments=7
+comment7.params=rowInt
+comment7.target=java.lang.String\ convertToRowLetter(int)
+comment7.text=\r\n\ Convert\ row\ int\ to\ row\ letter\r\n\ @param\ int\ row\ at\ int\r\n\ @return\ String\ rowLetter\r\n
+numComments=8

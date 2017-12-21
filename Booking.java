@@ -36,4 +36,14 @@ public class Booking
     {
         return this.customer;
     }
+    
+    /**
+     * toString
+     * @return String
+     */
+    @Override
+    public String toString()
+    {
+        return "Booking for Customer: " + this.customer.toString();
+    }
 }

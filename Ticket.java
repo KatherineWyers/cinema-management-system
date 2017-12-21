@@ -44,4 +44,15 @@ public class Ticket extends SeatAllocation
     {
         return this.booking;
     }
+    
+    /**
+     * toString
+     * @return String
+     * 
+     */
+    public String toString()
+    {
+        return  "Seat: " + this.convertToRowLetter(this.row) + this.num + ", DateTime: " + this.show.getDateTime() + ", Price: $" + this.price + ", Film: " + this.show.getFilm().getTitle() + ", Screen: " + this.show.getScreen().getTitle();
+    }
+    
 }

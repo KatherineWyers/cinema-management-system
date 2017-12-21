@@ -2,14 +2,14 @@
 /**
  * Abstract class SeatAllocation - write a description of the class here
  *
- * @author (your name here)
- * @version (version number or date here)
+ * @author Katherine Wyers
+ * @version 1.0
  */
 public abstract class SeatAllocation
 {
     protected int id;
-    protected int row; 
-    protected int num;
+    protected int row;  // 1 to 5
+    protected int num; // 1 to 10
     protected double price;
     protected Show show;
     
@@ -72,5 +72,36 @@ public abstract class SeatAllocation
             return "Vip";
         }
         return "Regular";
+    }
+    
+    /**
+     * Convert row int to row letter
+     * @param int row at int
+     * @return String rowLetter
+     */
+    public String convertToRowLetter(int rowInt)
+    {
+        String rowLetter;
+        // convert rows to letters
+        switch(rowInt){
+            case 1: 
+                rowLetter = "A";
+                break;
+           case 2: 
+                rowLetter = "B";
+                break;
+           case 3:
+                rowLetter = "C";
+                break;
+           case 4:
+                rowLetter = "D";
+                break;
+           case 5:
+                rowLetter = "E";
+                break;
+           default:
+                rowLetter = " ";
+        }
+        return rowLetter;
     }
 }

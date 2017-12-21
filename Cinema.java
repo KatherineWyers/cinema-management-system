@@ -245,6 +245,44 @@ public class Cinema
     }
 
     /**
+     * Add new customer with name
+     *
+     * @param  String name 
+     * @return Customer
+     */
+    public Customer getNewCustomer(String name)
+    {
+        Customer customer = new Customer(getNextCustomerId(), name);
+        this.customers.put(customer.getId(), customer);
+        return customer;
+    }
+
+    /**
+     * Get customer by id
+     *
+     * @param  int customerId 
+     * @return void
+     */
+    public Customer getCustomer(int customerId) throws IllegalArgumentException
+    {  
+        if(customers.get(customerId)==null)
+        {
+            throw new IllegalArgumentException("CustomerId not recognized");
+        }
+        return customers.get(customerId);
+    }
+    
+    /**
+     * isValidCustomerId
+     * @param int customerId
+     * @return boolean
+     */
+    public boolean isValidCustomerId(int customerId)
+    {
+        return customers.containsKey(customerId);
+    }
+
+    /**
      * Get a list of customers
      * @return List customers
      */
@@ -279,6 +317,16 @@ public class Cinema
     public List<Ticket> getTicketList()
     {
         return new ArrayList<Ticket> (this.tickets.values());
+    }
+
+    /**
+     * Get a list of tickets for the booking
+     * @param Booking booking
+     * @return List tickets
+     */
+    public List<Ticket> getTicketList(Booking booking)
+    {
+        return new ArrayList<Ticket> (this.getTickets(booking).values());
     }
     
     /**
@@ -353,6 +401,15 @@ public class Cinema
     public void addBooking(Booking booking)
     {
         this.bookings.put(booking.getId(), booking);
+    }
+
+    /**
+     * Get a list of bookings
+     * @return List bookings
+     */
+    public List<Booking> getBookingList()
+    {
+        return new ArrayList<Booking> (this.bookings.values());
     }
     
     /**
@@ -483,6 +540,7 @@ public class Cinema
      */
     public void printSeatingGrid(boolean[][] seatingGrid)
     {
+        System.out.println("");
         System.out.println("###########SEATING GRID##########");
         System.out.println("");
         System.out.println("         [ S C R E E N ]        ");
@@ -491,7 +549,7 @@ public class Cinema
         for (int i = 0;i<seatingGrid.length;i++)
         {   
             String rowLetter;
-            rowLetter = this.convertToRowLetter(i);
+            rowLetter = this.convertToRowLetter(i+1);
             
             // rowLetter with 1 column white space as padding
             System.out.print(rowLetter + " ");
@@ -505,6 +563,8 @@ public class Cinema
         }
         // seat numbers
         System.out.println("   1  2  3  4  5  6  7  8  9 10 ");
+        System.out.println("#################################");
+        System.out.println("");
     }
     
     /**
@@ -517,24 +577,73 @@ public class Cinema
         String rowLetter;
         // convert rows to letters
         switch(rowInt){
-            case 0: 
+            case 1: 
                 rowLetter = "A";
                 break;
-           case 1: 
+           case 2: 
                 rowLetter = "B";
                 break;
-           case 2:
+           case 3:
                 rowLetter = "C";
                 break;
-           case 3:
+           case 4:
                 rowLetter = "D";
                 break;
-           case 4:
+           case 5:
                 rowLetter = "E";
                 break;
            default:
                 rowLetter = " ";
         }
         return rowLetter;
+    }
+    
+    /**
+     * convertToRowNum
+     * Convert row letter to row int
+     * Letters outside A to E return -1
+     * @param String
+     * @return int row int
+     */
+    public int convertToRowNum(String rowLetter)
+    {
+        int rowInt;
+        // convert letters to rows
+        switch(rowLetter){
+           case "A": 
+                rowInt = 1;
+                break;
+           case "a": 
+                rowInt = 1;
+                break;
+           case "B": 
+                rowInt = 2;
+                break;
+           case "b": 
+                rowInt = 2;
+                break;
+           case "C":
+                rowInt = 3;
+                break;
+           case "c":
+                rowInt = 3;
+                break;
+           case "D":
+                rowInt = 4;
+                break;
+           case "d":
+                rowInt = 4;
+                break;
+           case "E":
+                rowInt = 5;
+                break;
+           case "e":
+                rowInt = 5;
+                break;
+           default: 
+                rowInt = -1;
+                break;
+        }
+        return rowInt;
     }
 }

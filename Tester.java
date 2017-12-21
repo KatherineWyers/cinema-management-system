@@ -293,7 +293,7 @@ public class Tester
         Booker booker = this.cinema.getNewBooker(show, customer);
     
         int count = booker.getReservations().size();
-        booker.addReservation(1, 2); 
+        booker.addReservation(1, 1); 
         compare(booker.getReservations().size(),count+1);
         booker.addReservation(2, 2); 
         compare(booker.getReservations().size(),count+2);

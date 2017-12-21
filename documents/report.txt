@@ -39,3 +39,6 @@ CLI -> when booking a new ticket, take the customer id. If they are a new custom
 Projection was renamed to Show because it is a term that will be easier for the end-user to understand. 
 
 CLI -> whatever input the user gives, the application will do something. If the integer entered is out of range (for example, in filmsShow), the application will reload the current page, rather than showing an error notification and quitting. 
+
+
+Cinema.getNewCustomer -> method creates a new customer, adds them to the customer map and returns the customer. This is similar to cinema.addCustomer, except that getNewCustomer returns the customer. 

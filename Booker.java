@@ -113,15 +113,17 @@ public class Booker extends TicketManager
      */
     public void printCurrentBookingDetails()
     {
-        System.out.println("###CURRENT BOOKING###");
-        System.out.println("SEAT------PRICE------");
+        System.out.println("");
+        System.out.println("######CURRENT BOOKING######");
+        System.out.println("#SEAT------PRICE----------#");
         for(Reservation s : reservations)
         {
-            System.out.println(cinema.convertToRowLetter(s.getRow()) + s.getNum() + "--------" + s.getPrice());
+            System.out.println("#" + cinema.convertToRowLetter(s.getRow()) + s.getNum() + ": $" + s.getPrice());
         }
-        System.out.println("---------------------");
-        System.out.println("TOTAL PRICE: " + this.getTotalPrice());
-        System.out.println("---------------------");
+        System.out.println("#-------------------------#");
+        System.out.println("#TOTAL PRICE: $" + this.getTotalPrice());
+        System.out.println("###########################");
+        System.out.println("");
     }
     
     /**
