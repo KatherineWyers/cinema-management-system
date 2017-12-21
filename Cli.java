@@ -7,74 +7,73 @@ import java.util.*;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Cli implements Runnable
+public class Cli extends UserInterface
 {
-    Cinema cinema;
-    
     /**
      * Constructor for objects of class CommandLine
      */
-    public Cli()
+    public Cli(){};
+    
+    /**
+     * runMainApplication
+     * Take pageId as input and navigate to the new page
+     * @param pageId
+     * @return void
+     */
+    public void run()
     {
-        this.cinema = new Cinema();
-        cinema = new Cinema();
+        int pageId = 1;
+        this.displaySplashScreen();
+        this.addDelayInSeconds(5);
+        this.clearScreen(); 
         
-        // Set up the default data for the system
-        setupSystem();
+        while(true)
+        { 
+            pageId = this.displayPage(pageId);
+            if(pageId == 6)
+            {
+                break;// Quit request received
+            }
+            this.clearScreen(); 
+        }
+        this.clearScreen(); 
+        System.out.println("Application Quit");            
     }
 
     /**
-     * Create the default data for the system
-     *
+     * displayPage
+     * Take the pageId and display the page
+     * @param int pageId
      * @return void
      */
-    @Override
-    public void setupSystem()
+    private int displayPage(int pageId)
     {
-        this.cinema.addScreen("Screen 1");
-        this.cinema.addScreen("Screen 2");        
-        
-        this.cinema.addFilm("Psycho", 1960, "Alfred Hitchcock", "EN");
-        this.cinema.addFilm("2001: A Space Odyssey", 1968, "Stanley Kubrick", "EN", "NL");
-        this.cinema.addFilm("Jurassic Park", 1993, "Steven Spielberg", "EN", "NL");
-        this.cinema.addFilm("Taxi Driver", 1976, "Martin Scorcese", "NL");
-        this.cinema.addFilm("Citizen Kane", 1941, "Orson Welles", "EN");
-        
-        Screen screen = this.cinema.getScreenList().get(0);
-        Film film = this.cinema.getFilmList().get(0);
-        
-        Calendar date1 = new GregorianCalendar(2017, 0, 01, 11, 00);
-        Calendar date2 = new GregorianCalendar(2017, 0, 02, 11, 00);
-        Calendar date3 = new GregorianCalendar(2017, 0, 03, 11, 00);
-        
-        this.cinema.addShow(date1, screen, film, (float)12.50, (float)15.00);
-        this.cinema.addShow(date2, screen, film, (float)12.50, (float)15.00);
-        this.cinema.addShow(date3, screen, film, (float)12.50, (float)15.00);
-        
-        this.cinema.addCustomer("John Malone"); 
-        this.cinema.addCustomer("Sean Jones"); 
-        this.cinema.addCustomer("Sarah O Hara"); 
-        this.cinema.addCustomer("Clare Fisher"); 
-        this.cinema.addCustomer("Tom Dickinson");
-    }
+        switch(pageId)
+        {
+            case 1:
+                return this.displayFilmsIndexPage();
+            case 2: 
+                return this.displayShowsIndexPage();
+            case 3: 
+                return this.displayCustomersIndexPage();
+            case 4:
+                return this.displayBookingsIndexPage();
+            case 10:
+                return this.displayAddFilmPage();
+            case 11:
+                return this.displayAddShowPage();
+            case 13:
+                return this.displayAddBookingPage();
+            default:
+                return 1;
+        }
+    }    
     
     /**
-     * Run the Application
+     * displaySplashScreen
      * @return void
      */
-    @Override
-    public void run()
-    {
-        this.runSplashScreenSequence();
-        this.filmsIndex();
-    }
-    
-    /**
-     * displaySplashScreen()
-     * @return void
-     * 
-     */
-    public void runSplashScreenSequence()
+    private void displaySplashScreen()
     {
         System.out.println("-----------------------------------------------------------");
         System.out.println("-----------------------------------------------------------");
@@ -89,263 +88,122 @@ public class Cli implements Runnable
         System.out.println("-----------------------------------------------------------");
         System.out.println("-----------------------------------------------------------");
         System.out.println("-----------------------------------------------------------");
-        // wait 5 seconds
-        try
-        {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException ex) {
-            System.out.println("Splash Screen pause interrupted. " + ex.getMessage());
-        }
-        // clear screen
-        this.clear();
     }
     
     /**
-     * filmsIndex()
-     * @return void
+     * displayFilmsIndexPage()
+     * @return int
      * 
      */
-    public void filmsIndex()
+    public int displayFilmsIndexPage()
     {
-        // HashMap to relate UserInput to Film
+        this.clearScreen();
         Map <Integer, Film> optionToFilm = new HashMap<Integer, Film>();
-        this.includeHeader();
-        // Point to Films
-        this.includePointer(1);
-        this.includeSecondaryNavFilms();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("films");
-        
-        int option = 20;
-        System.out.println("");
-        System.out.println("Select");
-
-        for(Film film : this.cinema.getFilmList())
+        this.pageHeader(true, 1, 1, "films", "FILMS INDEX");
+        int option = this.printListWithOptions(20, this.cinema.getFilmList(), optionToFilm);
+        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        if(input>19)
         {
-            optionToFilm.put(option, film);
-            System.out.print("[" + option + "]       ");
-            System.out.println(film.toString());
-            option++;
+            return this.displayShowFilmPage(optionToFilm.get(input));
         }
-
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(option);
-        
-        //Clear the screen
-        this.clear();
-            
-        if(input<10)
-        {
-            // Primary Navigation
-            this.primaryNav(input);
-        }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavFilms(input);
-        }
-        else
-        {
-            this.filmsShow(optionToFilm.get(input));
-        }
-        
+        return input;
     }
     
     /**
-     * filmsShow()
+     * displayShowFilmPage()
      * @param Film film
-     * @return void
+     * @return int
      * 
      */
-    public void filmsShow(Film film)
+    public int displayShowFilmPage(Film film)
     {
-        this.includeHeader();
-        // Point to Films
-        this.includePointer(1);
-        this.includeSecondaryNavFilms();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("films");
-        this.includeTitle("SHOW FILM");
- 
+        this.clearScreen();
+        this.pageHeader(true, 1, 1, "films", "DISPLAY FILM DETAILS");
         System.out.println("Title:      " + film.getTitle());
         System.out.println("Year:       " + film.getYear());
         System.out.println("Director:   " + film.getDirector());
         System.out.println("Language:   " + film.getLanguage());
         System.out.println("Subtitles:  " + film.getSubtitles());
-
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(19);
-        
-        //Clear the screen
-        this.clear();
-        
-        if(input<10)
+        int input = this.getUserInputInteger(19);// Set max input as highest option number
+        if(input>19)
         {
-            // Primary Navigation
-            this.primaryNav(input);
+             return 1;// Invalid selection. Return to filmsIndex
         }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavFilms(input);
-        }
-        else
-        {
-            // Reload this page
-            this.filmsShow(film);
-        }
-        
+        return input;
     }
-    
+   
     /**
-     * filmsCreate()
-     * @return void
+     * displayAddFilmPage()
+     * @return int
      * 
      */
-    public void filmsCreate()
+    public int displayAddFilmPage()
     {
-        int input;
-        
-        this.includeHeader();
-        // Point to Films
-        this.includePointer(1);
-        this.includeSecondaryNavFilms();
-        // Point to Index
-        this.includePointer(2);
-        this.includeTitle("films");
-        System.out.println("ADD FILM");  
+        this.clearScreen();
+        this.pageHeader(true, 1, 2, "films", "ADD FILM");
         System.out.println("");
         System.out.println("[20, Create New Film]  [21, Cancel]");
-
-        input = this.getUserInputInteger(21);
-
-        //Clear the screen
-        this.clear();
-        
-        if(input<10)
+        int input = this.getUserInputInteger(21);
+        if(input==20)
         {
-            // Primary Navigation
-            this.primaryNav(input);
+            return this.enterNewFilmDetails();
         }
-        
-        else if(input>=10&&input<20)
+        if(input==21)
         {
-            // Secondary Navigation
-            this.secondaryNavFilms(input);
+            return 1;// return to FilmsIndex
         }
-        
-        else if(input == 20)
-        {
-            String title;
-            int year;
-            String director;
-            String language;
-            String subtitles;
-            
-            this.includeTitleBar();
-            this.includeTitle("films");
-            System.out.println("ADD FILM");  
-            System.out.println("");
-            
-            System.out.println("Create New Film");
-            title = this.getUserInputString(255, "Enter the title:");
-            year = this.getUserInputInteger(2020, "Enter the year:");
-            director = this.getUserInputString(20, "Enter the director:");
-            language = this.getUserInputString(20, "Enter the language:");
-            subtitles = this.getUserInputString(3, "Enter the subtitles (2-letter acronym or N/A):");
-            
-            System.out.println("Save Film? (Y/N):");
-            if(this.getUserInputYN().equals("Y"))
-            {
-                this.cinema.addFilm(title, year, director, language, subtitles);
-            };
-            
-            //Clear the screen
-            this.clear();
-            
-            // redirect to filmsIndex
-            this.filmsIndex();            
-        }
-        else
-        {
-            this.filmsIndex();
-        }
-        
-
+        return input;
     }
     
     /**
-     * ShowsIndex()
-     * @return void
+     * enterNewFilmDetails
+     * @return int
+     */
+    private int enterNewFilmDetails()
+    {
+        this.clearScreen(); 
+        this.pageHeader(false, 1, 2, "films", "ADD FILM > Enter New Film Details");
+        String title = this.getUserInputString(255, "Enter the title");
+        int year = this.getUserInputInteger(2020, "Enter the year");
+        String director = this.getUserInputString(20, "Enter the director");
+        String language = this.getUserInputString(20, "Enter the language");
+        String subtitles = this.getUserInputString(3, "Enter the subtitles (2-letter acronym or N/A)");
+        if(this.getUserInputYN("Save Film? (Y/N)").equals("Y"))
+        {
+            this.cinema.addFilm(title, year, director, language, subtitles);
+        };
+        return 1;// return to the FilmsIndex  
+    }
+    
+    /**
+     * displayShowsIndexPage()
+     * @return int
      * 
      */
-    public void showsIndex()
+    public int displayShowsIndexPage()
     {
-        // HashMap to relate UserInput to Film
+        this.clearScreen();
         Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
-        this.includeHeader();
-        // Point to Films
-        this.includePointer(2);
-        this.includeSecondaryNavShows();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("shows");
-        
-        int option = 20;
-        System.out.println("");
-        System.out.println("Select");
-
-        for(Show show : this.cinema.getShowList())
+        this.pageHeader(true, 2, 1, "shows", "SHOWS INDEX");
+        int option = this.printListWithOptions(20, this.cinema.getShowList(), optionToShow);
+        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        if(input>19)
         {
-            optionToShow.put(option, show);
-            System.out.print("[" + option + "]       ");
-            System.out.println(show.toString());
-            option++;
+            return this.displayShowShowPage(optionToShow.get(input));
         }
-
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(option);
-        
-        //Clear the screen
-        this.clear();
-            
-        if(input<10)
-        {
-            // Primary Navigation
-            this.primaryNav(input);
-        }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavShows(input);
-        }
-        else
-        {
-            this.showsShow(optionToShow.get(input));
-        }
-        
+        return input;
     }
     
     /**
-     * showsShow()
+     * displayShowShowPage()
      * @param Show show
-     * @return void
+     * @return int
      * 
      */
-    public void showsShow(Show show)
+    public int displayShowShowPage(Show show)
     {
-        this.includeHeader();
-        // Point to Shows
-        this.includePointer(2);
-        this.includeSecondaryNavShows();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("shows");
-        System.out.println("DISPLAY SHOW");
-        System.out.println(" ");
-        
+        this.clearScreen();
+        this.pageHeader(true, 2, 1, "shows", "DISPLAY SHOW DETAILS");
         System.out.println("***Film Details***");
         System.out.println("Film:       " + show.getFilm().getTitle());
         System.out.println("Year:       " + show.getFilm().getYear());
@@ -356,486 +214,355 @@ public class Cli implements Runnable
         System.out.println("***Schedule Details***");
         System.out.println("Screen:     " + show.getScreen().getTitle());
         System.out.println("Date & Time:" + show.getDateTime());
-        
         this.cinema.printSeatingGrid(this.cinema.getSeatingGrid(show));
         System.out.println("Regular Tickets (Row A-D): $" + show.getPriceRegular());
         System.out.println("Vip Tickets (Row E):       $" + show.getPriceVip());
-
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(19);
-        
-        //Clear the screen
-        this.clear();
-        
-        if(input<10)
+        int input = this.getUserInputInteger(19);// Set max input as highest option number
+        if(input>19)
         {
-            // Primary Navigation
-            this.primaryNav(input);
+             return 2;// Invalid selection. Return to SHOWS INDEX
         }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavShows(input);
-        }
-        else
-        {
-            // Reload this page
-            this.showsShow(show);
-        }
-        
+        return input;
     }
-    
-
-    
+   
     /**
-     * showsCreate()
-     * @return void
-     * 
+     * displayAddShowPage()
+     * @return int
      */
-    public void showsCreate()
+    public int displayAddShowPage()
     {
-        int input;
-        
-        this.includeHeader();
-        // Point to Shows
-        this.includePointer(2);
-        this.includeSecondaryNavShows();
-        // Point to Add
-        this.includePointer(2);
-        this.includeTitle("shows");
-        System.out.println("ADD SHOW");  
+        this.clearScreen();
+        this.pageHeader(true, 2, 2, "shows", "ADD SHOW");
         System.out.println("");
         System.out.println("[20, Create New Show]  [21, Cancel]");
-
-        input = this.getUserInputInteger(21);
-
-        //Clear the screen
-        this.clear();
-        
-        int option = 30;
-        
-        if(input<10)
+        int input = this.getUserInputInteger(21);
+        if(input==20)
         {
-            // Primary Navigation
-            this.primaryNav(input);
+            return this.enterNewShowDetails();
         }
-        
-        else if(input>=10&&input<20)
+        if(input==21)
         {
-            // Secondary Navigation
-            this.secondaryNavShows(input);
+            return 2;// return to SHOWS INDEX
         }
-        
-        else if(input == 20)
-        {
-            Map<Integer, Film> optionToFilm = new HashMap<Integer, Film>();
-            Map<Integer, Screen> optionToScreen = new HashMap<Integer, Screen>();
-            
-            this.includeTitleBar();
-            this.includeTitle("shows");
-            System.out.println("ADD SHOW");  
-            
-            System.out.println("***Select Film***");
-            for(Film film : this.cinema.getFilmList())
-            {
-                optionToFilm.put(option, film);
-                System.out.print("[" + option + "]       ");
-                System.out.println(film.getTitle());
-                option++;
-            }
-            
-            Film film = optionToFilm.get(this.getUserInputInteger(option, "Enter Film selection:"));
-            
-            System.out.println("***Select Screen***");
-            for(Screen screen : this.cinema.getScreenList())
-            {
-                optionToScreen.put(option, screen);
-                System.out.print("[" + option + "]       ");
-                System.out.println(screen.getTitle());
-                option++;
-            }
-            
-            Screen screen = optionToScreen.get(this.getUserInputInteger(option, "Enter Screen selection:"));
-            
-            int dd = this.getUserInputIntegerRange(1, 31, "Enter Date. For example: 22");
-            int mm = this.getUserInputIntegerRange(1, 12, "Enter Month. For example: 6");
-            int yyyy = this.getUserInputIntegerRange(2015, 2050, "Enter Year. For example 2017");
-            int hh = this.getUserInputIntegerRange(0, 23, "Enter Hour in 24-hour clock. For example 19");
-            int ii = this.getUserInputIntegerRange(0, 59, "Enter Minute. For example 30");
-            
-            Calendar date = new GregorianCalendar(yyyy, mm-1, dd, hh, ii);
-            
-            float priceRegular = this.getUserInputFloat("Enter Price for Regular Tickets. For example 8.50");
-            float priceVip = this.getUserInputFloat("Enter Price for VIP Tickets. For example 12.50");
-            
-            System.out.println("Save Show? (Y/N):");
-            if(this.getUserInputYN().equals("Y"))
-            {
-                this.cinema.addShow(date, screen, film, priceRegular, priceVip);
-            };
-            
-            //Clear the screen
-            this.clear();
-            
-            // redirect to showsIndex
-            this.showsIndex();            
-        }
-        else
-        {
-            this.showsIndex();
-        }
-        
-
+        return input;
     }
     
     /**
-     * customersIndex()
-     * @return void
+     * enterNewShowDetails
+     * @return int
+     */
+    private int enterNewShowDetails()
+    {
+        this.clearScreen(); 
+        Map <Integer, Film> optionToFilm = new HashMap<Integer, Film>();
+        Map <Integer, Screen> optionToScreen = new HashMap<Integer, Screen>();
+        this.pageHeader(false, 2, 2, "shows", "ADD SHOW > Enter New Show Details");
+        System.out.println("*** SELECT FILM ***");
+        int option = this.printListWithOptions(20, this.cinema.getFilmList(), optionToFilm);
+        Film film = optionToFilm.get(this.getUserInputInteger(option, "Enter Film selection:"));
+        System.out.println("*** SELECT SCREEN ***");
+        option = this.printListWithOptions(option, this.cinema.getScreenList(), optionToScreen);
+        Screen screen = optionToScreen.get(this.getUserInputInteger(option, "Enter Screen selection:"));
+        int dd = this.getUserInputIntegerRange(1, 31, "Enter Date. For example: 22");
+        int mm = this.getUserInputIntegerRange(1, 12, "Enter Month. For example: 6");
+        int yyyy = this.getUserInputIntegerRange(2015, 2050, "Enter Year. For example 2017");
+        int hh = this.getUserInputIntegerRange(0, 23, "Enter Hour in 24-hour clock. For example 19");
+        int ii = this.getUserInputIntegerRange(0, 59, "Enter Minute. For example 30");
+        Calendar date = new GregorianCalendar(yyyy, mm-1, dd, hh, ii);
+        float priceRegular = this.getUserInputFloat("Enter Price for Regular Tickets. For example 8.50");
+        float priceVip = this.getUserInputFloat("Enter Price for VIP Tickets. For example 12.50");
+        if(this.getUserInputYN("Save Film? (Y/N)").equals("Y"))
+        {
+            this.cinema.addShow(date, screen, film, priceRegular, priceVip);
+        };
+        return 2;// return to the SHOWS INDEX 
+    }
+    
+    /**
+     * displayCustomersIndexPage()
+     * @return int
      * 
      */
-    public void customersIndex()
+    public int displayCustomersIndexPage()
     {
-        // HashMap to relate UserInput to Film
+        this.clearScreen();
         Map <Integer, Customer> optionToCustomer = new HashMap<Integer, Customer>();
-        this.includeHeader();
-        // Point to Customer
-        this.includePointer(3);
-        this.includeSecondaryNavCustomers();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("customers");
-        
-        int option = 20;
-        System.out.println("");
-        System.out.println("Select");
-        System.out.println(this.cinema.getCustomerList().size());
-
-        for(Customer customer : this.cinema.getCustomerList())
+        this.pageHeader(true, 3, 1, "customers", "CUSTOMERS INDEX");
+        int option = this.printListWithOptions(20, this.cinema.getCustomerList(), optionToCustomer);
+        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        if(input>19)
         {
-            optionToCustomer.put(option, customer);
-            System.out.print("[" + option + "]       ");
-            System.out.println(customer.toString());
-            option++;
+            return this.displayShowCustomerPage(optionToCustomer.get(input));
         }
-
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(option);
-        
-        //Clear the screen
-        this.clear();
-            
-        if(input<10)
-        {
-            // Primary Navigation
-            this.primaryNav(input);
-        }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavCustomers(input);
-        }
-        else
-        {
-            this.customersShow(optionToCustomer.get(input));
-        }
-        
+        return input;
     }
     
-    /** 
-     * customersShow()
+    /**
+     * displayShowCustomerPage()
      * @param Customer customer
-     * @return void
+     * @return int
      * 
      */
-    public void customersShow(Customer customer)
+    public int displayShowCustomerPage(Customer customer)
     {
-        this.includeHeader();
-        // Point to Customer
-        this.includePointer(3);
-        this.includeSecondaryNavCustomers();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("customers");
-        this.includeTitle("SHOW CUSTOMER");
- 
-        
-        System.out.println("CustomerID:       " + customer.getId());
+        this.clearScreen();
+        this.pageHeader(true, 3, 1, "customers", "DISPLAY CUSTOMER DETAILS");
+        System.out.println("CustomerID: " + customer.getId());
         System.out.println("Name:       " + customer.getName());
-
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(19);
-        
-        //Clear the screen
-        this.clear();
-        
-        if(input<10)
+        int input = this.getUserInputInteger(19);// Set max input as highest option number
+        if(input>19)
         {
-            // Primary Navigation
-            this.primaryNav(input);
+             return 3;// Invalid selection. Return to CUSTOMERS INDEX
         }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavCustomers(input);
-        }
-        else
-        {
-            // Reload this page
-            this.customersShow(customer);
-        }
-        
+        return input;
     }
     
     /**
-     * bookingsIndex()
-     * @return void
+     * displayBookingsIndexPage()
+     * @return int
      * 
      */
-    public void bookingsIndex()
+    public int displayBookingsIndexPage()
     {
-        // HashMap to relate UserInput to Booking
+        this.clearScreen();
         Map <Integer, Booking> optionToBooking = new HashMap<Integer, Booking>();
-        this.includeHeader();
-        // Point to Booking
-        this.includePointer(4);
-        this.includeSecondaryNavBookings();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("bookings");
+        this.pageHeader(true, 4, 1, "bookings", "BOOKINGS INDEX");
+        int option = this.printListWithOptions(20, this.cinema.getBookingList(), optionToBooking);
+        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        if(input>19)
+        {
+            return this.displayShowBookingPage(optionToBooking.get(input));
+        }
+        return input;
+    }
+    
+    /**
+     * displayShowBookingPage()
+     * @param Booking booking
+     * @return int
+     * 
+     */
+    public int displayShowBookingPage(Booking booking)
+    {
+        this.clearScreen();
+        this.pageHeader(true, 4, 1, "bookings", "DISPLAY BOOKING DETAILS");
+        System.out.println("***Customer Details***");
+        System.out.println("CustomerID:       " + booking.getCustomer().getId());
+        System.out.println("Customer Name:    " + booking.getCustomer().getName());
+        System.out.println(" ");
+        System.out.println("***Tickets***");
+       for(Ticket ticket : this.cinema.getTicketList(booking))
+       {
+           System.out.println(ticket.toString());
+       }    
+       int input = this.getUserInputInteger(19);// Set max input as highest option number
+       if(input>19)
+       {
+           return 4;// Invalid selection. Return to SHOWS INDEX
+       }
+       return input;
+    }
+   
+    /**
+     * displayAddBookingPage()
+     * @return int
+     */
+    public int displayAddBookingPage()
+    {
+        this.clearScreen();
+        this.pageHeader(true, 4, 2, "bookings", "ADD BOOKING");
+        System.out.println("");
+        System.out.println("[20, Create New Customer]  [21, Existing Customer]  [22, Cancel]");
+        int input = this.getUserInputInteger(22);
+        if(input==20||input==21)
+        {
+            return this.enterNewBookingDetails(input);
+        }
+        if(input==21)
+        {
+            return 4;// return to BOOKINGS INDEX
+        }
+        return input;
+    }
+
+    /**
+     * enterNewBookingDetails
+     * @param int customerType (20 == new customer, 21 == existing customer)
+     * @return int
+     */
+    private int enterNewBookingDetails(int input)
+    {
+        this.clearScreen(); 
+        Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
+        this.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Enter New Booking Details");
+        Customer customer = new Customer (this.cinema.getNextCustomerId());// create blank customer
+        if(input==20)
+        {
+            customer = this.cinema.getNewCustomer(this.getUserInputString(30, "Enter Customer Name"));
+        }
+        else
+        {
+            try
+            {
+                customer = this.cinema.getCustomer(this.getUserInputInteger(Integer.MAX_VALUE, "Enter Customer MemberCard ID"));
+            } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+                this.getUserInputString(1, "Press enter to return to bookings index");
+                return 4;// return to the BOOKINGS INDEX
+            }
+        }
+        System.out.println("*** SELECT SHOW ***");
+        int option = this.printListWithOptions(20, this.cinema.getShowList(), optionToShow);
+        Show show = optionToShow.get(this.getUserInputInteger(option, "Enter Show selection:"));
         
-        int option = 20;
+        Booker booker = this.cinema.getNewBooker(show, customer);
+        this.selectSeatsAndFinalizeBooking(booker);// recursive function
+        return 4;// return to the BOOKINGS INDEX 
+    }   
+    
+    /**
+     * selectedSeatsAndFinalizeBooking
+     * @param Booker booker
+     * @return void
+     */
+    private int selectSeatsAndFinalizeBooking(Booker booker)
+    {
+        this.clearScreen();
+        this.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Select Seats");
+        this.cinema.printSeatingGrid(booker.getSeatingGrid());
+        System.out.println("Regular Tickets (Row A-D): $" + booker.getShow().getPriceRegular());
+        System.out.println("Vip Tickets (Row E):       $" + booker.getShow().getPriceVip());
+        booker.printCurrentBookingDetails();
+        System.out.println("[20, Add Seat]  [21, Remove Seat] [22, Cash Payment ] [23, CreditCard Payment] [24, Cancel]");
+        int input = this.getUserInputIntegerRange(20,24,"Please make a selection"); 
+        boolean completed = false;
+        switch(input)
+        {
+            case 20:
+                this.addSeatToBooking(booker);
+                break;
+            case 21:
+                this.removeSeatFromBooking(booker);
+                break;
+            case 22:
+                this.processCashPayment(booker);
+                completed = true;
+                break;
+            case 23:
+                this.processCardPayment(booker);
+                completed = true;
+                break;
+            default:
+                completed = true;// Cancel booking
+                break;
+        }
+        if(!completed) 
+        {
+           this.selectSeatsAndFinalizeBooking(booker); // call the function recursively
+        }
+        return 4;//Redirect to BOOKINGS INDEX
+    }
+    
+    /**
+     * addSeatToBooking
+     * @param Booker booker
+     * @return void
+     */
+    private int addSeatToBooking(Booker booker)
+    {
+        int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
+        int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
+        booker.addReservation(seatRow, seatNum);
+        return -1;
+    }
+    
+    /**
+     * removeSeatFromBooking
+     * @param Booker booker
+     * @return void
+     */
+    private int removeSeatFromBooking(Booker booker)
+    {
+        int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
+        int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
+        booker.removeReservation(seatRow, seatNum);
+        return -1;
+    }
+    
+    /**
+     * processCashPayment
+     * @param Booker booker
+     * @return void
+     */
+    private int processCashPayment(Booker booker)
+    {
+        if(this.getUserInputYN("Proceed with Cash Payment? (Y/N)").equals("Y"))
+        {
+            booker.finalizeCashPayment();
+        };
+        return 4;
+    }
+    
+    /**
+     * processCardPayment
+     * @param Booker booker
+     * @return void
+     */
+    private int processCardPayment(Booker booker)
+    {
+        if(this.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
+        {
+            booker.finalizeCardPayment(this.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
+        };
+        return 4;
+    }
+    
+    /**
+     * printListWithOptions
+     * @param int optionCounter
+     * @param List list
+     * @return int optionCounter
+     */
+    private int printListWithOptions(int optionCounter, List list, Map optionToObject)
+    {
         System.out.println("");
         System.out.println("Select");
-
-        for(Booking booking : this.cinema.getBookingList())
+        for(Object object : list)
         {
-            optionToBooking.put(option, booking);
-            System.out.print("[" + option + "]       ");
-            System.out.println(booking.toString());
-            option++;
+            optionToObject.put(optionCounter, object);
+            System.out.print("[" + optionCounter + "]       ");
+            System.out.println(object.toString());
+            optionCounter++;
         }
-
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(option);
-        
-        //Clear the screen
-        this.clear();
-            
-        if(input<10)
-        {
-            // Primary Navigation
-            this.primaryNav(input);
-        }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavBookings(input);
-        }
-        else
-        {
-            this.bookingsShow(optionToBooking.get(input));
-        }
-        
+        return optionCounter;
     }
-    
-    /** 
-     * bookingsShow()
-     * @param Booking booking
-     * @return void
-     * 
-     */
-    public void bookingsShow(Booking booking)
-    {
-        this.includeHeader();
-        // Point to Booking
-        this.includePointer(4);
-        this.includeSecondaryNavBookings();
-        // Point to Index
-        this.includePointer(1);
-        this.includeTitle("bookings");
-        this.includeTitle("SHOW BOOKING");
-        
-        System.out.println("CustomerID:       " + booking.getCustomer().getId());
-        System.out.println("Customer Name:       " + booking.getCustomer().getName());
-        
-        this.includeTitle("*** Tickets ***");
-        
-        for(Ticket ticket : this.cinema.getTicketList(booking))
-        {
-            System.out.println(ticket.toString());
-        }        
-        
-        // Set max input as highest option number
-        int input = this.getUserInputInteger(19);
-        
-        //Clear the screen
-        this.clear();
-        
-        if(input<10)
-        {
-            // Primary Navigation
-            this.primaryNav(input);
-        }
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavBookings(input);
-        }
-        else
-        {
-            // Reload this page
-            this.bookingsShow(booking);
-        }
-        
-    }
-    
-
     
     /**
-     * bookingsCreate()
-     * @return void
      * 
+     * pageHeader
+     * @param int primaryPointer
+     * @param int secondaryPointer
+     * @param String banner
+     * @return void
      */
-    public void bookingsCreate()
+    private void pageHeader(boolean includeFullHeader, int primaryPointer, int secondaryPointer, String category, String subtext)
     {
-        int input;
-        
-        this.includeTitleBar();
-        this.includeTitle("bookings");
-        System.out.println("ADD NEW BOOKING");  
-        System.out.println("");
-        System.out.println("[20, New Customer]  [21, Existing Customer]  [22, Cancel]");
-
-        input = this.getUserInputIntegerRange(20,22,"Please make a selection");
-
-        //Clear the screen
-        this.clear();
-        
-        int option = 30;
-        
-        if(input<10)
+        if(includeFullHeader)
         {
-            // Primary Navigation
-            this.primaryNav(input);
-        }
-        
-        else if(input>=10&&input<20)
-        {
-            // Secondary Navigation
-            this.secondaryNavBookings(input);
-        }
-        
-        else if(input == 20||input == 21)
-        {
-            Map<Integer, Show> optionToShow = new HashMap<Integer, Show>();
-            
-            this.includeTitleBar();
-            this.includeTitle("bookings");
-            System.out.println("ADD NEW BOOKING");
-            
-            // Create blank customer
-            Customer customer = new Customer (this.cinema.getNextCustomerId());
-            
-            if(input == 20)
-            {
-                customer = this.cinema.getNewCustomer(this.getUserInputString(30, "Enter Customer Name"));
-            }
-            else
-            {
-                try
-                {
-                    customer = this.cinema.getCustomer(this.getUserInputInteger(Integer.MAX_VALUE, "Enter Customer MemberCard ID"));
-                } catch (IllegalArgumentException ex) {
-                    System.out.println(ex.getMessage());
-                    this.bookingsCreate();
-                }
-            }
-
-            System.out.println("***Select Show***");
-            for(Show show : this.cinema.getShowList())
-            {
-                optionToShow.put(option, show);
-                System.out.print("[" + option + "]       ");
-                System.out.println(show.toString());
-                option++;
-            }
-            
-            Show show = optionToShow.get(this.getUserInputInteger(option, "Enter Show selection:"));
-            
-            // Clear the screen
-            this.clear();
-
-            Booker booker = this.cinema.getNewBooker(show, customer);
-
-            int seatRow = 0;
-            int seatNum = 0;
-  
-            boolean completed = false;
-            while(!completed)
-            {
-                this.clear();
-                
-                this.includeTitleBar();
-                this.includeTitle("bookings");
-                System.out.println("ADD NEW BOOKING");  
-                System.out.println("");
-                
-                this.cinema.printSeatingGrid(booker.getSeatingGrid());
-                System.out.println("Regular Tickets (Row A-D): $" + booker.getShow().getPriceRegular());
-                System.out.println("Vip Tickets (Row E):       $" + booker.getShow().getPriceVip());
-                booker.printCurrentBookingDetails();
-                System.out.println("[20, Add Seat]  [21, Remove Seat] [22, Cash Payment ] [23, CreditCard Payment] [24, Cancel]");
-                input = this.getUserInputIntegerRange(20,24,"Please make a selection");
-                
-                switch (input)
-                {
-                    case 20:
-                        seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
-                        seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
-                        booker.addReservation(seatRow, seatNum);
-                        break;
-                    case 21:
-                        seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
-                        seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
-                        booker.removeReservation(seatRow, seatNum);
-                        break;
-                    case 22:
-                        if(this.getUserInputYN("Proceed with Cash Payment? (Y/N)").equals("Y"))
-                        {
-                            booker.finalizeCashPayment();
-                            completed = true;
-                        };
-                        break;
-                    case 23:
-                        if(this.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
-                        {
-                            booker.finalizeCardPayment(this.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
-                            completed = true;
-                        };
-                        break;
-                    case 24:
-                        if(this.getUserInputYN("Cancel Booking? (Y/N)").equals("Y"))
-                        {
-                            completed = true;
-                        };
-                        break;
-                }
-            }
-            
-            //Clear the screen
-            this.clear();
-            
-            // redirect to showsIndex
-            this.bookingsIndex();            
+            this.includeFullHeader();
+            this.includePointer(primaryPointer);
+            this.includeSecondaryNav(category);
+            this.includePointer(secondaryPointer);
         }
         else
         {
-            this.bookingsIndex();
+            this.includeTitleBar();
         }
-        
 
+        this.includeBanner(category, subtext);   
     }
     
+
     /**
      * getUserInputInteger()
      * @param int maxValue
@@ -852,32 +579,22 @@ public class Cli implements Runnable
             if(scanner.hasNextInt())
             {
                 // Input is an integer
-                
-                // Update the choice
                 selection = scanner.nextInt();
-
-                // Validate the input in range
-                if(selection==0||selection>maxValue)
+                if(selection==0||selection>maxValue)// Validate the input in range
                 {
                     System.out.println("The number you entered is not in range 1 to " + maxValue);
                 }
                 else
                 {
-                    // input is valid 
-                    return selection;
-                }            
-            
+                    return selection;// input is valid 
+                }  
             }
             else
             {
                 // Input is not an integer
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input was not a number");
+                scanner.next();// Remove input from scanner
+                System.out.println("The input was not a number");// Display notification
             }
-            
-
         }    
     }
 
@@ -1216,6 +933,16 @@ public class Cli implements Runnable
         }     
     }
     
+    /**
+     * includeFullHeader()
+     * @return void
+     * 
+     */
+    public void includeFullHeader()
+    {
+        System.out.println("==========================ODEON CINEMA SYSTEM=========================");
+        System.out.println("[1, Films]  [2, Shows]  [3, Cstmr]  [4, Bkngs]  [5, Reprt]  [6, Quit ]");
+    }
     
     /**
      * includeTitleBar()
@@ -1227,34 +954,30 @@ public class Cli implements Runnable
         System.out.println("==========================ODEON CINEMA SYSTEM=========================");
     }
     
-    
     /**
-     * includeHeader()
+     * includeBanner()
+     * @param String category
+     * @param String subtitle
      * @return void
-     * 
      */
-    public void includeHeader()
+    private void includeBanner(String category, String subtext)
     {
-        System.out.println("==========================ODEON CINEMA SYSTEM=========================");
-        System.out.println("[1, Films]  [2, Shows]  [3, Cstmr]  [4, Bkngs]  [5, Reprt]  [6, Quit ]");
+        this.includeBannerMainText(category);
+        this.includeBannerSubtext(subtext);
     }
     
     /**
-     * includeTitle()
+     * includeBannerMainText()
      * print an ASCII art header
-     * @param String title
+     * @param String category
      * @return void
      */
-    public void includeTitle(String title)
+    private void includeBannerMainText(String category)
     {
-        // Margin Top
-        System.out.println("");
-        
-        switch(title)
+        System.out.println("");// Margin Top
+        switch(category)
         {
             // Text To ASCII Art Generator
-            // http://patorjk.com/software/taag/
-            
             case "films":
                 System.out.println("______ _____ _     ___  ___ _____ ");
                 System.out.println("|  ___|_   _| |    |  \\/  |/  ___|");
@@ -1287,61 +1010,48 @@ public class Cli implements Runnable
                 System.out.println("| |_/ /\\ \\_/ /\\ \\_/ / |\\  \\_| |_| |\\  | |_\\ \\/\\__/ /");
                 System.out.println("\\____/  \\___/  \\___/\\_| \\_/\\___/\\_| \\_/\\____/\\____/ ");
                 break;
+        }        
+        System.out.println("");// Margin bottom   
+    }
+    
+    /**
+     * includeBannerSubtext
+     * Display the subtext
+     * @param String subtext
+     * @return void
+     */
+    private void includeBannerSubtext(String subtext)
+    {
+        System.out.println(subtext);
+    }
 
+    /**
+     * includeSecondaryNav()
+     * @param String category
+     * @return void
+     */
+    public void includeSecondaryNav(String category)
+    {
+        System.out.println("----------------------------------------------------------------------");
+        switch(category)
+        {
+            case "films":
+                System.out.println("[1,  Indx]  [10,  Add]");
+                break;
+            case "shows":
+                System.out.println("[2,  Indx]  [11,  Add]");
+                break;
+            case "customers":
+                System.out.println("[3,  Indx]");
+                break;
+            case "bookings":
+                System.out.println("[4,  Indx]  [13,  Add]");
+                break;
+            case "reports":
+                System.out.println("[5,  Indx]");
+                break;
         }
-        
-        
-        
-        
-        // Margin bottom
-        System.out.println("");
-            
     }
-    
-    /**
-     * includeSecondaryNavFilms()
-     * @return void
-     * 
-     */
-    public void includeSecondaryNavFilms()
-    {
-        System.out.println("----------------------------------------------------------------------");
-        System.out.println("[10, Indx]  [11,  Add]");
-    }
-    
-    /**
-     * includeSecondaryNavShows()
-     * @return void
-     * 
-     */
-    public void includeSecondaryNavShows()
-    {
-        System.out.println("----------------------------------------------------------------------");
-        System.out.println("[10, Indx]  [11,  Add]");
-    }
-    
-    /**
-     * includeSecondaryNavCustomers()
-     * @return void
-     * 
-     */
-    public void includeSecondaryNavCustomers()
-    {
-        System.out.println("----------------------------------------------------------------------");
-        System.out.println("[10, Indx]");
-    }
-    
-    /**
-     * includeSecondaryNavBookings()
-     * @return void
-     * 
-     */
-    public void includeSecondaryNavBookings()
-    {
-        System.out.println("----------------------------------------------------------------------");
-        System.out.println("[10, Indx]  [11,  Add]");
-    }
-    
     
     /**
      * includePointer()
@@ -1349,127 +1059,15 @@ public class Cli implements Runnable
      * @return void
      * 
      */
-    public void includePointer(int position)
+    private void includePointer(int position)
     {
-        // Print white space
         for(int i=0;i<position-1;i++)
         {
-            System.out.print("            ");
+            System.out.print("            ");// Print white space
         }
-        
-        //Print pointer
-        System.out.println("    ^^^^");
+        System.out.println("    ^^^^");//Print pointer
     }
-    
-    
-    /**
-     * primaryNav()
-     * @param int input
-     * @return void
-     * 
-     */
-    public void primaryNav(int input)
-    {
-        switch(input)
-        {
-            case 1:
-                this.filmsIndex();
-                break;
-            case 2:
-                this.showsIndex();
-                break;
-            case 3:
-                this.customersIndex();
-                break;
-            case 4:
-                this.bookingsIndex();
-                break;
-            case 5:
-                System.out.println("Reports Index");
-                break;
-            case 6:
-                System.out.println("Application Quit");
-                break;
-        }
-    }
-    
-    
-    /**
-     * secondaryNavFilms()
-     * @param int input
-     * @return void
-     * 
-     */
-    public void secondaryNavFilms(int input)
-    {
-        switch(input)
-        {
-            case 10:
-                this.filmsIndex();
-                break;
-            case 11:
-                this.filmsCreate();
-                break;
-        }
-    }
-    
-    
-    /**
-     * secondaryNavShows()
-     * @param int input
-     * @return void
-     * 
-     */
-    public void secondaryNavShows(int input)
-    {
-        switch(input)
-        {
-            case 10:
-                this.showsIndex();
-                break;
-            case 11:
-                this.showsCreate();
-                break;
-        }
-    }
-    
-    
-    /**
-     * secondaryNavCustomers()
-     * @param int input
-     * @return void
-     * 
-     */
-    public void secondaryNavCustomers(int input)
-    {
-        switch(input)
-        {
-            case 10:
-                this.customersIndex();
-                break;
-        }
-    }
-    
-    
-    /**
-     * secondaryNavBookings()
-     * @param int input
-     * @return void
-     * 
-     */
-    public void secondaryNavBookings(int input)
-    {
-        switch(input)
-        {
-            case 10:
-                this.bookingsIndex();
-                break;
-            case 11:
-                this.bookingsCreate();
-                break;
-        }
-    }
-    
+
     /**
      * Clear the console screen 
      * Author: Dyndrilliac
@@ -1477,7 +1075,7 @@ public class Cli implements Runnable
      * Accessed 18-DEC-2017
      * @return void
      */
-    public void clear() 
+    public void clearScreen() 
     {   
         try
         {

@@ -42,3 +42,11 @@ CLI -> whatever input the user gives, the application will do something. If the 
 
 
 Cinema.getNewCustomer -> method creates a new customer, adds them to the customer map and returns the customer. This is similar to cinema.addCustomer, except that getNewCustomer returns the customer. 
+
+
+Refactoring: Refactoring was carried out because the functions were all being called from within other functions, creating a highly-complex series of unresolved functions. A better layout is to call a method/function, allow it to carry out its task and then return an int if a request was made to change page. 
+Each page has a specific ID (in range 1 to 19), except for the show pages (which need an object to run, so they remain nested inside their parent category). A while loop returns an int from each page whenever a value is entered that is <= 19 (this is the value range for page ids). Inputs greater than this are inputs for the page-functions themselves. All pages return int values. Show returns an int value that is bounced on by the calling function until it reaches the while loop. 
+
+Booking engine: This uses a recursive function do add and remove seat reservations. 
+
+Assumptions: there are only a small number of films, so there is no need to filter and paginate the films index, or the customers index.   

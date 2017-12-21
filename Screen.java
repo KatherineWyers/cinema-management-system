@@ -38,4 +38,14 @@ public class Screen
     {
         return this.title;
     }
+
+    /**
+     * toString
+     *
+     * @return String 
+     */
+    public String toString()
+    {
+        return "Screen: " + this.title;
+    }
 }
