@@ -55,3 +55,12 @@ Assumptions: there are only a small number of films, so there is no need to filt
 Review and Rate: Check if the ticketID is recognized. Check if the TicketId already has a review attached. Check if the ticket is dated for a Show in the future. Once a review and a rating have been logged, they cannot be overwritten. This is guarded by the Ticket.setReview() method, which checks if the review is null before setting the review. 
 
 In the Show Booking page, the user can read the reviews from each of the ticket entries. 
+
+
+Reports: when calculating the average rating, only actual ratings are included. If a ticket does not have a rating, this will have no impact on the average rating. Only calculate the average rating based on the number of ratings recorded. 
+
+TicketReport and IncomeReport are subclasses of the abstract Report class. The Reporter is an object that generates report objects and collects them in ordered lists. A List was chosen over a Map, because the items need to be ordered according to attribute values. 
+
+
+
+Conclusion: Over the course of this project, I have studied the best practices. Some of the structure that I implemented early in the project is not ideal. The cinema class has too many methods, as does the CLI class. I have tried to break methods up so that they all fit within the screen-size. There are two classes that are too big. There are too many methods in the cinema class, leaving it with low cohesion. The methods inside are not related enough. With more time, these would be refactored to seperate them according to categories. 

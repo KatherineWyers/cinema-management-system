@@ -58,8 +58,6 @@ public class Cli extends UserInterface
                 return this.displayCustomersIndexPage();
             case 4:
                 return this.displayBookingsIndexPage();
-            case 5:
-                return this.displayReportsTicketReportPage();
             case 10:
                 return this.displayAddFilmPage();
             case 11:
@@ -836,36 +834,36 @@ public class Cli extends UserInterface
      * @param int monthNum /zero-based month num 0:Jan, 1: Feb... 11:Dec
      * @return int
      */
-    public int showTicketReportsList(int monthNum, int year)
+public int showTicketReportsList(int monthNum, int year)
     {
         this.clearScreen();
-        this.pageHeader(true, 5, 1, "reports", "REPORTS: INDEX");
-        Reporter reporter = new Reporter(this.cinema);
+        this.pageHeader(true, 1, 1, "reports", "REPORTS: INDEX");
+        
+        Reporter reporter = new Reporter();
         List<TicketReport> ticketReportList = reporter.getTicketReportList(monthNum, year);
-        if(ticketReportList.size()==0)
-        {
-            System.out.println("");
-            System.out.println("**********************************");
-            System.out.println("*** No Tickets sold that month ***");
-            System.out.println("**********************************");
-            System.out.println("");
-        }
-        else
-        {
-            System.out.println("*** TICKET COUNT and AVERAGE RATING ***");
-            for(TicketReport ticketReport : ticketReportList)
-            {
-                System.out.println(ticketReport.toString());
-            }            
-        }
-        System.out.println("");
-        System.out.println("[20, View Different Month]");
-        int input = this.getUserInputInteger(20, "Please make a selection");// Set max input as highest option number
-        if(input==20)
-        {
-           return 5;// Invalid selection. Return to SHOWS INDEX
-        }
-        return input;
+
+        System.out.println("***Tickets***");
+           for(Ticket ticket : this.cinema.getTicketList(booking))
+           {
+               System.out.println(ticket.toString());
+               if(this.cinema.getReviews().get(ticket.getId())!=null)
+               {
+                   System.out.println("Customer Review:       " + this.cinema.getReviews().get(ticket.getId()).getReview());
+                   System.out.println("Customer Rating (1-5): " + this.cinema.getReviews().get(ticket.getId()).getRating());
+                   System.out.println("");
+               }
+        }           
+        
+        
+        return this.getUserInputInteger(Integer.MAX_VALUE, "Please make a selection");// Set max input as highest option number
+
+ 
+       int input = this.getUserInputInteger(19);// Set max input as highest option number
+       if(input>19)
+       {
+           return 4;// Invalid selection. Return to SHOWS INDEX
+       }
+       return input;
     }
     
     
@@ -1311,7 +1309,6 @@ public class Cli extends UserInterface
         switch(category)
         {
             // Text To ASCII Art Generator
-            // http://patorjk.com/software/taag/
             case "films":
                 System.out.println("______ _____ _     ___  ___ _____ ");
                 System.out.println("|  ___|_   _| |    |  \\/  |/  ___|");
@@ -1343,14 +1340,6 @@ public class Cli extends UserInterface
                 System.out.println("| ___ \\| | | || | | |    \\  | | | . ` | | __  `--. \\");
                 System.out.println("| |_/ /\\ \\_/ /\\ \\_/ / |\\  \\_| |_| |\\  | |_\\ \\/\\__/ /");
                 System.out.println("\\____/  \\___/  \\___/\\_| \\_/\\___/\\_| \\_/\\____/\\____/ ");
-                break;
-            case "reports":
-                System.out.println("______ ___________ ___________ _____ _____"); 
-                System.out.println("| ___ \\  ___| ___ \\  _  | ___ \\_   _/  ___|");
-                System.out.println("| |_/ / |__ | |_/ / | | | |_/ / | | \\ `--. ");
-                System.out.println("|    /|  __||  __/| | | |    /  | |  `--. \\\\");
-                System.out.println("| |\\ \\| |___| |   \\ \\_/ / |\\ \\  | | /\\__/ /");
-                System.out.println("\\_| \\_\\____/\\_|    \\___/\\_| \\_| \\_/ \\____/");
                 break;
         }        
         System.out.println("");// Margin bottom   
@@ -1390,7 +1379,7 @@ public class Cli extends UserInterface
                 System.out.println("[4,  Indx]  [13,  Add]  [14, Move]  [15, Revw]");
                 break;
             case "reports":
-                System.out.println("[5,  Tkts]  [16, Incm]");
+                System.out.println("[5,  Indx]");
                 break;
         }
     }
