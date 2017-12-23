@@ -51,7 +51,56 @@ public class Transferer extends TicketManager
         }
 
         return seatingGrid;
-    }  
+    }
+    
+    /**
+     * getTicketTransferSurcharge
+     * If there is a price increase during the ticket transfer, a surcharge
+     * is payable. If there is a price reduction, or the ticket price is the 
+     * same, then there is no surcharge.
+     * Note: the cinema does not offer refunds if a ticket is transferred 
+     * and the new seat is cheaper than the value of the ticket. 
+     * @param String ticketType
+     * @return float
+     */
+    public float getTicketTransferSurcharge(String ticketType)
+    {
+        float ticketSurcharge = (float)0.0;
+        if(ticketType.equals("vip")&&this.getShow().getPriceVip() > this.getTicket().getPrice())
+        {
+            ticketSurcharge = this.getShow().getPriceVip() - this.getTicket().getPrice();
+        }
+        else if(ticketType.equals("regular")&&this.getShow().getPriceRegular() > this.getTicket().getPrice())
+        {
+            ticketSurcharge = this.getShow().getPriceRegular() - this.getTicket().getPrice();
+        }
+        return ticketSurcharge;
+    }
+    
+    /**
+     * getSeatingGrid
+     * Ignore one ticket. Get the proposed seating grid updated with 
+     * the temporary seat reservations. One ticket will be ignored. 
+     * This method is used when the seats are being 
+     * selected for the ticket transfer
+     * @param Ticket ignoreTicket
+     * @return boolean[][]
+     */
+    public boolean[][] getSeatingGridIgnoreTicket(Ticket ignoreTicket)
+    {   
+        // initialise
+        boolean[][] seatingGrid = this.cinema.getSeatingGrid(show).clone();
+
+        if(reservation != null)
+        {
+            // If a reservation has been set, update the grid with the reservation        
+            seatingGrid[reservation.getRow()-1][reservation.getNum()-1] = true;
+        }
+        
+        seatingGrid[ticket.getRow()-1][ticket.getNum()-1] = false;// set seat for false for ticket being ignored
+
+        return seatingGrid;
+    }    
 
     /**
      * Set the temporary seat reservation
@@ -97,7 +146,8 @@ public class Transferer extends TicketManager
         {
             float surcharge = reservation.getPrice() - ticket.getPrice();
             Payment payment = new Payment(this.cinema.getNextPaymentId(), surcharge, this.booking);
-            this.cinema.addPayment(payment);   
+            this.cinema.addPayment(payment);  
+            ticket.setPrice(reservation.getPrice());// Update the ticket price
         }
     }
     
@@ -116,24 +166,29 @@ public class Transferer extends TicketManager
             float surcharge = reservation.getPrice() - ticket.getPrice();
             Payment payment = new CardPayment(this.cinema.getNextPaymentId(), surcharge, this.booking, referenceNumber);
             this.cinema.addPayment(payment);   
+            ticket.setPrice(reservation.getPrice());// Update the ticket price
         }
     }
     
     /**
      * printCurrentTransferDetails
+     * This only executes if a reservation has been set
      * Get the new seat reservation, and the surcharge for the upgrade
      * @return void 
      */
     public void printCurrentTransferDetails()
     {
-        System.out.println("");
-        System.out.println("######CURRENT TRANSFER######");
-        System.out.println("#SEAT----------------------#");
-        System.out.println("#" + cinema.convertToRowLetter(reservation.getRow()) + reservation.getNum());
-        System.out.println("#-------------------------#");
-        System.out.println("#TRANSFER PRICE: $" + this.getSurcharge());
-        System.out.println("###########################");
-        System.out.println("");
+        if(reservation!=null)
+        {
+            System.out.println("");
+            System.out.println("######CURRENT TRANSFER######");
+            System.out.println("#SEAT----------------------#");
+            System.out.println("#" + cinema.convertToRowLetter(reservation.getRow()) + reservation.getNum());
+            System.out.println("#-------------------------#");
+            System.out.println("#TRANSFER PRICE: $" + this.getSurcharge());
+            System.out.println("###########################");
+            System.out.println("");
+        }
     }
     
     /**

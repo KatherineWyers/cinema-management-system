@@ -527,10 +527,10 @@ public class Cli extends UserInterface
         this.pageHeader(true, 5, 3, "bookings", "MOVE TICKET");
         System.out.println("");
         System.out.println("[20, Reschedule Ticket]  [21, Cancel]");
-        int input = this.getUserInputInteger(21);
+        int input = this.getUserInputInteger(21, "Please make a selection");
         if(input==20)
         {
-            return this.enterNewBookingDetails(input);
+            return this.enterTicketIdToMove();
         }
         if(input==21)
         {
@@ -550,7 +550,7 @@ public class Cli extends UserInterface
         this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Select Ticket To Move");
         while(true)
         {
-            input = this.getUserInputInteger(Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
+            input = this.getUserInputIntegerRange(0, Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
             if(input == 0)
             {
                 return 4;// Return to BOOKINGS INDEX
@@ -590,19 +590,12 @@ public class Cli extends UserInterface
      */
     private int selectSeatsAndFinalizeTransfer(Transferer transferer)
     {
-        float regularTicketSurcharge = (float)0.0;
-        if(transferer.getTicket().getPrice() > transferer.getShow().getPriceRegular())
-        {
-            regularTicketSurcharge = transferer.getTicket().getPrice() - transferer.getShow().getPriceRegular();
-        };
-        float vipTicketSurcharge = (float)0.0;
-        
         this.clearScreen();
         this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Tranfer ticket to a new Show and/or Seat");
-        this.cinema.printSeatingGrid(transferer.getSeatingGrid());
+        this.cinema.printSeatingGrid(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()));
         System.out.println("***Transfer Surcharge***");
-        System.out.println("Regular Tickets (Row A-D): $" + regularTicketSurcharge);
-        System.out.println("Vip Tickets (Row E):       $" + vipTicketSurcharge);
+        System.out.println("Regular Tickets (Row A-D): $" + transferer.getTicketTransferSurcharge("regular"));
+        System.out.println("Vip Tickets (Row E):       $" + transferer.getTicketTransferSurcharge("vip"));
         transferer.printCurrentTransferDetails();
         System.out.println("[20, Select Seat]  [21, Process Transfer] [22, Cancel]");
         int input = this.getUserInputIntegerRange(20,22,"Please make a selection"); 
@@ -621,11 +614,11 @@ public class Cli extends UserInterface
                 this.processNoChargeTransfer(transferer);
                 completed = true;
                 break;
-            case 22:
+            case 23:
                 this.processCashTransfer(transferer);
                 completed = true;
                 break;
-            case 23:
+            case 24:
                 this.processCardTransfer(transferer);
                 completed = true;
                 break;

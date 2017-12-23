@@ -37,6 +37,17 @@ public class Ticket extends SeatAllocation
     }
     
     /**
+     * set the price
+     * @param float price
+     * @return void
+     */
+    public void setPrice(float price)
+    {
+        this.price = price;
+    }
+    
+    
+    /**
      * get the booking
      * @return Booking booking
      */
@@ -52,7 +63,7 @@ public class Ticket extends SeatAllocation
      */
     public String toString()
     {
-        return  "Seat: " + this.convertToRowLetter(this.row) + this.num + ", DateTime: " + this.show.getDateTime() + ", Price: $" + this.price + ", Film: " + this.show.getFilm().getTitle() + ", Screen: " + this.show.getScreen().getTitle();
+        return  "Seat: " + this.convertToRowLetter(this.row) + this.num + ", TicketId:" + this.id + ", DateTime: " + this.show.getDateTime() + ", Price: $" + this.price + ", Film: " + this.show.getFilm().getTitle() + ", Screen: " + this.show.getScreen().getTitle();
     }
     
 }
