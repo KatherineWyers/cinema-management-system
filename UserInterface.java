@@ -60,10 +60,12 @@ abstract public class UserInterface
         Calendar date1 = new GregorianCalendar(2017, 0, 01, 11, 00);
         Calendar date2 = new GregorianCalendar(2017, 0, 02, 11, 00);
         Calendar date3 = new GregorianCalendar(2017, 0, 03, 11, 00);
+        Calendar date4 = new GregorianCalendar(2018, 0, 06, 20, 00);
         
         this.cinema.addShow(date1, screen, film, (float)12.50, (float)15.00);
         this.cinema.addShow(date2, screen, film, (float)12.50, (float)15.00);
         this.cinema.addShow(date3, screen, film, (float)12.50, (float)15.00);
+        this.cinema.addShow(date4, screen, film, (float)12.50, (float)15.00);
         
         this.cinema.addCustomer("John Malone"); 
         this.cinema.addCustomer("Sean Jones"); 

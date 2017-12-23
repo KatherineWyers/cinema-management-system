@@ -30,7 +30,7 @@ public class Cli extends UserInterface
         while(true)
         { 
             pageId = this.displayPage(pageId);
-            if(pageId == 6)
+            if(pageId == 6&&this.getUserInputYN("Are you sure you want to quit the application? (Y/N)").equals("Y"))
             {
                 break;// Quit request received
             }
@@ -358,6 +358,12 @@ public class Cli extends UserInterface
        for(Ticket ticket : this.cinema.getTicketList(booking))
        {
            System.out.println(ticket.toString());
+           if(this.cinema.getReviews().get(ticket.getId())!=null)
+           {
+               System.out.println("Customer Review:       " + this.cinema.getReviews().get(ticket.getId()).getReview());
+               System.out.println("Customer Rating (1-5): " + this.cinema.getReviews().get(ticket.getId()).getRating());
+               System.out.println("");
+           }
        }    
        int input = this.getUserInputInteger(19);// Set max input as highest option number
        if(input>19)
@@ -690,8 +696,83 @@ public class Cli extends UserInterface
      */
     private int displayReviewAndRatePage()
     {
-        return 4;// return to the BOOKINGS INDEX page  
+        this.clearScreen();
+        this.pageHeader(true, 5, 3, "bookings", "REVIEW AND RATE");
+        System.out.println("");
+        System.out.println("[20, Review And Rate]  [21, Cancel]");
+        int input = this.getUserInputInteger(21, "Please make a selection");
+        if(input==20)
+        {
+            return this.enterTicketIdToReviewAndRate();
+        }
+        if(input==21)
+        {
+            return 4;// return to BOOKINGS INDEX
+        }
+        return input;  
     }
+
+    /**
+     * enterTicketIdToReviewAndRate
+     * @return int
+     */
+    private int enterTicketIdToReviewAndRate()
+    {
+        this.clearScreen(); 
+        int input;
+        this.pageHeader(false, 4, 2, "bookings", "REVIEW AND RATE > Select Ticket To Review and Rate");
+        while(true)
+        {
+            input = this.getUserInputIntegerRange(0, Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
+            if(input == 0)
+            {
+                return 4;// Return to BOOKINGS INDEX
+            }
+            Ticket ticket = this.cinema.getTickets().get(input);
+            if(ticket!=null)
+            {
+                Calendar now = Calendar.getInstance();
+                if(this.cinema.getReviews().get(ticket.getId())==null&&(now.compareTo(ticket.getShow().getDate())>=0))
+                {
+                    return this.enterReviewAndRating(ticket);
+                }
+                else if(this.cinema.getReviews().get(ticket.getId())!=null)
+                {
+                    System.out.println("Review already logged for that TicketId.");
+                }
+                else
+                {
+                    System.out.println("You cannot log a review until after the show. ");
+                }
+            }
+            else
+            {
+                System.out.println("TicketId not recognized"); 
+            }
+        }
+    }   
+
+    /**
+     * enterReviewAndRating
+     * @param Ticket ticket
+     * @return void
+     */
+    private int enterReviewAndRating(Ticket ticket)
+    {
+        this.clearScreen(); 
+        int rating;
+        String review;
+        this.pageHeader(false, 4, 2, "bookings", "REVIEW AND RATE");
+        System.out.println(ticket.getShow().toString());
+        System.out.println("");
+        review = this.getUserInputString(255, "Enter your Review");
+        rating = this.getUserInputIntegerRange(1, 5, "Enter Your Rating (1 - 5)");
+        if(this.getUserInputYN("Save Review and Rating? (Y/N)").equals("Y"))
+        {
+            this.cinema.addReview(ticket, review, rating);
+        };
+        return 4;
+    }   
     
     /**
      * printListWithOptions

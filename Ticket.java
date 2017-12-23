@@ -8,7 +8,6 @@
 public class Ticket extends SeatAllocation
 {
     private Booking booking;
-    private Review review;
     
     /**
      * Constructor for objects of class Ticket
@@ -55,6 +54,7 @@ public class Ticket extends SeatAllocation
     {
         return this.booking;
     }
+   
     
     /**
      * toString

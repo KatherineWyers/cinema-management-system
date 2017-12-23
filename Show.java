@@ -100,7 +100,7 @@ public class Show
 
     /**
      * get the date
-     * @return Date date
+     * @return Calendar date
      */
     public Calendar getDate()
     {

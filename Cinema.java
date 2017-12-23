@@ -414,6 +414,9 @@ public class Cinema
     
     /**
      * Add new Review
+     * The review cannot be overwritten. This method first 
+     * checks to see if the review is null. If the review 
+     * is not null, it does not log the review. 
      * @param Ticket ticket
      * @param String review
      * @param int rating
@@ -421,8 +424,11 @@ public class Cinema
      */
     public void addReview(Ticket ticket, String review, int rating)
     {
-        Review r = new Review(ticket, review, rating);
-        this.reviews.put(ticket.getId(), r);
+        if(reviews.get(ticket.getId())==null)
+        {
+            Review r = new Review(ticket, review, rating);
+            this.reviews.put(ticket.getId(), r);
+        }
     }
     
     /**

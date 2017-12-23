@@ -50,3 +50,8 @@ Each page has a specific ID (in range 1 to 19), except for the show pages (which
 Booking engine: This uses a recursive function do add and remove seat reservations. 
 
 Assumptions: there are only a small number of films, so there is no need to filter and paginate the films index, or the customers index.   
+
+
+Review and Rate: Check if the ticketID is recognized. Check if the TicketId already has a review attached. Check if the ticket is dated for a Show in the future. Once a review and a rating have been logged, they cannot be overwritten. This is guarded by the Ticket.setReview() method, which checks if the review is null before setting the review. 
+
+In the Show Booking page, the user can read the reviews from each of the ticket entries. 

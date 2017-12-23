@@ -25,15 +25,6 @@ public class Review
     }
     
     /**
-     * getTicket
-     * @return Ticket ticket
-     */
-    public Ticket getTicket()
-    {
-      return this.ticket;   
-    }
-    
-    /**
      * getRating
      * @return int rating
      */
