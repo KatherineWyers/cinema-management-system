@@ -64,6 +64,10 @@ public class Cli extends UserInterface
                 return this.displayAddShowPage();
             case 13:
                 return this.displayAddBookingPage();
+            case 14:
+                return this.displayMoveTicketPage();
+            case 15:
+                return this.displayReviewAndRatePage();
             default:
                 return 1;
         }
@@ -515,6 +519,25 @@ public class Cli extends UserInterface
             booker.finalizeCardPayment(this.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
         };
         return 4;
+    }
+   
+    /**
+     * displayMoveTicketPage()
+     * @return int
+     * 
+     */
+    public int displayMoveTicketPage()
+    {
+        return 4;// Return to BOOKINGS INDEX page
+    }
+    
+    /**
+     * enterNewFilmDetails
+     * @return int
+     */
+    private int displayReviewAndRatePage()
+    {
+        return 4;// return to the BOOKINGS INDEX page  
     }
     
     /**
@@ -1045,7 +1068,7 @@ public class Cli extends UserInterface
                 System.out.println("[3,  Indx]");
                 break;
             case "bookings":
-                System.out.println("[4,  Indx]  [13,  Add]");
+                System.out.println("[4,  Indx]  [13,  Add]  [14, Move]  [15, Revw]");
                 break;
             case "reports":
                 System.out.println("[5,  Indx]");
