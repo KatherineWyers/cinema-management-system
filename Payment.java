@@ -1,4 +1,3 @@
-
 /**
  * Payment class
  * This class is for all cash payments. 
@@ -10,13 +9,13 @@
 public class Payment
 {
     protected final int id;
-    protected final double amount;
+    protected final float amount;
     protected final Booking booking;
     
     /**
      * Constructor for the Payment
      */
-    public Payment (int id, double amount, Booking booking)
+    public Payment (int id, float amount, Booking booking)
     {
         this.id = id;
         this.amount = amount;
@@ -34,9 +33,9 @@ public class Payment
     
     /**
      * getAmount
-     * @return double amount
+     * @return float amount
      */
-    public double getAmount()
+    public float getAmount()
     {
         return this.amount;
     }

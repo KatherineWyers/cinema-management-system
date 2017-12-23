@@ -69,7 +69,7 @@ public class Cli extends UserInterface
             case 15:
                 return this.displayReviewAndRatePage();
             default:
-                return 1;
+                return 1;// Return to the FILMS INDEX hompepage
         }
     }    
     
@@ -425,7 +425,7 @@ public class Cli extends UserInterface
     }   
     
     /**
-     * selectedSeatsAndFinalizeBooking
+     * selectSeatsAndFinalizeBooking
      * @param Booker booker
      * @return void
      */
@@ -472,12 +472,11 @@ public class Cli extends UserInterface
      * @param Booker booker
      * @return void
      */
-    private int addSeatToBooking(Booker booker)
+    private void addSeatToBooking(Booker booker)
     {
         int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
         int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
         booker.addReservation(seatRow, seatNum);
-        return -1;
     }
     
     /**
@@ -485,12 +484,11 @@ public class Cli extends UserInterface
      * @param Booker booker
      * @return void
      */
-    private int removeSeatFromBooking(Booker booker)
+    private void removeSeatFromBooking(Booker booker)
     {
         int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
         int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
         booker.removeReservation(seatRow, seatNum);
-        return -1;
     }
     
     /**
@@ -498,13 +496,12 @@ public class Cli extends UserInterface
      * @param Booker booker
      * @return void
      */
-    private int processCashPayment(Booker booker)
+    private void processCashPayment(Booker booker)
     {
         if(this.getUserInputYN("Proceed with Cash Payment? (Y/N)").equals("Y"))
         {
             booker.finalizeCashPayment();
         };
-        return 4;
     }
     
     /**
@@ -512,24 +509,187 @@ public class Cli extends UserInterface
      * @param Booker booker
      * @return void
      */
-    private int processCardPayment(Booker booker)
+    private void processCardPayment(Booker booker)
     {
         if(this.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
         {
             booker.finalizeCardPayment(this.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
         };
-        return 4;
     }
-   
+    
     /**
      * displayMoveTicketPage()
-     * @return int
-     * 
+     * @return int pageId
      */
     public int displayMoveTicketPage()
     {
-        return 4;// Return to BOOKINGS INDEX page
+        this.clearScreen();
+        this.pageHeader(true, 5, 3, "bookings", "MOVE TICKET");
+        System.out.println("");
+        System.out.println("[20, Reschedule Ticket]  [21, Cancel]");
+        int input = this.getUserInputInteger(21);
+        if(input==20)
+        {
+            return this.enterNewBookingDetails(input);
+        }
+        if(input==21)
+        {
+            return 4;// return to BOOKINGS INDEX
+        }
+        return input;
     }
+
+    /**
+     * enterTicketIdToMove
+     * @return int
+     */
+    private int enterTicketIdToMove()
+    {
+        this.clearScreen(); 
+        int input;
+        this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Select Ticket To Move");
+        while(true)
+        {
+            input = this.getUserInputInteger(Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
+            if(input == 0)
+            {
+                return 4;// Return to BOOKINGS INDEX
+            }
+            Ticket ticket = this.cinema.getTickets().get(input);
+            if(ticket!=null)
+            {
+                return this.selectShowToMove(ticket);
+            }
+            System.out.println("TicketId not recognized");
+        }
+    }   
+
+    /**
+     * enterTicketIdToMove
+     * @param Ticket ticket
+     * @return int
+     */
+    private int selectShowToMove(Ticket ticket)
+    {
+        this.clearScreen(); 
+        Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
+        this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Select New Show");
+        System.out.println("*** SELECT SHOW ***");
+        int option = this.printListWithOptions(20, this.cinema.getShowList(), optionToShow);
+        Show show = optionToShow.get(this.getUserInputInteger(option, "Enter Show selection:"));
+        
+        Transferer transferer = this.cinema.getNewTransferer(show, ticket);
+        this.selectSeatsAndFinalizeTransfer(transferer);// recursive function
+        return 4;// return to the BOOKINGS INDEX 
+    }  
+    
+    /**
+     * selectSeatsAndFinalizeBooking
+     * @param Booker booker
+     * @return void
+     */
+    private int selectSeatsAndFinalizeTransfer(Transferer transferer)
+    {
+        float regularTicketSurcharge = (float)0.0;
+        if(transferer.getTicket().getPrice() > transferer.getShow().getPriceRegular())
+        {
+            regularTicketSurcharge = transferer.getTicket().getPrice() - transferer.getShow().getPriceRegular();
+        };
+        float vipTicketSurcharge = (float)0.0;
+        
+        this.clearScreen();
+        this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Tranfer ticket to a new Show and/or Seat");
+        this.cinema.printSeatingGrid(transferer.getSeatingGrid());
+        System.out.println("***Transfer Surcharge***");
+        System.out.println("Regular Tickets (Row A-D): $" + regularTicketSurcharge);
+        System.out.println("Vip Tickets (Row E):       $" + vipTicketSurcharge);
+        transferer.printCurrentTransferDetails();
+        System.out.println("[20, Select Seat]  [21, Process Transfer] [22, Cancel]");
+        int input = this.getUserInputIntegerRange(20,22,"Please make a selection"); 
+        if(input == 21&&transferer.getSurcharge()>0)
+        {
+            System.out.println("[23, Cash Payment]  [24, Card Payment] [25, Cancel]");
+            input = this.getUserInputIntegerRange(23,25,"Please make a selection"); 
+        }
+        boolean completed = false;
+        switch(input)
+        {
+            case 20:
+                this.setTransferReservation(transferer);
+                break;
+            case 21:
+                this.processNoChargeTransfer(transferer);
+                completed = true;
+                break;
+            case 22:
+                this.processCashTransfer(transferer);
+                completed = true;
+                break;
+            case 23:
+                this.processCardTransfer(transferer);
+                completed = true;
+                break;
+            default:
+                completed = true;// Cancel booking
+                break;
+        }
+        if(!completed) 
+        {
+           this.selectSeatsAndFinalizeTransfer(transferer); // call the function recursively
+        }
+        return 4;//Redirect to BOOKINGS INDEX
+    }
+    
+    /**
+     * addTransferReservation
+     * @param Transferer transferer
+     * @return void
+     */
+    private void setTransferReservation(Transferer transferer)
+    {
+        int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
+        int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
+        transferer.setReservation(seatRow, seatNum);
+    }
+    
+    /**
+     * processNoChargeTransfer
+     * @param Transferer transferer
+     * @return void
+     */
+    private void processNoChargeTransfer(Transferer transferer)
+    {
+        if(this.getUserInputYN("Proceed with No-charge ticket transfer? (Y/N)").equals("Y"))
+        {
+            transferer.finalizeNoChargeTransfer(); 
+        };
+    }
+    
+    /**
+     * processCashTransfer
+     * @param Transferer transferer
+     * @return void
+     */
+    private void processCashTransfer(Transferer transferer)
+    {
+        if(this.getUserInputYN("Proceed with Cash Payment for Ticket transfer? (Y/N)").equals("Y"))
+        {
+            transferer.finalizeCashPayment();
+        };
+    }
+    
+    /**
+     * processCardPayment
+     * @param Booker booker
+     * @return void
+     */
+    private void processCardTransfer(Transferer transferer)
+    {
+        if(this.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
+        {
+            transferer.finalizeCardPayment(this.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
+        };
+    } 
     
     /**
      * enterNewFilmDetails
