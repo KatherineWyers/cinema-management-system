@@ -110,9 +110,9 @@ public class Show
 
     /**
      * get the PriceVip
-     * @return double priceVip
+     * @return float priceVip
      */
-    public double getPriceVip()
+    public float getPriceVip()
     {
         return this.priceVip;
     }
@@ -120,9 +120,9 @@ public class Show
 
     /**
      * get the priceRegular
-     * @return double priceRegular
+     * @return float priceRegular
      */
-    public double getPriceRegular()
+    public float getPriceRegular()
     {
         return this.priceRegular;
     }

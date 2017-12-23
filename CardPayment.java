@@ -12,7 +12,7 @@ public class CardPayment extends Payment implements Referencable
     /**
      * Constructor for objects of class CardPayment
      */
-    public CardPayment(int id, double amount, Booking booking, String referenceNumber)
+    public CardPayment(int id, float amount, Booking booking, String referenceNumber)
     {
         super(id, amount, booking);
         this.referenceNumber = referenceNumber;

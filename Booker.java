@@ -78,9 +78,9 @@ public class Booker extends TicketManager
      * Get the current booking price
      * @return void
      */
-    public double getTotalPrice()
+    public float getTotalPrice()
     {
-        double totalPrice = 0.0;
+        float totalPrice = (float)0.0;
         for(Reservation s : reservations)
         {
             totalPrice = totalPrice + s.getPrice();

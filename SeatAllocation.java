@@ -10,7 +10,7 @@ public abstract class SeatAllocation
     protected int id;
     protected int row;  // 1 to 5
     protected int num; // 1 to 10
-    protected double price;
+    protected float price;
     protected Show show;
     
     /**
@@ -33,9 +33,9 @@ public abstract class SeatAllocation
     
     /**
      * get the price that was paid for the ticket
-     * @return double price
+     * @return float price
      */
-    public double getPrice()
+    public float getPrice()
     {
         return this.price;
     }
