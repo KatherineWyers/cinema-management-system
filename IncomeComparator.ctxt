@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=IncomeComparator
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ IncomeComparator\ here.\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ \r\n\ Adapted\ from\ the\ online\ tutorial\r\n\ 'How\ to\ sort\ objects\ using\ Comparator\ interface'\r\n\ Created\ by\:\ Java\ Made\ Easy\r\n\ https\://www.youtube.com/watch?v\=u8D2fydghj4\r\n\ Accessed\ 23-DEC-2017\r\n\ \r\n\ @version\ 23-DEC-2017\r\n
+comment1.params=
+comment1.target=IncomeComparator()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ IncomeComparator\r\n
+comment2.params=incomeReport1\ incomeReport2
+comment2.target=int\ compare(IncomeReport,\ IncomeReport)
+comment2.text=\r\n\r\n\ @param\ IncomeReport\ incomeReport1\r\n\ @param\ IncomeReport\ incomeReport2\r\n\ @return\ int\r\n
+numComments=3

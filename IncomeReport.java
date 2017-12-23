@@ -7,6 +7,8 @@
  */
 public class IncomeReport extends Report
 {
+    private float incomeSum = (float)0.0;
+    
     /**
      * Constructor for objects of class IncomeReport
      */
@@ -18,11 +20,30 @@ public class IncomeReport extends Report
     }
     
     /**
-     * getIncome
-     * @return float income
+     * getIncomeSum
+     * Get total amount of income from the film
+     * @return float
      */
-    public float getIncome()
+    public float getIncomeSum()
     {
-        return (float)1.0;
+        return this.incomeSum;
+    } 
+    
+    /**
+     * addIncome
+     * @return void
+     */
+    public void addIncome(float income)
+    {
+        this.incomeSum = this.incomeSum + income;
+    } 
+    
+    /**
+     * toString()
+     * @return String 
+     */
+    public String toString()
+    {
+        return "Film: " + this.film.getTitle() + ", " + "Income: $" + this.incomeSum;
     }
 }

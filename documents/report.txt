@@ -62,5 +62,10 @@ Reports: when calculating the average rating, only actual ratings are included. 
 TicketReport and IncomeReport are subclasses of the abstract Report class. The Reporter is an object that generates report objects and collects them in ordered lists. A List was chosen over a Map, because the items need to be ordered according to attribute values. 
 
 
+When a payment takes place, the amount is logged in two place. Each individual ticket get a value assigned to it. And each booking has a payment attached. Payments are split into card and cash payments. Since the IncomeReport is specific to the month when the film was shown, rather than when the booking was made, it makes more sense to use the Ticket price to calculate total income. This makes it easier to manage when a ticket is rescheduled, and also if that rescheduling involves an upgradeSurcharge. 
+
+Assumptions: There is no need to validate whether the ticket being sold is for a show that has already taken place. 
+
+
 
 Conclusion: Over the course of this project, I have studied the best practices. Some of the structure that I implemented early in the project is not ideal. The cinema class has too many methods, as does the CLI class. I have tried to break methods up so that they all fit within the screen-size. There are two classes that are too big. There are too many methods in the cinema class, leaving it with low cohesion. The methods inside are not related enough. With more time, these would be refactored to seperate them according to categories. 

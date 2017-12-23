@@ -59,7 +59,7 @@ public class Cli extends UserInterface
             case 4:
                 return this.displayBookingsIndexPage();
             case 5:
-                return this.displayReportsTicketReportPage();
+                return this.displayReportsIndexPage();
             case 10:
                 return this.displayAddFilmPage();
             case 11:
@@ -70,6 +70,10 @@ public class Cli extends UserInterface
                 return this.displayMoveTicketPage();
             case 15:
                 return this.displayReviewAndRatePage();
+            case 16:
+                return this.displayTicketReportsPage();
+            case 17:
+                return this.displayIncomeReportsPage();
             default:
                 return 1;// Return to the FILMS INDEX hompepage
         }
@@ -797,14 +801,29 @@ public class Cli extends UserInterface
     }
     
     /**
+     * displayReportsIndexPage()
+     * @return int
+     * 
+     */
+    public int displayReportsIndexPage()
+    {
+        this.clearScreen();
+        this.pageHeader(true, 5, 1, "reports", "REPORTS INDEX");
+        System.out.println("[16] View Tickets sold and Average Rating per month");
+        System.out.println("[17] View Income generated per film, per month");
+        int input = this.getUserInputInteger(17);// Set max input as highest option number
+        return input;
+    }
+    
+    /**
      * displayReportsTicketReportPage()
      * @return int
      * 
      */
-    public int displayReportsTicketReportPage()
+    public int displayTicketReportsPage()
     {
         this.clearScreen();
-        this.pageHeader(false, 5, 1, "reports", "REPORTS: Ticket Reports");
+        this.pageHeader(false, 5, 2, "reports", "REPORTS: Ticket Reports");
         System.out.println("--------------------------");
         int monthNum = this.selectMonth();
         int year = this.getUserInputIntegerRange(2010, 2050, "Enter the year");  
@@ -839,16 +858,12 @@ public class Cli extends UserInterface
     public int showTicketReportsList(int monthNum, int year)
     {
         this.clearScreen();
-        this.pageHeader(true, 5, 1, "reports", "REPORTS: INDEX");
+        this.pageHeader(true, 5, 2, "reports", "REPORTS: INDEX");
         Reporter reporter = new Reporter(this.cinema);
         List<TicketReport> ticketReportList = reporter.getTicketReportList(monthNum, year);
         if(ticketReportList.size()==0)
         {
-            System.out.println("");
-            System.out.println("**********************************");
-            System.out.println("*** No Tickets sold that month ***");
-            System.out.println("**********************************");
-            System.out.println("");
+            this.printNoTicketsSold();
         }
         else
         {
@@ -868,8 +883,68 @@ public class Cli extends UserInterface
         return input;
     }
     
+    /**
+     * displayReportsIncomeReportPage()
+     * @return int
+     * 
+     */
+    public int displayIncomeReportsPage()
+    {
+        this.clearScreen();
+        this.pageHeader(false, 5, 3, "reports", "REPORTS: Income Reports");
+        System.out.println("--------------------------");
+        int monthNum = this.selectMonth();
+        int year = this.getUserInputIntegerRange(2010, 2050, "Enter the year");  
+        return this.showIncomeReportsList(monthNum, year);
+    }
     
+    /**
+     * showTicketReportsList()
+     * @param int monthNum /zero-based month num 0:Jan, 1: Feb... 11:Dec
+     * @return int
+     */
+    public int showIncomeReportsList(int monthNum, int year)
+    {
+        this.clearScreen();
+        this.pageHeader(true, 5, 3, "reports", "REPORTS: INDEX");
+        Reporter reporter = new Reporter(this.cinema);
+        List<IncomeReport> incomeReportList = reporter.getIncomeReportList(monthNum, year);
+        if(incomeReportList.size()==0)
+        {
+            this.printNoTicketsSold();
+        }
+        else
+        {
+            System.out.println("*** INCOME GENERATED PER FILM ***");
+            for(IncomeReport incomeReport : incomeReportList)
+            {
+                System.out.println(incomeReport.toString());
+            }            
+        }
+        System.out.println("");
+        System.out.println("[20, View Different Month]");
+        int input = this.getUserInputInteger(20, "Please make a selection");// Set max input as highest option number
+        if(input==20)
+        {
+           return 5;// Invalid selection. Return to SHOWS INDEX
+        }
+        return input;
+    }
     
+    /**
+     * printNoTicketsSold
+     * @return void
+     */
+    private void printNoTicketsSold()
+    {
+            System.out.println("");
+            System.out.println("**********************************");
+            System.out.println("*** No Tickets sold that month ***");
+            System.out.println("**********************************");
+            System.out.println("");
+    }
+    
+  
     /**
      * 
      * pageHeader
@@ -1390,7 +1465,7 @@ public class Cli extends UserInterface
                 System.out.println("[4,  Indx]  [13,  Add]  [14, Move]  [15, Revw]");
                 break;
             case "reports":
-                System.out.println("[5,  Tkts]  [16, Incm]");
+                System.out.println("[5,  Indx]  [16, Tkts]  [17, Incm]");
                 break;
         }
     }
