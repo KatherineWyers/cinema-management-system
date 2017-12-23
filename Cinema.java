@@ -161,18 +161,18 @@ public class Cinema
      */
     public boolean isValidShow(Calendar date, Screen screen, Film film)
     {
-        Iterator it = shows.values().iterator();
+        Iterator it = this.shows.values().iterator();
         while (it.hasNext())
         {
-            Show proj = (Show) (  it.next()  );
+            Show show = (Show) (  it.next()  );
             // Check if there is already a show in that screen at that time
-            if(proj.getScreen() == screen&&proj.getDate().equals(date))
+            if(show.getScreen() == screen&&show.getDate().equals(date))
             {
                 return false;
             }
             
             // Check if that film has already been scheduled to be screened at that time    
-            if(proj.getFilm() == film&&proj.getDate().equals(date))
+            if(show.getFilm() == film&&show.getDate().equals(date))
             {
                 return false;
             }

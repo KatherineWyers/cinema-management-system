@@ -1,10 +1,19 @@
 #BlueJ class context
 comment0.target=Gui
-comment0.text=\r\n\ Gui\ interface\ for\ the\ application\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment0.text=\r\n\ Gui\ interface\ for\ the\ application\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n\ \r\n\ Adapted\ from\:\ H.\ Gan\ 2015\r\n
 comment1.params=
 comment1.target=Gui()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Gui\r\n
 comment2.params=
-comment2.target=void\ run()
-comment2.text=\r\n\ Run\ the\ Application\r\n\ @return\ void\r\n
-numComments=3
+comment2.target=void\ setupFrame()
+comment2.text=\r\n\ setupFrame\r\n\ Control\ the\ parameters\ of\ the\ frame\r\n\ \r\n
+comment3.params=panel
+comment3.target=void\ createTopHalf(javax.swing.JPanel)
+comment3.text=\r\n\ set\ up\ the\ top\ half\ of\ the\ frame\r\n\ @param\ panel\ -the\ main\ carpet\r\n
+comment4.params=panel
+comment4.target=void\ createBottomHalf(javax.swing.JPanel)
+comment4.text=\r\n\ set\ up\ the\ bottom\ half\ of\ the\ frame\r\n\ @param\ panel\ -the\ main\ carpet\r\n
+comment5.params=
+comment5.target=void\ run()
+comment5.text=\r\n\ Run\ the\ Application\r\n\ @return\ void\r\n
+numComments=6
