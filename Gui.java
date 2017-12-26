@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.awt.event.MouseListener;
 
 /**
@@ -15,20 +16,40 @@ import java.awt.event.MouseListener;
 public class Gui extends UserInterface
 {
     private JFrame frame;
-    private final int frameWidth = 1024;
-    private final int frameHeight = 768;
-    private JList<Object> indexList = new JList<Object>();
-    private DefaultListModel<Object> listModel = new DefaultListModel<Object>();
+    private int frameWidth;
+    private int frameHeight;
+    private JList<Object> indexList;
+    private DefaultListModel<Object> listModel;
     
-    private JPanel northPanel = new JPanel(new BorderLayout());
-    private JPanel centerPanel = new JPanel();
-    private JPanel eastPanel = new JPanel();
-    private JPanel southPanel = new JPanel();
+    private JPanel northPanel;
+    private JPanel centerPanel;
+    private JPanel eastPanel;
+    private JPanel southPanel;
     /**
      * Constructor for objects of class Gui
      */
     public Gui()
     {
+        this.setupFrame();
+    }
+    
+    /**
+     * setupFrame
+     * @return void
+     */
+    private void setupFrame()
+    {
+        this.frameWidth = 1024;
+        this.frameHeight = 768;
+        this.indexList = new JList<Object>();
+        this.listModel = new DefaultListModel<Object>();
+        
+        this.northPanel = new JPanel(new BorderLayout());
+        this.centerPanel = new JPanel();
+        this.eastPanel = new JPanel();
+        this.southPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
+        
         this.frame = new JFrame("Odeon Cinema System");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth,frameHeight);
@@ -42,7 +63,9 @@ public class Gui extends UserInterface
      */
     public void run()
     {
-        this.displayFilmsIndexPage();
+        this.displayShowsIndexPage();
+        this.frame.pack();
+        this.frame.setVisible(true); 
         // Application will quit when user clicks 'X' in the application interface
     }
     
@@ -54,76 +77,27 @@ public class Gui extends UserInterface
     {    
         this.updateNorthPanel("films", 1);
         this.updateCenterPanel("films");
-        this.updateEastPanel(this.cinema.getFilmList().get(0).getId());// id for the first film
+        this.updateEastPanel(this.cinema.getFilmList().get(0));// id for the first film
         frame.getContentPane().add(northPanel, BorderLayout.NORTH);
         frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
         frame.getContentPane().add(eastPanel, BorderLayout.EAST);
         this.indexList.addMouseListener(listMouseListener);
-        this.updateWindow();
     }  
     
     /**
-     * updateCenterPanel
-     * @return JPanel
+     * displayShowsIndexPage()
+     * @return int
      */
-    private void updateCenterPanel(String category)
-    {
-        switch(category)
-        {
-            case "films":
-                this.refreshList(this.cinema.getFilmList());
-        }
-        JPanel panel = new JPanel();
-        this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
-        this.updateWindow();
-    }
-    
-    /*
-     * Action Performed
-     * 
-     */
-    MouseListener listMouseListener = new MouseAdapter()
-    {
-
-        /**
-         * Method mouseClicked on JList selection
-         * If the mouse is clicked twice at an item in the JList, the item information is printed
-         * @param e object holding mouse event information
-         */
-        public void mouseClicked(MouseEvent e)
-        {            
-            if (e.getClickCount() == 2) 
-            {
-                int index = indexList.locationToIndex(e.getPoint());
-                Object object = (Object) listModel.elementAt(index);
-                updateEastPanel(object);
-            }
-        }
-    };
-    
-    /**
-     * updateEastPanel
-     * @param Object object
-     * @return void
-     */
-    private void updateEastPanel(Object object)
-    {   
-        eastPanel.removeAll();
-
-        if(object instanceof Film)
-        {
-            Film film = (Film)object;
-            if(film==null)
-            {
-                throw new IllegalArgumentException("Film Id is not recognized");
-            }
-            eastPanel.add(new JLabel("<html>Title: " + film.getTitle() + "<br />Director: " + film.getDirector() + "<br />Year: " + film.getYear() + "<br /></html>", SwingConstants.LEFT));
-        }
-        
-        eastPanel.revalidate();
-        eastPanel.repaint();
-    }
+    private void displayShowsIndexPage()
+    {    
+        this.updateNorthPanel("shows", 1);
+        this.updateCenterPanel("shows");
+        this.updateEastPanel(this.cinema.getShowList().get(0));// id for the first film
+        frame.getContentPane().add(northPanel, BorderLayout.NORTH);
+        frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
+        frame.getContentPane().add(eastPanel, BorderLayout.EAST);
+        this.indexList.addMouseListener(listMouseListener);
+    }  
 
     /**
      * refreshList: Refresh the list model
@@ -155,21 +129,6 @@ public class Gui extends UserInterface
     }
     
     /**
-     * getFilmsIndexMainPanel
-     * @return JPanel
-     */
-    // private JPanel getFilmsShowPanel()
-    // {
-        // DefaultListModel<Film> listModel = new DefaultListModel<Film>();
-        // JList<Film> films = new JList<Film>(listModel);
-        
-        // JPanel panel = new JPanel();
-        // panel.add(films);
-        // panel.add(new JLabel("random label2"));
-        // return panel;
-    // }
-    
-    /**
      * getUserInputPanel
      * @return JPanel
      */
@@ -191,11 +150,90 @@ public class Gui extends UserInterface
      */
     private void updateNorthPanel(String category, int subPointer)
     {
-        // Primary Nav Panel
+        this.northPanel.removeAll();
         this.northPanel.add(this.getPrimaryNavPanel(category), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel(category, subPointer), BorderLayout.SOUTH);
+        this.northPanel.revalidate();
+        this.northPanel.repaint();
     }
     
+    /**
+     * updateCenterPanel
+     * @return JPanel
+     */
+    private void updateCenterPanel(String category)
+    {
+        this.centerPanel.removeAll();
+        switch(category)
+        {
+            case "films":
+                this.refreshList(this.cinema.getFilmList());
+            case "shows":
+                this.refreshList(this.cinema.getShowList());
+        }
+        JPanel panel = new JPanel();
+        this.indexList = new JList<Object>(listModel);
+        this.centerPanel.add(this.indexList);
+        this.centerPanel.revalidate();
+        this.centerPanel.repaint();
+    }
+    
+    /**
+     * updateEastPanel
+     * @param Object object
+     * @return void
+     */
+    private void updateEastPanel(Object object)
+    {   
+        this.eastPanel.removeAll();
+        if(object instanceof Film)
+        {
+            Film film = (Film)object;
+            if(film==null)
+            {
+                throw new IllegalArgumentException("Film Id is not recognized");
+            }
+            eastPanel.add(new JLabel("<html>Title: " + film.getTitle() + "<br />Director: " + film.getDirector() + "<br />Year: " + film.getYear() + "<br /></html>"));
+        }
+        
+        if(object instanceof Show)
+        {
+            Show show = (Show)object;
+            if(show==null)
+            {
+                throw new IllegalArgumentException("Show Id is not recognized");
+            }
+            
+            // The following is adapted from:
+            // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
+            // Author: Guillaume Polet
+            // Accessed 26-DEC-2017
+            
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+            List<JComponent> componentList = new ArrayList<JComponent>();
+            componentList.add(new JLabel("Film: " + show.getFilm().getTitle()));
+            componentList.add(new JLabel("DateTime: " + show.getDateTime()));
+            componentList.add(new JLabel("Screen: " + show.getScreen().getTitle()));    
+            for(JComponent component : componentList)
+            {  
+                JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                insidePanel.add(component);  
+                panel.add(insidePanel);
+            }
+            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            insidePanel.add(new JLabel("SEATING GRID"));
+            panel.add(insidePanel);
+            insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            insidePanel.add(this.getSeatingGridPanel(this.cinema.getSeatingGrid(show)));
+            panel.add(insidePanel);
+            eastPanel.add(panel);
+        }
+               
+        this.eastPanel.revalidate();
+        this.eastPanel.repaint();
+    }
+       
     /**
      * getPrimaryNavPanel
      * @return JPanel
@@ -295,13 +333,86 @@ public class Gui extends UserInterface
         return button;
     }
     
-    /**
-     * updateWindow
-     * Refresh the window with the new layout and content
-     * @return void
-     */
-    private void updateWindow()
+    MouseListener listMouseListener = new MouseAdapter()
     {
-        this.frame.setVisible(true); 
+
+        /**
+         * Method mouseClicked on JList selection
+         * If the mouse is clicked twice at an item in the JList, the item information is printed     
+         * Adapted from: CCS course materials
+         * Date: 26-DEC-2017
+         * @param e object holding mouse event information
+         */
+        public void mouseClicked(MouseEvent e)
+        {            
+            if (e.getClickCount() == 1) 
+            {
+                int index = indexList.locationToIndex(e.getPoint());
+                Object object = (Object) listModel.elementAt(index);
+                updateEastPanel(object);
+            }
+        }
+    };
+    
+    
+    /**
+     * getSeatingGridPanel
+     * @param boolean[][] seatingGrid
+     * @return JPanel seatingGridPanel
+     */
+    public JPanel getSeatingGridPanel(boolean[][] seatingGrid)
+    {
+        JPanel panel = new JPanel();
+        List<JLabel> gridList = new ArrayList<JLabel>();
+        panel.setLayout(new GridLayout(7,11,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        gridList.add(new JLabel(""));
+        gridList.add(new JLabel("["));
+        gridList.add(new JLabel("["));
+        gridList.add(new JLabel("S"));
+        gridList.add(new JLabel("C"));
+        gridList.add(new JLabel("R"));
+        gridList.add(new JLabel("E"));
+        gridList.add(new JLabel("E"));
+        gridList.add(new JLabel("N"));
+        gridList.add(new JLabel("]"));
+        gridList.add(new JLabel("]"));
+
+        for (int i = 0;i<seatingGrid.length;i++)
+        {   
+            String rowLetter;
+            rowLetter = this.cinema.convertToRowLetter(i+1);
+            
+            // rowLetter
+            gridList.add(new JLabel(rowLetter));
+            
+            for (int j = 0; j < seatingGrid[i].length;j++)
+            {
+                String seat = "[_]";
+                if(seatingGrid[i][j])
+                {
+                    seat = "[X]";
+                }
+                gridList.add(new JLabel(seat));
+            }
+        }
+        // seat numbers
+        gridList.add(new JLabel(""));
+        gridList.add(new JLabel("1"));
+        gridList.add(new JLabel("2"));
+        gridList.add(new JLabel("3"));
+        gridList.add(new JLabel("4"));
+        gridList.add(new JLabel("5"));
+        gridList.add(new JLabel("6"));
+        gridList.add(new JLabel("7"));
+        gridList.add(new JLabel("8"));
+        gridList.add(new JLabel("9"));
+        gridList.add(new JLabel("10"));
+        
+        for(JLabel label : gridList)
+        {
+            panel.add(label);
+        }
+        return panel;
     }
 }
