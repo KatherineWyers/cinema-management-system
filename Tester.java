@@ -73,7 +73,6 @@ public class Tester
         testIsValidShow();
         testAddShow();
         testAddCustomer();
-        //testPrintSeatingGrid();
         testAddReview();
         System.out.print("");
     }
@@ -235,23 +234,6 @@ public class Tester
         this.cinema.addCustomer("John Malone"); 
         compare(this.cinema.getCustomerList().size(),count+2);
         
-        System.out.println("");
-    }
-    
-    /**
-     * testPrintSeatingGrid()
-     * @return void
-     */
-    private void testPrintSeatingGrid()
-    {
-        setupTestEnvironment();
-        
-        //run tests
-        System.out.println("printSeatingGrid");
-        
-        Show show = this.cinema.getShowList().get(0);
-        this.cinema.printSeatingGrid(this.cinema.getSeatingGrid(show)); 
-
         System.out.println("");
     }
     

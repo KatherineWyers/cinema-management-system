@@ -224,7 +224,7 @@ public class Cli extends UserInterface
         System.out.println("***Schedule Details***");
         System.out.println("Screen:     " + show.getScreen().getTitle());
         System.out.println("Date & Time:" + show.getDateTime());
-        this.cinema.printSeatingGrid(this.cinema.getSeatingGrid(show));
+        this.printSeatingGrid(this.cinema.getSeatingGrid(show));
         System.out.println("Regular Tickets (Row A-D): $" + show.getPriceRegular());
         System.out.println("Vip Tickets (Row E):       $" + show.getPriceVip());
         int input = this.getUserInputInteger(19);// Set max input as highest option number
@@ -445,10 +445,10 @@ public class Cli extends UserInterface
     {
         this.clearScreen();
         this.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Select Seats");
-        this.cinema.printSeatingGrid(booker.getSeatingGrid());
+        this.printSeatingGrid(booker.getSeatingGrid());
         System.out.println("Regular Tickets (Row A-D): $" + booker.getShow().getPriceRegular());
         System.out.println("Vip Tickets (Row E):       $" + booker.getShow().getPriceVip());
-        booker.printCurrentBookingDetails();
+        this.printCurrentBookingDetails(booker);
         System.out.println("[20, Add Seat]  [21, Remove Seat] [22, Cash Payment ] [23, CreditCard Payment] [24, Cancel]");
         int input = this.getUserInputIntegerRange(20,24,"Please make a selection"); 
         boolean completed = false;
@@ -604,11 +604,11 @@ public class Cli extends UserInterface
     {
         this.clearScreen();
         this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Tranfer ticket to a new Show and/or Seat");
-        this.cinema.printSeatingGrid(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()));
+        this.printSeatingGrid(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()));
         System.out.println("***Transfer Surcharge***");
         System.out.println("Regular Tickets (Row A-D): $" + transferer.getTicketTransferSurcharge("regular"));
         System.out.println("Vip Tickets (Row E):       $" + transferer.getTicketTransferSurcharge("vip"));
-        transferer.printCurrentTransferDetails();
+        this.printCurrentTransferDetails(transferer);
         System.out.println("[20, Select Seat]  [21, Process Transfer] [22, Cancel]");
         int input = this.getUserInputIntegerRange(20,22,"Please make a selection"); 
         if(input == 21&&transferer.getSurcharge()>0)
@@ -1483,6 +1483,83 @@ public class Cli extends UserInterface
             System.out.print("            ");// Print white space
         }
         System.out.println("    ^^^^");//Print pointer
+    }
+    
+    /**
+     * printSeatingGrid
+     * @param boolean[][] seatingGrid
+     * @return void
+     */
+    public void printSeatingGrid(boolean[][] seatingGrid)
+    {
+        System.out.println("");
+        System.out.println("###########SEATING GRID##########");
+        System.out.println("");
+        System.out.println("         [ S C R E E N ]        ");
+        System.out.println("");
+        
+        for (int i = 0;i<seatingGrid.length;i++)
+        {   
+            String rowLetter;
+            rowLetter = this.cinema.convertToRowLetter(i+1);
+            
+            // rowLetter with 1 column white space as padding
+            System.out.print(rowLetter + " ");
+            
+            for (int j = 0; j < seatingGrid[i].length;j++)
+            {
+                System.out.print(seatingGrid[i][j] ? "[X]" : "[_]");
+            }
+            // end of the row
+            System.out.println("");
+        }
+        // seat numbers
+        System.out.println("   1  2  3  4  5  6  7  8  9 10 ");
+        System.out.println("#################################");
+        System.out.println("");
+    }
+    
+    /**
+     * printCurrentBookingDetails
+     * Get the seat reservations and the price of each
+     * @param List reservations
+     * @return void 
+     */
+    public void printCurrentBookingDetails(Booker booker)
+    {
+        
+        System.out.println("");
+        System.out.println("######CURRENT BOOKING######");
+        System.out.println("#SEAT------PRICE----------#");
+        for(Reservation reservation : booker.getReservations())
+        {
+            System.out.println("#" + cinema.convertToRowLetter(reservation.getRow()) + reservation.getNum() + ": $" + reservation.getPrice());
+        }
+        System.out.println("#-------------------------#");
+        System.out.println("#TOTAL PRICE: $" + booker.getTotalPrice());
+        System.out.println("###########################");
+        System.out.println("");
+    }
+    
+    /**
+     * printCurrentTransferDetails
+     * This only executes if a reservation has been set
+     * Get the new seat reservation, and the surcharge for the upgrade
+     * @return void 
+     */
+    public void printCurrentTransferDetails(Transferer transferer)
+    {
+        if(transferer.getReservation()!=null)
+        {
+            System.out.println("");
+            System.out.println("######CURRENT TRANSFER######");
+            System.out.println("#SEAT----------------------#");
+            System.out.println("#" + cinema.convertToRowLetter(transferer.getReservation().getRow()) + transferer.getReservation().getNum());
+            System.out.println("#-------------------------#");
+            System.out.println("#TRANSFER PRICE: $" + transferer.getSurcharge());
+            System.out.println("###########################");
+            System.out.println("");
+        }
     }
 
     /**
