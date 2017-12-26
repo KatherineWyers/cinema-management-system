@@ -20,7 +20,8 @@ abstract public class UserInterface
     }
     
     abstract void run();
-    abstract int displayFilmsIndexPage();
+    /*
+     * abstract int displayFilmsIndexPage();
     abstract int displayShowsIndexPage();
     abstract int displayCustomersIndexPage();
     abstract int displayBookingsIndexPage();
@@ -32,6 +33,7 @@ abstract public class UserInterface
     abstract int displayReviewAndRatePage();
     abstract int displayTicketReportsPage();
     abstract int displayIncomeReportsPage();
+    */
     
     /**
      * addDelayInSeconds
@@ -49,45 +51,6 @@ abstract public class UserInterface
             System.out.println("Pause interrupted. " + ex.getMessage());
         }        
     }
-
-    /**
-     * displayPage
-     * Take the pageId and display the page
-     * @param int pageId
-     * @return void
-     */
-    protected int displayPage(int pageId)
-    {
-        switch(pageId)
-        {
-            case 1:
-                return this.displayFilmsIndexPage();
-            case 2: 
-                return this.displayShowsIndexPage();
-            case 3: 
-                return this.displayCustomersIndexPage();
-            case 4:
-                return this.displayBookingsIndexPage();
-            case 5:
-                return this.displayReportsIndexPage();
-            case 10:
-                return this.displayAddFilmPage();
-            case 11:
-                return this.displayAddShowPage();
-            case 13:
-                return this.displayAddBookingPage();
-            case 14:
-                return this.displayMoveTicketPage();
-            case 15:
-                return this.displayReviewAndRatePage();
-            case 16:
-                return this.displayTicketReportsPage();
-            case 17:
-                return this.displayIncomeReportsPage();
-            default:
-                return 1;// Return to the FILMS INDEX hompepage
-        }
-    }    
 
     /**
      * Create the default data for the system

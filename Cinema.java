@@ -142,6 +142,15 @@ public class Cinema
     }
     
     /**
+     * getFilms
+     * Get a map of all films
+     * @return Map films
+     */
+    public Map getFilms()
+    {
+        return films;
+    }
+    /**
      * Get next unused screen id
      *
      * @return int nextScreenId
