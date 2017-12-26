@@ -544,7 +544,7 @@ public class Cinema
      * @param boolean[][] seatingGrid
      * @return void
      */
-    public void printSeatingGrid(boolean[][] seatingGrid)
+    public void printSeatingGrid1(boolean[][] seatingGrid)
     {
         System.out.println("");
         System.out.println("###########SEATING GRID##########");

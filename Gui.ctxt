@@ -15,5 +15,5 @@ comment4.target=void\ createBottomHalf(javax.swing.JPanel)
 comment4.text=\r\n\ set\ up\ the\ bottom\ half\ of\ the\ frame\r\n\ @param\ panel\ -the\ main\ carpet\r\n
 comment5.params=
 comment5.target=void\ run()
-comment5.text=\r\n\ Run\ the\ Application\r\n\ @return\ void\r\n
+comment5.text=\r\n\ runMainApplication\r\n\ Take\ pageId\ as\ input\ and\ navigate\ to\ the\ new\ page\r\n\ @param\ pageId\r\n\ @return\ void\r\n
 numComments=6

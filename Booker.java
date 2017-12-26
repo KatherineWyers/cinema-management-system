@@ -107,26 +107,6 @@ public class Booker extends TicketManager
     }
     
     /**
-     * printCurrentBookingDetails
-     * Get the seat reservations and the price of each
-     * @return void 
-     */
-    public void printCurrentBookingDetails()
-    {
-        System.out.println("");
-        System.out.println("######CURRENT BOOKING######");
-        System.out.println("#SEAT------PRICE----------#");
-        for(Reservation s : reservations)
-        {
-            System.out.println("#" + cinema.convertToRowLetter(s.getRow()) + s.getNum() + ": $" + s.getPrice());
-        }
-        System.out.println("#-------------------------#");
-        System.out.println("#TOTAL PRICE: $" + this.getTotalPrice());
-        System.out.println("###########################");
-        System.out.println("");
-    }
-    
-    /**
      * getSeatReservations
      * Get the seat reservations and the price of each
      * @return List<SeatReservation> seatReservations 

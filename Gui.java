@@ -10,7 +10,7 @@ import javax.swing.*;
  * 
  * Adapted from: H. Gan 2015
  */
-public class Gui extends UserInterface
+public class Gui
 {
     private Cinema cinema;
     /**
@@ -70,14 +70,16 @@ public class Gui extends UserInterface
     {
         System.out.println("Running top half");
     }// method
+    
     /**
-     * Run the Application
+     * runMainApplication
+     * Take pageId as input and navigate to the new page
+     * @param pageId
      * @return void
      */
-    @Override
     public void run()
     {
-        System.out.println("Running the application from Gui...");
-        System.out.println("Application-run complete");
+
+        System.out.println("Application Quit");            
     }
 }

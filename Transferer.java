@@ -171,25 +171,14 @@ public class Transferer extends TicketManager
     }
     
     /**
-     * printCurrentTransferDetails
-     * This only executes if a reservation has been set
-     * Get the new seat reservation, and the surcharge for the upgrade
-     * @return void 
+     * getReservation
+     * @return Reservation reservation
      */
-    public void printCurrentTransferDetails()
+    public Reservation getReservation()
     {
-        if(reservation!=null)
-        {
-            System.out.println("");
-            System.out.println("######CURRENT TRANSFER######");
-            System.out.println("#SEAT----------------------#");
-            System.out.println("#" + cinema.convertToRowLetter(reservation.getRow()) + reservation.getNum());
-            System.out.println("#-------------------------#");
-            System.out.println("#TRANSFER PRICE: $" + this.getSurcharge());
-            System.out.println("###########################");
-            System.out.println("");
-        }
+        return this.reservation;
     }
+    
     
     /**
      * getSurcharge
