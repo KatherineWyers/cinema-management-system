@@ -56,14 +56,12 @@ public class Gui extends UserInterface
     }
     
     /**
-     * runMainApplication
-     * Take pageId as input and navigate to the new page
-     * @param pageId
+     * run
      * @return void
      */
     public void run()
     {
-        this.displayShowsIndexPage();
+        this.displayFilmsIndexPage();
         this.frame.pack();
         this.frame.setVisible(true); 
         // Application will quit when user clicks 'X' in the application interface
@@ -167,9 +165,13 @@ public class Gui extends UserInterface
         switch(category)
         {
             case "films":
+                System.out.println("refresh film list");
                 this.refreshList(this.cinema.getFilmList());
+                break;
             case "shows":
+                System.out.println("refresh show list");
                 this.refreshList(this.cinema.getShowList());
+                break;
         }
         JPanel panel = new JPanel();
         this.indexList = new JList<Object>(listModel);
@@ -247,6 +249,9 @@ public class Gui extends UserInterface
         JButton customersNavBtn = new JButton("Customers");
         JButton bookingsNavBtn = new JButton("Bookings");
         JButton reportsNavBtn = new JButton("Reports");
+        
+        filmsNavBtn.addActionListener(filmsIndexBtnActionListener);
+        showsNavBtn.addActionListener(showsIndexBtnActionListener);
         
         switch(category)
         {
@@ -333,14 +338,16 @@ public class Gui extends UserInterface
         return button;
     }
     
+    // All MouseListeners and ActionListeners
+    // adapted from: CCS course materials
+    // Date: 26-DEC-2017
+    
     MouseListener listMouseListener = new MouseAdapter()
     {
-
         /**
          * Method mouseClicked on JList selection
-         * If the mouse is clicked twice at an item in the JList, the item information is printed     
-         * Adapted from: CCS course materials
-         * Date: 26-DEC-2017
+         * If the mouse is clicked once at an item in the JList, the eastPanel is 
+         * updated with the details for the list
          * @param e object holding mouse event information
          */
         public void mouseClicked(MouseEvent e)
@@ -351,6 +358,22 @@ public class Gui extends UserInterface
                 Object object = (Object) listModel.elementAt(index);
                 updateEastPanel(object);
             }
+        }
+    };
+    
+    ActionListener filmsIndexBtnActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {      
+            displayFilmsIndexPage();
+        }
+    };
+    
+    ActionListener showsIndexBtnActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {      
+            displayShowsIndexPage();
         }
     };
     
