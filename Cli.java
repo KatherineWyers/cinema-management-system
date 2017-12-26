@@ -30,7 +30,7 @@ public class Cli extends UserInterface
         while(true)
         { 
             pageId = this.displayPage(pageId);
-            if(pageId == 6&&this.getUserInputYN("Are you sure you want to quit the application? (Y/N)").equals("Y"))
+            if(pageId == 6&&CliUserInputter.getUserInputYN("Are you sure you want to quit the application? (Y/N)").equals("Y"))
             {
                 break;// Quit request received
             }
@@ -39,45 +39,6 @@ public class Cli extends UserInterface
         this.clearScreen(); 
         System.out.println("Application Quit");            
     }
-
-    /**
-     * displayPage
-     * Take the pageId and display the page
-     * @param int pageId
-     * @return void
-     */
-    private int displayPage(int pageId)
-    {
-        switch(pageId)
-        {
-            case 1:
-                return this.displayFilmsIndexPage();
-            case 2: 
-                return this.displayShowsIndexPage();
-            case 3: 
-                return this.displayCustomersIndexPage();
-            case 4:
-                return this.displayBookingsIndexPage();
-            case 5:
-                return this.displayReportsIndexPage();
-            case 10:
-                return this.displayAddFilmPage();
-            case 11:
-                return this.displayAddShowPage();
-            case 13:
-                return this.displayAddBookingPage();
-            case 14:
-                return this.displayMoveTicketPage();
-            case 15:
-                return this.displayReviewAndRatePage();
-            case 16:
-                return this.displayTicketReportsPage();
-            case 17:
-                return this.displayIncomeReportsPage();
-            default:
-                return 1;// Return to the FILMS INDEX hompepage
-        }
-    }    
     
     /**
      * displaySplashScreen
@@ -109,9 +70,9 @@ public class Cli extends UserInterface
     {
         this.clearScreen();
         Map <Integer, Film> optionToFilm = new HashMap<Integer, Film>();
-        this.pageHeader(true, 1, 1, "films", "FILMS INDEX");
+        CliNavMaker.pageHeader(true, 1, 1, "films", "FILMS INDEX");
         int option = this.printListWithOptions(20, this.cinema.getFilmList(), optionToFilm);
-        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(option);// Set max input as highest option number
         if(input>19)
         {
             return this.displayShowFilmPage(optionToFilm.get(input));
@@ -128,13 +89,13 @@ public class Cli extends UserInterface
     public int displayShowFilmPage(Film film)
     {
         this.clearScreen();
-        this.pageHeader(true, 1, 1, "films", "DISPLAY FILM DETAILS");
+        CliNavMaker.pageHeader(true, 1, 1, "films", "DISPLAY FILM DETAILS");
         System.out.println("Title:      " + film.getTitle());
         System.out.println("Year:       " + film.getYear());
         System.out.println("Director:   " + film.getDirector());
         System.out.println("Language:   " + film.getLanguage());
         System.out.println("Subtitles:  " + film.getSubtitles());
-        int input = this.getUserInputInteger(19);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(19);// Set max input as highest option number
         if(input>19)
         {
              return 1;// Invalid selection. Return to filmsIndex
@@ -150,10 +111,10 @@ public class Cli extends UserInterface
     public int displayAddFilmPage()
     {
         this.clearScreen();
-        this.pageHeader(true, 1, 2, "films", "ADD FILM");
+        CliNavMaker.pageHeader(true, 1, 2, "films", "ADD FILM");
         System.out.println("");
         System.out.println("[20, Create New Film]  [21, Cancel]");
-        int input = this.getUserInputInteger(21);
+        int input = CliUserInputter.getUserInputInteger(21);
         if(input==20)
         {
             return this.enterNewFilmDetails();
@@ -172,13 +133,13 @@ public class Cli extends UserInterface
     private int enterNewFilmDetails()
     {
         this.clearScreen(); 
-        this.pageHeader(false, 1, 2, "films", "ADD FILM > Enter New Film Details");
-        String title = this.getUserInputString(255, "Enter the title");
-        int year = this.getUserInputInteger(2020, "Enter the year");
-        String director = this.getUserInputString(20, "Enter the director");
-        String language = this.getUserInputString(20, "Enter the language");
-        String subtitles = this.getUserInputString(3, "Enter the subtitles (2-letter acronym or N/A)");
-        if(this.getUserInputYN("Save Film? (Y/N)").equals("Y"))
+        CliNavMaker.pageHeader(false, 1, 2, "films", "ADD FILM > Enter New Film Details");
+        String title = CliUserInputter.getUserInputString(255, "Enter the title");
+        int year = CliUserInputter.getUserInputInteger(2020, "Enter the year");
+        String director = CliUserInputter.getUserInputString(20, "Enter the director");
+        String language = CliUserInputter.getUserInputString(20, "Enter the language");
+        String subtitles = CliUserInputter.getUserInputString(3, "Enter the subtitles (2-letter acronym or N/A)");
+        if(CliUserInputter.getUserInputYN("Save Film? (Y/N)").equals("Y"))
         {
             this.cinema.addFilm(title, year, director, language, subtitles);
         };
@@ -194,9 +155,9 @@ public class Cli extends UserInterface
     {
         this.clearScreen();
         Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
-        this.pageHeader(true, 2, 1, "shows", "SHOWS INDEX");
+        CliNavMaker.pageHeader(true, 2, 1, "shows", "SHOWS INDEX");
         int option = this.printListWithOptions(20, this.cinema.getShowList(), optionToShow);
-        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(option);// Set max input as highest option number
         if(input>19)
         {
             return this.displayShowShowPage(optionToShow.get(input));
@@ -213,7 +174,7 @@ public class Cli extends UserInterface
     public int displayShowShowPage(Show show)
     {
         this.clearScreen();
-        this.pageHeader(true, 2, 1, "shows", "DISPLAY SHOW DETAILS");
+        CliNavMaker.pageHeader(true, 2, 1, "shows", "DISPLAY SHOW DETAILS");
         System.out.println("***Film Details***");
         System.out.println("Film:       " + show.getFilm().getTitle());
         System.out.println("Year:       " + show.getFilm().getYear());
@@ -227,7 +188,7 @@ public class Cli extends UserInterface
         this.printSeatingGrid(this.cinema.getSeatingGrid(show));
         System.out.println("Regular Tickets (Row A-D): $" + show.getPriceRegular());
         System.out.println("Vip Tickets (Row E):       $" + show.getPriceVip());
-        int input = this.getUserInputInteger(19);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(19);// Set max input as highest option number
         if(input>19)
         {
              return 2;// Invalid selection. Return to SHOWS INDEX
@@ -242,10 +203,10 @@ public class Cli extends UserInterface
     public int displayAddShowPage()
     {
         this.clearScreen();
-        this.pageHeader(true, 2, 2, "shows", "ADD SHOW");
+        CliNavMaker.pageHeader(true, 2, 2, "shows", "ADD SHOW");
         System.out.println("");
         System.out.println("[20, Create New Show]  [21, Cancel]");
-        int input = this.getUserInputInteger(21);
+        int input = CliUserInputter.getUserInputInteger(21);
         if(input==20)
         {
             return this.enterNewShowDetails();
@@ -266,22 +227,22 @@ public class Cli extends UserInterface
         this.clearScreen(); 
         Map <Integer, Film> optionToFilm = new HashMap<Integer, Film>();
         Map <Integer, Screen> optionToScreen = new HashMap<Integer, Screen>();
-        this.pageHeader(false, 2, 2, "shows", "ADD SHOW > Enter New Show Details");
+        CliNavMaker.pageHeader(false, 2, 2, "shows", "ADD SHOW > Enter New Show Details");
         System.out.println("*** SELECT FILM ***");
         int option = this.printListWithOptions(20, this.cinema.getFilmList(), optionToFilm);
-        Film film = optionToFilm.get(this.getUserInputInteger(option, "Enter Film selection:"));
+        Film film = optionToFilm.get(CliUserInputter.getUserInputInteger(option, "Enter Film selection:"));
         System.out.println("*** SELECT SCREEN ***");
         option = this.printListWithOptions(option, this.cinema.getScreenList(), optionToScreen);
-        Screen screen = optionToScreen.get(this.getUserInputInteger(option, "Enter Screen selection:"));
-        int dd = this.getUserInputIntegerRange(1, 31, "Enter Date. For example: 22");
-        int mm = this.getUserInputIntegerRange(1, 12, "Enter Month. For example: 6");
-        int yyyy = this.getUserInputIntegerRange(2015, 2050, "Enter Year. For example 2017");
-        int hh = this.getUserInputIntegerRange(0, 23, "Enter Hour in 24-hour clock. For example 19");
-        int ii = this.getUserInputIntegerRange(0, 59, "Enter Minute. For example 30");
+        Screen screen = optionToScreen.get(CliUserInputter.getUserInputInteger(option, "Enter Screen selection:"));
+        int dd = CliUserInputter.getUserInputIntegerRange(1, 31, "Enter Date. For example: 22");
+        int mm = CliUserInputter.getUserInputIntegerRange(1, 12, "Enter Month. For example: 6");
+        int yyyy = CliUserInputter.getUserInputIntegerRange(2015, 2050, "Enter Year. For example 2017");
+        int hh = CliUserInputter.getUserInputIntegerRange(0, 23, "Enter Hour in 24-hour clock. For example 19");
+        int ii = CliUserInputter.getUserInputIntegerRange(0, 59, "Enter Minute. For example 30");
         Calendar date = new GregorianCalendar(yyyy, mm-1, dd, hh, ii);
-        float priceRegular = this.getUserInputFloat("Enter Price for Regular Tickets. For example 8.50");
-        float priceVip = this.getUserInputFloat("Enter Price for VIP Tickets. For example 12.50");
-        if(this.getUserInputYN("Save Film? (Y/N)").equals("Y"))
+        float priceRegular = CliUserInputter.getUserInputFloat("Enter Price for Regular Tickets. For example 8.50");
+        float priceVip = CliUserInputter.getUserInputFloat("Enter Price for VIP Tickets. For example 12.50");
+        if(CliUserInputter.getUserInputYN("Save Film? (Y/N)").equals("Y"))
         {
             this.cinema.addShow(date, screen, film, priceRegular, priceVip);
         };
@@ -297,9 +258,9 @@ public class Cli extends UserInterface
     {
         this.clearScreen();
         Map <Integer, Customer> optionToCustomer = new HashMap<Integer, Customer>();
-        this.pageHeader(true, 3, 1, "customers", "CUSTOMERS INDEX");
+        CliNavMaker.pageHeader(true, 3, 1, "customers", "CUSTOMERS INDEX");
         int option = this.printListWithOptions(20, this.cinema.getCustomerList(), optionToCustomer);
-        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(option);// Set max input as highest option number
         if(input>19)
         {
             return this.displayShowCustomerPage(optionToCustomer.get(input));
@@ -316,10 +277,10 @@ public class Cli extends UserInterface
     public int displayShowCustomerPage(Customer customer)
     {
         this.clearScreen();
-        this.pageHeader(true, 3, 1, "customers", "DISPLAY CUSTOMER DETAILS");
+        CliNavMaker.pageHeader(true, 3, 1, "customers", "DISPLAY CUSTOMER DETAILS");
         System.out.println("CustomerID: " + customer.getId());
         System.out.println("Name:       " + customer.getName());
-        int input = this.getUserInputInteger(19);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(19);// Set max input as highest option number
         if(input>19)
         {
              return 3;// Invalid selection. Return to CUSTOMERS INDEX
@@ -336,9 +297,9 @@ public class Cli extends UserInterface
     {
         this.clearScreen();
         Map <Integer, Booking> optionToBooking = new HashMap<Integer, Booking>();
-        this.pageHeader(true, 4, 1, "bookings", "BOOKINGS INDEX");
+        CliNavMaker.pageHeader(true, 4, 1, "bookings", "BOOKINGS INDEX");
         int option = this.printListWithOptions(20, this.cinema.getBookingList(), optionToBooking);
-        int input = this.getUserInputInteger(option);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(option);// Set max input as highest option number
         if(input>19)
         {
             return this.displayShowBookingPage(optionToBooking.get(input));
@@ -355,7 +316,7 @@ public class Cli extends UserInterface
     public int displayShowBookingPage(Booking booking)
     {
         this.clearScreen();
-        this.pageHeader(true, 4, 1, "bookings", "DISPLAY BOOKING DETAILS");
+        CliNavMaker.pageHeader(true, 4, 1, "bookings", "DISPLAY BOOKING DETAILS");
         System.out.println("***Customer Details***");
         System.out.println("CustomerID:       " + booking.getCustomer().getId());
         System.out.println("Customer Name:    " + booking.getCustomer().getName());
@@ -371,7 +332,7 @@ public class Cli extends UserInterface
                System.out.println("");
            }
        }    
-       int input = this.getUserInputInteger(19);// Set max input as highest option number
+       int input = CliUserInputter.getUserInputInteger(19);// Set max input as highest option number
        if(input>19)
        {
            return 4;// Invalid selection. Return to SHOWS INDEX
@@ -386,10 +347,10 @@ public class Cli extends UserInterface
     public int displayAddBookingPage()
     {
         this.clearScreen();
-        this.pageHeader(true, 4, 2, "bookings", "ADD BOOKING");
+        CliNavMaker.pageHeader(true, 4, 2, "bookings", "ADD BOOKING");
         System.out.println("");
         System.out.println("[20, Create New Customer]  [21, Existing Customer]  [22, Cancel]");
-        int input = this.getUserInputInteger(22);
+        int input = CliUserInputter.getUserInputInteger(22);
         if(input==20||input==21)
         {
             return this.enterNewBookingDetails(input);
@@ -410,26 +371,26 @@ public class Cli extends UserInterface
     {
         this.clearScreen(); 
         Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
-        this.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Enter New Booking Details");
+        CliNavMaker.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Enter New Booking Details");
         Customer customer = new Customer (this.cinema.getNextCustomerId());// create blank customer
         if(input==20)
         {
-            customer = this.cinema.getNewCustomer(this.getUserInputString(30, "Enter Customer Name"));
+            customer = this.cinema.getNewCustomer(CliUserInputter.getUserInputString(30, "Enter Customer Name"));
         }
         else
         {
             try
             {
-                customer = this.cinema.getCustomer(this.getUserInputInteger(Integer.MAX_VALUE, "Enter Customer MemberCard ID"));
+                customer = this.cinema.getCustomer(CliUserInputter.getUserInputInteger(Integer.MAX_VALUE, "Enter Customer MemberCard ID"));
             } catch (IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
-                this.getUserInputString(1, "Press enter to return to bookings index");
+                CliUserInputter.getUserInputString(1, "Press enter to return to bookings index");
                 return 4;// return to the BOOKINGS INDEX
             }
         }
         System.out.println("*** SELECT SHOW ***");
         int option = this.printListWithOptions(20, this.cinema.getShowList(), optionToShow);
-        Show show = optionToShow.get(this.getUserInputInteger(option, "Enter Show selection:"));
+        Show show = optionToShow.get(CliUserInputter.getUserInputInteger(option, "Enter Show selection:"));
         
         Booker booker = this.cinema.getNewBooker(show, customer);
         this.selectSeatsAndFinalizeBooking(booker);// recursive function
@@ -444,13 +405,13 @@ public class Cli extends UserInterface
     private int selectSeatsAndFinalizeBooking(Booker booker)
     {
         this.clearScreen();
-        this.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Select Seats");
+        CliNavMaker.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Select Seats");
         this.printSeatingGrid(booker.getSeatingGrid());
         System.out.println("Regular Tickets (Row A-D): $" + booker.getShow().getPriceRegular());
         System.out.println("Vip Tickets (Row E):       $" + booker.getShow().getPriceVip());
         this.printCurrentBookingDetails(booker);
         System.out.println("[20, Add Seat]  [21, Remove Seat] [22, Cash Payment ] [23, CreditCard Payment] [24, Cancel]");
-        int input = this.getUserInputIntegerRange(20,24,"Please make a selection"); 
+        int input = CliUserInputter.getUserInputIntegerRange(20,24,"Please make a selection"); 
         boolean completed = false;
         switch(input)
         {
@@ -486,8 +447,8 @@ public class Cli extends UserInterface
      */
     private void addSeatToBooking(Booker booker)
     {
-        int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
-        int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
+        int seatRow = this.cinema.convertToRowNum(CliUserInputter.getUserInputString(1, "Enter row letter (A to E)"));
+        int seatNum = CliUserInputter.getUserInputIntegerRange(1,10,"Enter seat number");
         booker.addReservation(seatRow, seatNum);
     }
     
@@ -498,8 +459,8 @@ public class Cli extends UserInterface
      */
     private void removeSeatFromBooking(Booker booker)
     {
-        int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
-        int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
+        int seatRow = this.cinema.convertToRowNum(CliUserInputter.getUserInputString(1, "Enter row letter (A to E)"));
+        int seatNum = CliUserInputter.getUserInputIntegerRange(1,10,"Enter seat number");
         booker.removeReservation(seatRow, seatNum);
     }
     
@@ -510,7 +471,7 @@ public class Cli extends UserInterface
      */
     private void processCashPayment(Booker booker)
     {
-        if(this.getUserInputYN("Proceed with Cash Payment? (Y/N)").equals("Y"))
+        if(CliUserInputter.getUserInputYN("Proceed with Cash Payment? (Y/N)").equals("Y"))
         {
             booker.finalizeCashPayment();
         };
@@ -523,9 +484,9 @@ public class Cli extends UserInterface
      */
     private void processCardPayment(Booker booker)
     {
-        if(this.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
+        if(CliUserInputter.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
         {
-            booker.finalizeCardPayment(this.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
+            booker.finalizeCardPayment(CliUserInputter.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
         };
     }
     
@@ -536,10 +497,10 @@ public class Cli extends UserInterface
     public int displayMoveTicketPage()
     {
         this.clearScreen();
-        this.pageHeader(true, 5, 3, "bookings", "MOVE TICKET");
+        CliNavMaker.pageHeader(true, 5, 3, "bookings", "MOVE TICKET");
         System.out.println("");
         System.out.println("[20, Reschedule Ticket]  [21, Cancel]");
-        int input = this.getUserInputInteger(21, "Please make a selection");
+        int input = CliUserInputter.getUserInputInteger(21, "Please make a selection");
         if(input==20)
         {
             return this.enterTicketIdToMove();
@@ -559,10 +520,10 @@ public class Cli extends UserInterface
     {
         this.clearScreen(); 
         int input;
-        this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Select Ticket To Move");
+        CliNavMaker.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Select Ticket To Move");
         while(true)
         {
-            input = this.getUserInputIntegerRange(0, Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
+            input = CliUserInputter.getUserInputIntegerRange(0, Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
             if(input == 0)
             {
                 return 4;// Return to BOOKINGS INDEX
@@ -585,10 +546,10 @@ public class Cli extends UserInterface
     {
         this.clearScreen(); 
         Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
-        this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Select New Show");
+        CliNavMaker.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Select New Show");
         System.out.println("*** SELECT SHOW ***");
         int option = this.printListWithOptions(20, this.cinema.getShowList(), optionToShow);
-        Show show = optionToShow.get(this.getUserInputInteger(option, "Enter Show selection:"));
+        Show show = optionToShow.get(CliUserInputter.getUserInputInteger(option, "Enter Show selection:"));
         
         Transferer transferer = this.cinema.getNewTransferer(show, ticket);
         this.selectSeatsAndFinalizeTransfer(transferer);// recursive function
@@ -603,18 +564,18 @@ public class Cli extends UserInterface
     private int selectSeatsAndFinalizeTransfer(Transferer transferer)
     {
         this.clearScreen();
-        this.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Tranfer ticket to a new Show and/or Seat");
+        CliNavMaker.pageHeader(false, 4, 2, "bookings", "MOVE TICKET > Tranfer ticket to a new Show and/or Seat");
         this.printSeatingGrid(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()));
         System.out.println("***Transfer Surcharge***");
         System.out.println("Regular Tickets (Row A-D): $" + transferer.getTicketTransferSurcharge("regular"));
         System.out.println("Vip Tickets (Row E):       $" + transferer.getTicketTransferSurcharge("vip"));
         this.printCurrentTransferDetails(transferer);
         System.out.println("[20, Select Seat]  [21, Process Transfer] [22, Cancel]");
-        int input = this.getUserInputIntegerRange(20,22,"Please make a selection"); 
+        int input = CliUserInputter.getUserInputIntegerRange(20,22,"Please make a selection"); 
         if(input == 21&&transferer.getSurcharge()>0)
         {
             System.out.println("[23, Cash Payment]  [24, Card Payment] [25, Cancel]");
-            input = this.getUserInputIntegerRange(23,25,"Please make a selection"); 
+            input = CliUserInputter.getUserInputIntegerRange(23,25,"Please make a selection"); 
         }
         boolean completed = false;
         switch(input)
@@ -652,8 +613,8 @@ public class Cli extends UserInterface
      */
     private void setTransferReservation(Transferer transferer)
     {
-        int seatRow = this.cinema.convertToRowNum(this.getUserInputString(1, "Enter row letter (A to E)"));
-        int seatNum = this.getUserInputIntegerRange(1,10,"Enter seat number");
+        int seatRow = this.cinema.convertToRowNum(CliUserInputter.getUserInputString(1, "Enter row letter (A to E)"));
+        int seatNum = CliUserInputter.getUserInputIntegerRange(1,10,"Enter seat number");
         transferer.setReservation(seatRow, seatNum);
     }
     
@@ -664,7 +625,7 @@ public class Cli extends UserInterface
      */
     private void processNoChargeTransfer(Transferer transferer)
     {
-        if(this.getUserInputYN("Proceed with No-charge ticket transfer? (Y/N)").equals("Y"))
+        if(CliUserInputter.getUserInputYN("Proceed with No-charge ticket transfer? (Y/N)").equals("Y"))
         {
             transferer.finalizeNoChargeTransfer(); 
         };
@@ -677,7 +638,7 @@ public class Cli extends UserInterface
      */
     private void processCashTransfer(Transferer transferer)
     {
-        if(this.getUserInputYN("Proceed with Cash Payment for Ticket transfer? (Y/N)").equals("Y"))
+        if(CliUserInputter.getUserInputYN("Proceed with Cash Payment for Ticket transfer? (Y/N)").equals("Y"))
         {
             transferer.finalizeCashPayment();
         };
@@ -690,23 +651,23 @@ public class Cli extends UserInterface
      */
     private void processCardTransfer(Transferer transferer)
     {
-        if(this.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
+        if(CliUserInputter.getUserInputYN("Proceed with CreditCard Payment? (Y/N)").equals("Y"))
         {
-            transferer.finalizeCardPayment(this.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
+            transferer.finalizeCardPayment(CliUserInputter.getUserInputString(8, "Enter CreditCard Payment Reference Number"));
         };
     } 
     
     /**
-     * enterNewFilmDetails
+     * displayReviewAndRatePage
      * @return int
      */
-    private int displayReviewAndRatePage()
+    public int displayReviewAndRatePage()
     {
         this.clearScreen();
-        this.pageHeader(true, 5, 3, "bookings", "REVIEW AND RATE");
+        CliNavMaker.pageHeader(true, 5, 3, "bookings", "REVIEW AND RATE");
         System.out.println("");
         System.out.println("[20, Review And Rate]  [21, Cancel]");
-        int input = this.getUserInputInteger(21, "Please make a selection");
+        int input = CliUserInputter.getUserInputInteger(21, "Please make a selection");
         if(input==20)
         {
             return this.enterTicketIdToReviewAndRate();
@@ -726,10 +687,10 @@ public class Cli extends UserInterface
     {
         this.clearScreen(); 
         int input;
-        this.pageHeader(false, 4, 2, "bookings", "REVIEW AND RATE > Select Ticket To Review and Rate");
+        CliNavMaker.pageHeader(false, 4, 2, "bookings", "REVIEW AND RATE > Select Ticket To Review and Rate");
         while(true)
         {
-            input = this.getUserInputIntegerRange(0, Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
+            input = CliUserInputter.getUserInputIntegerRange(0, Integer.MAX_VALUE, "Enter TicketId or Enter 0 to Cancel:");
             if(input == 0)
             {
                 return 4;// Return to BOOKINGS INDEX
@@ -768,12 +729,12 @@ public class Cli extends UserInterface
         this.clearScreen(); 
         int rating;
         String review;
-        this.pageHeader(false, 4, 2, "bookings", "REVIEW AND RATE");
+        CliNavMaker.pageHeader(false, 4, 2, "bookings", "REVIEW AND RATE");
         System.out.println(ticket.getShow().toString());
         System.out.println("");
-        review = this.getUserInputString(255, "Enter your Review");
-        rating = this.getUserInputIntegerRange(1, 5, "Enter Your Rating (1 - 5)");
-        if(this.getUserInputYN("Save Review and Rating? (Y/N)").equals("Y"))
+        review = CliUserInputter.getUserInputString(255, "Enter your Review");
+        rating = CliUserInputter.getUserInputIntegerRange(1, 5, "Enter Your Rating (1 - 5)");
+        if(CliUserInputter.getUserInputYN("Save Review and Rating? (Y/N)").equals("Y"))
         {
             this.cinema.addReview(ticket, review, rating);
         };
@@ -808,10 +769,10 @@ public class Cli extends UserInterface
     public int displayReportsIndexPage()
     {
         this.clearScreen();
-        this.pageHeader(true, 5, 1, "reports", "REPORTS INDEX");
+        CliNavMaker.pageHeader(true, 5, 1, "reports", "REPORTS INDEX");
         System.out.println("[16] View Tickets sold and Average Rating per month");
         System.out.println("[17] View Income generated per film, per month");
-        int input = this.getUserInputInteger(17);// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(17);// Set max input as highest option number
         return input;
     }
     
@@ -823,10 +784,10 @@ public class Cli extends UserInterface
     public int displayTicketReportsPage()
     {
         this.clearScreen();
-        this.pageHeader(false, 5, 2, "reports", "REPORTS: Ticket Reports");
+        CliNavMaker.pageHeader(false, 5, 2, "reports", "REPORTS: Ticket Reports");
         System.out.println("--------------------------");
         int monthNum = this.selectMonth();
-        int year = this.getUserInputIntegerRange(2010, 2050, "Enter the year");  
+        int year = CliUserInputter.getUserInputIntegerRange(2010, 2050, "Enter the year");  
         return this.showTicketReportsList(monthNum, year);
     }
     
@@ -845,7 +806,7 @@ public class Cli extends UserInterface
         int year = 0;
         while(true)
         {
-            input = this.getUserInputIntegerRange(1, 12, "Please select a month");
+            input = CliUserInputter.getUserInputIntegerRange(1, 12, "Please select a month");
             return input - 1;// offset the input to zero-based month numbers
         }
     }
@@ -858,7 +819,7 @@ public class Cli extends UserInterface
     public int showTicketReportsList(int monthNum, int year)
     {
         this.clearScreen();
-        this.pageHeader(true, 5, 2, "reports", "REPORTS: INDEX");
+        CliNavMaker.pageHeader(true, 5, 2, "reports", "REPORTS: INDEX");
         Reporter reporter = new Reporter(this.cinema);
         List<TicketReport> ticketReportList = reporter.getTicketReportList(monthNum, year);
         if(ticketReportList.size()==0)
@@ -875,7 +836,7 @@ public class Cli extends UserInterface
         }
         System.out.println("");
         System.out.println("[20, View Different Month]");
-        int input = this.getUserInputInteger(20, "Please make a selection");// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(20, "Please make a selection");// Set max input as highest option number
         if(input==20)
         {
            return 5;// Invalid selection. Return to SHOWS INDEX
@@ -891,10 +852,10 @@ public class Cli extends UserInterface
     public int displayIncomeReportsPage()
     {
         this.clearScreen();
-        this.pageHeader(false, 5, 3, "reports", "REPORTS: Income Reports");
+        CliNavMaker.pageHeader(false, 5, 3, "reports", "REPORTS: Income Reports");
         System.out.println("--------------------------");
         int monthNum = this.selectMonth();
-        int year = this.getUserInputIntegerRange(2010, 2050, "Enter the year");  
+        int year = CliUserInputter.getUserInputIntegerRange(2010, 2050, "Enter the year");  
         return this.showIncomeReportsList(monthNum, year);
     }
     
@@ -906,7 +867,7 @@ public class Cli extends UserInterface
     public int showIncomeReportsList(int monthNum, int year)
     {
         this.clearScreen();
-        this.pageHeader(true, 5, 3, "reports", "REPORTS: INDEX");
+        CliNavMaker.pageHeader(true, 5, 3, "reports", "REPORTS: INDEX");
         Reporter reporter = new Reporter(this.cinema);
         List<IncomeReport> incomeReportList = reporter.getIncomeReportList(monthNum, year);
         if(incomeReportList.size()==0)
@@ -923,7 +884,7 @@ public class Cli extends UserInterface
         }
         System.out.println("");
         System.out.println("[20, View Different Month]");
-        int input = this.getUserInputInteger(20, "Please make a selection");// Set max input as highest option number
+        int input = CliUserInputter.getUserInputInteger(20, "Please make a selection");// Set max input as highest option number
         if(input==20)
         {
            return 5;// Invalid selection. Return to SHOWS INDEX
@@ -942,547 +903,6 @@ public class Cli extends UserInterface
             System.out.println("*** No Tickets sold that month ***");
             System.out.println("**********************************");
             System.out.println("");
-    }
-    
-  
-    /**
-     * 
-     * pageHeader
-     * @param int primaryPointer
-     * @param int secondaryPointer
-     * @param String banner
-     * @return void
-     */
-    private void pageHeader(boolean includeFullHeader, int primaryPointer, int secondaryPointer, String category, String subtext)
-    {
-        if(includeFullHeader)
-        {
-            this.includeFullHeader();
-            this.includePointer(primaryPointer);
-            this.includeSecondaryNav(category);
-            this.includePointer(secondaryPointer);
-        }
-        else
-        {
-            this.includeTitleBar();
-        }
-
-        this.includeBanner(category, subtext);   
-    }
-    
-
-    /**
-     * getUserInputInteger()
-     * @param int maxValue
-     * @return int input
-     */
-    public int getUserInputInteger(int maxValue)
-    {
-        Scanner scanner = new Scanner(System.in);
-        int selection = 0;
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println("Please make your selection:");
-            if(scanner.hasNextInt())
-            {
-                // Input is an integer
-                selection = scanner.nextInt();
-                if(selection==0||selection>maxValue)// Validate the input in range
-                {
-                    System.out.println("The number you entered is not in range 1 to " + maxValue);
-                }
-                else
-                {
-                    return selection;// input is valid 
-                }  
-            }
-            else
-            {
-                // Input is not an integer
-                scanner.next();// Remove input from scanner
-                System.out.println("The input was not a number");// Display notification
-            }
-        }    
-    }
-
-        
-    /**
-     * acceptIntegerInput()
-     * @param int maxValue
-     * @param String question
-     * @return int input
-     */
-    public int getUserInputInteger(int maxValue, String question)
-    {
-        Scanner scanner = new Scanner(System.in);
-        int selection = 0;
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println(question + ":");
-            if(scanner.hasNextInt())
-            {
-                // Input is an integer
-                
-                // Update the choice
-                selection = scanner.nextInt();
-
-                // Validate the input in range
-                if(selection==0||selection>maxValue)
-                {
-                    System.out.println("The number you entered is not in range 1 to " + maxValue);
-                }
-                else
-                {
-                    // input is valid 
-                    return selection;
-                }            
-            
-            }
-            else
-            {
-                // Input is not an integer
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input was not a number");
-            }
-            
-
-        }    
-    }
-
-    
-
-        
-    /**
-     * getUserInputIntegerRange()
-     * @param int minValue
-     * @param int maxValue
-     * @param String question
-     * @return int input
-     */
-    public int getUserInputIntegerRange(int minValue, int maxValue, String question)
-    {
-        Scanner scanner = new Scanner(System.in);
-        int selection = -1;
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println(question + ":");
-            if(scanner.hasNextInt())
-            {
-                // Input is an integer
-                
-                // Update the choice
-                selection = scanner.nextInt();
-
-                // Validate the input in range
-                if(selection==-1||selection<minValue||selection>maxValue)
-                {
-                    System.out.println("The number you entered is not in range " + minValue + " to " + maxValue);
-                }
-                else
-                {
-                    // input is valid 
-                    return selection;
-                }            
-            
-            }
-            else
-            {
-                // Input is not an integer
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input was not a number");
-            }
-            
-
-        }    
-    }
-        
-    /**
-     * getUserInputDouble()
-     * @param String question
-     * @return float input
-     */
-    public float getUserInputFloat(String question)
-    {
-        Scanner scanner = new Scanner(System.in);
-        float selection = 0;
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println(question + ":");
-            if(scanner.hasNextFloat())
-            {
-                // Input is an float
-                
-                // Update the choice
-                selection = scanner.nextFloat();
-
-                // Validate the input in range
-                if(selection==0)
-                {
-                    System.out.println("The number you entered is not valid");
-                }
-                else
-                {
-                    // input is valid 
-                    return selection;
-                }            
-            
-            }
-            else
-            {
-                // Input is not a double
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input was not a number");
-            }
-        }    
-    }
-    
-    
-    /**
-     * getUserInputString()
-     * @param int maxLength
-     * @return String input
-     */
-    public String getUserInputString(int maxLength)
-    {
-        Scanner scanner = new Scanner(System.in);
-        String input = "";
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println("Please make your selection:");
-            if(scanner.hasNextLine())
-            {
-                // Input is an integer
-                
-                // Update the choice
-                input = scanner.nextLine();
-
-                // Validate the input in range
-                if(input=="")
-                {
-                    System.out.println("Input cannot be blank");
-                }
-                else if(input.length()>maxLength)
-                {
-                    System.out.println("Input too long. Input must be less than " + maxLength + " characters.");
-                }
-                else
-                {
-                    // input is valid 
-                    return input;
-                }            
-            
-            }
-            else
-            {
-                // Input is not a string
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input is not valid");
-            }
-            
-
-        }     
-    }
-    
-    /**
-     * getUserInputString()
-     * @param int maxLength
-     * @param String question
-     * @return String input
-     */
-    public String getUserInputString(int maxLength, String question)
-    {
-        Scanner scanner = new Scanner(System.in);
-        String input = "";
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println(question + ":");
-            if(scanner.hasNextLine())
-            {
-                // Input is an integer
-                
-                // Update the choice
-                input = scanner.nextLine();
-
-                // Validate the input in range
-                if(input=="")
-                {
-                    System.out.println("Input cannot be blank");
-                }
-                else if(input.length()>maxLength)
-                {
-                    System.out.println("Input too long. Input must be less than " + maxLength + " characters.");
-                }
-                else
-                {
-                    // input is valid 
-                    return input;
-                }            
-            
-            }
-            else
-            {
-                // Input is not a string
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input is not valid");
-            }
-            
-
-        }    
-    }   
-    
-    /**
-     * getUserInputYN()
-     * @return String input
-     */
-    public String getUserInputYN()
-    {
-        Scanner scanner = new Scanner(System.in);
-        String input = "";
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println("Enter Y or N:");
-            if(scanner.hasNextLine())
-            {
-                // Input is an integer
-                
-                // Update the choice
-                input = scanner.nextLine();
-
-                // Validate the input in range
-                if((input.equals("Y"))||(input.equals("y")))
-                {
-                    return "Y";
-                }
-                else if((input.equals("N"))||(input.equals("n")))
-                {
-                    return "N";
-                }
-                else
-                {
-                    System.out.println("Input must be either Y or N");
-                }            
-            
-            }
-            else
-            {
-                // Input is not a string
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input is not valid");
-            }
-            
-
-        }     
-    }
-    
-    /**
-     * getUserInputYN()
-     * @param String question
-     * @return String input
-     */
-    public String getUserInputYN(String question)
-    {
-        Scanner scanner = new Scanner(System.in);
-        String input = "";
-        while(true)
-        {
-            System.out.println("----------------------------------------------------------------------");
-            System.out.println(question + ":");
-            if(scanner.hasNextLine())
-            {
-                // Input is an integer
-                
-                // Update the choice
-                input = scanner.nextLine();
-
-                // Validate the input in range
-                if((input.equals("Y"))||(input.equals("y")))
-                {
-                    return "Y";
-                }
-                else if((input.equals("N"))||(input.equals("n")))
-                {
-                    return "N";
-                }
-                else
-                {
-                    System.out.println("Input must be either Y or N");
-                }            
-            
-            }
-            else
-            {
-                // Input is not a string
-                
-                // Remove input from scanner and display notification
-                scanner.next();
-                System.out.println("The input is not valid");
-            }
-            
-
-        }     
-    }
-    
-    /**
-     * includeFullHeader()
-     * @return void
-     * 
-     */
-    public void includeFullHeader()
-    {
-        System.out.println("==========================ODEON CINEMA SYSTEM=========================");
-        System.out.println("[1, Films]  [2, Shows]  [3, Cstmr]  [4, Bkngs]  [5, Reprt]  [6, Quit ]");
-    }
-    
-    /**
-     * includeTitleBar()
-     * @return void
-     * 
-     */
-    public void includeTitleBar()
-    {
-        System.out.println("==========================ODEON CINEMA SYSTEM=========================");
-    }
-    
-    /**
-     * includeBanner()
-     * @param String category
-     * @param String subtitle
-     * @return void
-     */
-    private void includeBanner(String category, String subtext)
-    {
-        this.includeBannerMainText(category);
-        this.includeBannerSubtext(subtext);
-    }
-    
-    /**
-     * includeBannerMainText()
-     * print an ASCII art header
-     * @param String category
-     * @return void
-     */
-    private void includeBannerMainText(String category)
-    {
-        System.out.println("");// Margin Top
-        switch(category)
-        {
-            // Text To ASCII Art Generator
-            // http://patorjk.com/software/taag/
-            case "films":
-                System.out.println("______ _____ _     ___  ___ _____ ");
-                System.out.println("|  ___|_   _| |    |  \\/  |/  ___|");
-                System.out.println("| |_    | | | |    | .  . |\\ `--. ");
-                System.out.println("|  _|   | | | |    | |\\/| | `--. \\");
-                System.out.println("| |    _| |_| |____| |  | |/\\__/ /");
-                System.out.println("\\_|    \\___/\\_____/\\_|  |_/\\____/ ");
-                break;
-            case "shows":
-                System.out.println(" _____ _   _ _____  _    _ _____");
-                System.out.println("/  ___| | | |  _  || |  | /  ___|");
-                System.out.println("\\ `--.| |_| | | | || |  | \\ `--. ");
-                System.out.println(" `--. \\  _  | | | || |/\\| |`--. \\");
-                System.out.println("/\\__/ / | | \\ \\_/ /\\  /\\  /\\__/ /");
-                System.out.println("\\____/\\_| |_/\\___/  \\/  \\/\\____/");
-                break;
-            case "customers":
-                System.out.println(" _____ _   _ _____ _____ ________  ___ ___________  _____"); 
-                System.out.println("/  __ \\ | | /  ___|_   _|  _  |  \\/  ||  ___| ___ \\/  ___|");
-                System.out.println("| /  \\/ | | \\ `--.  | | | | | | .  . || |__ | |_/ /\\ `--. ");
-                System.out.println("| |   | | | |`--. \\ | | | | | | |\\/| ||  __||    /  `--. \\");
-                System.out.println("| \\__/\\ |_| /\\__/ / | | \\ \\_/ / |  | || |___| |\\ \\ /\\__/ /");
-                System.out.println(" \\____/\\___/\\____/  \\_/  \\___/\\_|  |_/\\____/\\_| \\_|\\____/");
-                break;
-            case "bookings":
-                System.out.println("______  _____  _____ _   _______ _   _ _____  _____ "); 
-                System.out.println("| ___ \\|  _  ||  _  | | / /_   _| \\ | |  __ \\/  ___|");
-                System.out.println("| |_/ /| | | || | | | |/ /  | | |  \\| | |  \\/\\ `--. ");
-                System.out.println("| ___ \\| | | || | | |    \\  | | | . ` | | __  `--. \\");
-                System.out.println("| |_/ /\\ \\_/ /\\ \\_/ / |\\  \\_| |_| |\\  | |_\\ \\/\\__/ /");
-                System.out.println("\\____/  \\___/  \\___/\\_| \\_/\\___/\\_| \\_/\\____/\\____/ ");
-                break;
-            case "reports":
-                System.out.println("______ ___________ ___________ _____ _____"); 
-                System.out.println("| ___ \\  ___| ___ \\  _  | ___ \\_   _/  ___|");
-                System.out.println("| |_/ / |__ | |_/ / | | | |_/ / | | \\ `--. ");
-                System.out.println("|    /|  __||  __/| | | |    /  | |  `--. \\\\");
-                System.out.println("| |\\ \\| |___| |   \\ \\_/ / |\\ \\  | | /\\__/ /");
-                System.out.println("\\_| \\_\\____/\\_|    \\___/\\_| \\_| \\_/ \\____/");
-                break;
-        }        
-        System.out.println("");// Margin bottom   
-    }
-    
-    /**
-     * includeBannerSubtext
-     * Display the subtext
-     * @param String subtext
-     * @return void
-     */
-    private void includeBannerSubtext(String subtext)
-    {
-        System.out.println(subtext);
-    }
-
-    /**
-     * includeSecondaryNav()
-     * @param String category
-     * @return void
-     */
-    public void includeSecondaryNav(String category)
-    {
-        System.out.println("----------------------------------------------------------------------");
-        switch(category)
-        {
-            case "films":
-                System.out.println("[1,  Indx]  [10,  Add]");
-                break;
-            case "shows":
-                System.out.println("[2,  Indx]  [11,  Add]");
-                break;
-            case "customers":
-                System.out.println("[3,  Indx]");
-                break;
-            case "bookings":
-                System.out.println("[4,  Indx]  [13,  Add]  [14, Move]  [15, Revw]");
-                break;
-            case "reports":
-                System.out.println("[5,  Indx]  [16, Tkts]  [17, Incm]");
-                break;
-        }
-    }
-    
-    /**
-     * includePointer()
-     * @param int position
-     * @return void
-     * 
-     */
-    private void includePointer(int position)
-    {
-        for(int i=0;i<position-1;i++)
-        {
-            System.out.print("            ");// Print white space
-        }
-        System.out.println("    ^^^^");//Print pointer
     }
     
     /**
