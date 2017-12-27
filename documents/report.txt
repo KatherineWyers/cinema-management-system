@@ -72,3 +72,5 @@ Conclusion: Over the course of this project, I have studied the best practices. 
 
 
 GUI -> addFilm -> The add film form creates a HashMap of <String, JTextfield>. This HashMap is passed as a variable along with the button when it is pressed. getClientProperty. This keeps pointing to the JTextfield after the submit button has been pressed, so it allows the event listener to read the data that was entered. 
+
+The GUI originally had fewer methods, with each method serving multiple related roles for different pages. However, this made the code more difficult to read. So I decided to refactor the GUI class into more methods, and group them together visually so that it is clear what each method does. 

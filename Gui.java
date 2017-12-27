@@ -58,7 +58,9 @@ public class Gui extends UserInterface
         
         this.frame = new JFrame("Odeon Cinema System");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(frameWidth,frameHeight);
+        this.frame.setSize(frameWidth,frameHeight);
+        //this.frame.pack();
+        frame.setVisible(true);
     }
     
     /**
@@ -79,13 +81,53 @@ public class Gui extends UserInterface
      */
     private void displayFilmsIndexPage()
     {    
-        this.updateNorthPanel("films", 1);
-        this.updateCenterPanel("films", "list");
-        this.updateEastPanel(this.cinema.getFilmList().get(0));// id for the first film
-        this.clearSouthPanel();
-        this.addPanels();
-        this.indexList.addMouseListener(listMouseListener);
-    }  
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("films"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("films", 1), BorderLayout.SOUTH);
+        this.refreshList(this.cinema.getFilmList());// Load the index list and display it
+        this.indexList = new JList<Object>(listModel);
+        this.centerPanel.add(this.indexList);
+        this.indexList.addMouseListener(filmsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
+        this.updateEastPanelFilmsIndex(this.cinema.getFilmList().get(0));// Display the first film in the list by default
+        this.showPanels();
+    }
+      
+    /**
+     * updateEastPanelFilmsIndex
+     * @param Film film
+     * @return void
+     */
+    private void updateEastPanelFilmsIndex(Film film)
+    {   
+        this.clearEastPanel();
+        if(film==null)
+        {
+            throw new IllegalArgumentException("Film Id is not recognized");
+        }
+        
+        // The following is adapted from:
+        // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
+        // Author: Guillaume Polet
+        // Accessed 26-DEC-2017
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        ArrayList<JComponent> componentList = new ArrayList<JComponent>();
+        componentList.add(new JLabel("Title: " + film.getTitle()));
+        componentList.add(new JLabel("Director: " + film.getDirector()));
+        componentList.add(new JLabel("Year: " + film.getYear()));
+        componentList.add(new JLabel("Language: " + film.getLanguage()));
+        componentList.add(new JLabel("Subtitles: " + film.getSubtitles()));   
+        for(JComponent component : componentList)
+        {  
+            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            insidePanel.add(component);  
+            panel.add(insidePanel);
+        }
+        eastPanel.add(panel);  
+        this.refreshEastPanel();
+    }
+    
     
     /**
      * displayAddFilmPage()
@@ -93,12 +135,33 @@ public class Gui extends UserInterface
      */
     private void displayAddFilmPage()
     {    
-        this.updateNorthPanel("films", 2);
-        this.updateCenterPanel("films", "form");
-        this.clearEastPanel();
-        this.clearSouthPanel();
-        this.addPanels();
-    }  
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("films"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("films", 2), BorderLayout.SOUTH);
+        this.addAddFilmFormToCenterPanel();
+        this.showPanels();
+    }
+    
+    /**
+     * addAddFilmFormToCenterPanel()
+     * @return void
+     */
+    private void addAddFilmFormToCenterPanel()
+    {
+        JPanel panel = new JPanel();   
+        panel.setLayout(new GridLayout(6,2,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        panel = this.addTextFieldToPanel(20, "title", "Title", panel);
+        panel = this.addTextFieldToPanel(20, "director", "Director", panel);
+        panel = this.addTextFieldToPanel(4, "year", "Year (eg 2017)", panel);
+        panel = this.addTextFieldToPanel(20, "language", "Language (eg English)", panel);
+        panel = this.addTextFieldToPanel(4, "subtitles", "Subtitles (eg NL)", panel);
+        panel.add(new JLabel(""));//blank label so submit button moves to second column
+        JButton submit = new JButton("Submit");
+        submit.addActionListener(addFilmActionListener);
+        panel.add(submit);
+        this.centerPanel.add(panel);
+    }
     
     /**
      * displayShowsIndexPage()
@@ -106,26 +169,68 @@ public class Gui extends UserInterface
      */
     private void displayShowsIndexPage()
     {    
-        this.updateNorthPanel("shows", 1);
-        this.updateCenterPanel("shows", "list");
-        this.updateEastPanel(this.cinema.getShowList().get(0));// preselect the first show
-        this.clearSouthPanel();
-        this.addPanels();
-        this.indexList.addMouseListener(listMouseListener);
-    }  
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("shows", 1), BorderLayout.SOUTH);
+        this.refreshList(this.cinema.getShowList());// Load the index list and display it
+        this.indexList = new JList<Object>(listModel);
+        this.centerPanel.add(this.indexList);
+        this.indexList.addMouseListener(showsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
+        this.updateEastPanelShowsIndex(this.cinema.getShowList().get(0));// preselect the first show
+        this.showPanels();
+    }
     
+    /**
+     * updateEastPanelShowsIndex
+     * @param Show show
+     * @return void
+     */
+    private void updateEastPanelShowsIndex(Show show)
+    {   
+        this.clearEastPanel();
+        if(show==null)
+        {
+            throw new IllegalArgumentException("Show Id is not recognized");
+        }
+        
+        // The following is adapted from:
+        // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
+        // Author: Guillaume Polet
+        // Accessed 26-DEC-2017
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        ArrayList<JComponent> componentList = new ArrayList<JComponent>();
+        componentList.add(new JLabel("Film: " + show.getFilm().getTitle()));
+        componentList.add(new JLabel("DateTime: " + show.getDateTime()));
+        componentList.add(new JLabel("Screen: " + show.getScreen().getTitle()));    
+        for(JComponent component : componentList)
+        {  
+            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            insidePanel.add(component);  
+            panel.add(insidePanel);
+        }
+        JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        insidePanel.add(new JLabel("SEATING GRID"));
+        panel.add(insidePanel);
+        insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        insidePanel.add(this.getSeatingGridPanel(this.cinema.getSeatingGrid(show)));
+        panel.add(insidePanel);
+        eastPanel.add(panel);     
+        this.refreshEastPanel();  
+    }
     
     /**
      * displayAddShowPage()
-     * Create the blank HashMap and call the first page
+     * Reset the formData Map to blank
+     * Call the first page
      * @return void
      */
     private void displayAddShowPage()
     {
         this.formData = new HashMap<String, Object>();
         this.displayAddShowSelectFilm();
-    }
-    
+    } 
     
     /**
      * displayAddShowSelectFilm()
@@ -133,13 +238,36 @@ public class Gui extends UserInterface
      */
     private void displayAddShowSelectFilm()
     {    
-        this.updateNorthPanel("shows", 2);
-        this.updateCenterPanelAddShowSelectFilm();
-        this.updateEastPanelAddShow(this.cinema.getFilmList().get(0));// preselect the first film
-        this.clearSouthPanel();
-        this.addPanels();
-        this.indexList.addMouseListener(addShowListMouseListener);
-    }  
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("shows", 2), BorderLayout.SOUTH);
+        this.refreshList(this.cinema.getFilmList());
+        this.indexList = new JList<Object>(listModel);
+        this.centerPanel.add(this.indexList);
+        this.indexList.addMouseListener(addShowSelectFilmListMouseListener);
+        this.updateEastPanelAddShowSelectFilm(this.cinema.getFilmList().get(0));// preselect the first film
+        this.showPanels();
+    }
+    
+    /**
+     * updateEastPanelAddShowSelectFilm
+     * @param Film film
+     * @return void
+     */
+    private void updateEastPanelAddShowSelectFilm(Film film)
+    {   
+        this.clearEastPanel();
+        if(film==null)
+        {
+            throw new IllegalArgumentException("Film is not recognized");
+        }
+        eastPanel.add(new JLabel("<html>Title: " + film.getTitle() + "<br />Director: " + film.getDirector() + "<br />Year: " + film.getYear() + "<br /></html>"));
+        this.formData.put("tempFilm", film);// place film in temporary HashMap location, until 'Select Film for Show' has been clicked. 
+        JButton addFilmButton = new JButton("Select Film for Show");
+        addFilmButton.addActionListener(addShowActionListener);
+        this.eastPanel.add(addFilmButton);
+        this.refreshEastPanel();
+    }
     
     /**
      * displayAddShowSelectScreen()
@@ -147,26 +275,144 @@ public class Gui extends UserInterface
      */
     private void displayAddShowSelectScreen()
     {    
-        this.updateNorthPanel("shows", 2);
-        this.updateCenterPanelAddShowSelectScreen();
-        this.updateEastPanelAddShow(this.cinema.getScreenList().get(0));// preselect the first screen
-        this.clearSouthPanel();
-        this.addPanels();
-        this.indexList.addMouseListener(addShowListMouseListener);
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("shows", 2), BorderLayout.SOUTH);
+        this.refreshList(this.cinema.getScreenList());
+        this.indexList = new JList<Object>(listModel);
+        this.centerPanel.add(this.indexList);
+        this.indexList.addMouseListener(addShowSelectScreenListMouseListener);
+        this.updateEastPanelAddShowSelectScreen(this.cinema.getScreenList().get(0));// preselect the first film
+        this.showPanels();
     }  
+    
+    /**
+     * updateEastPanelAddShowSelectScreen
+     * @param Screen screen
+     * @return void
+     */
+    private void updateEastPanelAddShowSelectScreen(Screen screen)
+    {   
+        this.clearEastPanel();
+        if(screen==null)
+        {
+            throw new IllegalArgumentException("Screen Id is not recognized");
+        }
+        eastPanel.add(new JLabel("<html>Title: " + screen.getTitle()));
+        formData.put("tempScreen", screen);// place screen in temporary HashMap location, until 'Select Screen for Show' has been clicked. 
+        JButton addScreenButton = new JButton("Select Screen for Show");
+        addScreenButton.addActionListener(addShowActionListener);
+        this.eastPanel.add(addScreenButton);
+        this.refreshEastPanel();
+    }
     
     /**
      * displayAddShowDetails()
      * @return void
      */
-    private void displayAddShowDetails()
+    private void displayAddShowEnterDetails()
     {
-        this.updateNorthPanel("shows", 2);
-        this.updateCenterPanel("shows", "form");
-        this.clearEastPanel();
-        this.clearSouthPanel();
-        this.addPanels();
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("shows", 2), BorderLayout.SOUTH);
+        this.addAddShowEnterDetailsFormToCenterPanel();
+        this.showPanels();
     }   
+    
+    /**
+     * addAddShowDetailsFormToCenterPanel()
+     * @return void
+     */
+    private void addAddShowEnterDetailsFormToCenterPanel()
+    {
+        JPanel panel = new JPanel();   
+        panel.setLayout(new GridLayout(8,2,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        panel = this.addTextFieldToPanel(4, "year", "Year (eg: 2017)", panel);
+        panel = this.addTextFieldToPanel(2, "month", "MonthNo. (eg: 6)", panel);
+        panel = this.addTextFieldToPanel(2, "date", "Date (eg 25)", panel);
+        panel = this.addTextFieldToPanel(20, "hour", "Hour (0-23)", panel);
+        panel = this.addTextFieldToPanel(20, "minute", "Minute (0-59)", panel);
+        panel = this.addTextFieldToPanel(20, "priceRegular", "Price Regular (eg 8.50)", panel);
+        panel = this.addTextFieldToPanel(20, "priceVip", "Price VIP (eg 10.75)", panel);
+        this.formData.put("detailsEntered", "true");
+        panel.add(new JLabel(""));//blank label so submit button moves to second column
+        JButton submit = new JButton("Submit");
+        submit.addActionListener(addShowActionListener);
+        panel.add(submit);
+        this.centerPanel.add(panel);
+    }
+    
+    /**
+     * addTextFieldToPanel
+     * @param int maxLength
+     * @param String title
+     * @param String label
+     * @return JPanel panel
+     */
+    private JPanel addTextFieldToPanel(int maxLength, String title, String label, JPanel panel)
+    {
+        JTextField textField = new JTextField(maxLength);
+        this.formData.put(title, textField);
+        panel.add(new JLabel(label));
+        panel.add(textField);
+        return panel;
+    }
+    
+    /**
+     * clearPanels
+     * Call removeAll on all panels
+     * @return void
+     */
+    private void clearPanels()
+    {
+        this.northPanel.removeAll();
+        this.centerPanel.removeAll();
+        this.eastPanel.removeAll();
+        this.southPanel.removeAll();
+    }
+    
+    /**
+     * clearEastPanel
+     * Call removeAll on eastPanel
+     * @return void
+     */
+    private void clearEastPanel()
+    {
+        this.eastPanel.removeAll();
+    }
+    
+    /**
+     * refreshEastPanel
+     * Call revalidate and repaint on eastPanel
+     * @return void
+     */
+    private void refreshEastPanel()
+    {
+        this.eastPanel.revalidate();
+        this.eastPanel.repaint();
+    }
+    
+    /**
+     * showPanels
+     * Call revalidate and repaint on all panels
+     * @return void
+     */
+    private void showPanels()
+    {   
+        this.frame.getContentPane().add(northPanel, BorderLayout.NORTH);
+        this.frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
+        this.frame.getContentPane().add(eastPanel, BorderLayout.EAST);
+        this.frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
+        this.northPanel.revalidate();
+        this.northPanel.repaint();
+        this.centerPanel.revalidate();
+        this.centerPanel.repaint();
+        this.eastPanel.revalidate();
+        this.eastPanel.repaint();
+        this.southPanel.revalidate();
+        this.southPanel.repaint();
+    }
 
     /**
      * refreshList
@@ -198,327 +444,6 @@ public class Gui extends UserInterface
         } 
     }
     
-    /**
-     * updateNorthPanel
-     * @return void
-     */
-    private void updateNorthPanel(String category, int subPointer)
-    {
-        this.northPanel.removeAll();
-        this.northPanel.add(this.getPrimaryNavPanel(category), BorderLayout.NORTH);
-        this.northPanel.add(this.getSecondaryNavPanel(category, subPointer), BorderLayout.SOUTH);
-        this.northPanel.revalidate();
-        this.northPanel.repaint();
-    }
-    
-    /**
-     * updateCenterPanel
-     * @param String category
-     * @param String layout {"index", "add"}
-     * @return void
-     */
-    private void updateCenterPanel(String category, String layout)
-    {
-        switch(layout)
-        {
-            case "list":
-                this.updateCenterPanelList(category);
-                break;
-            case "form":
-                this.updateCenterPanelForm(category);
-                break;
-        }
-    }
-    
-    /**
-     * updateCenterPanelIndex
-     * @param String category
-     * @return void
-     */
-    private void updateCenterPanelList(String category)
-    {
-        this.centerPanel.removeAll();
-        switch(category)
-        {
-            case "films":
-                this.refreshList(this.cinema.getFilmList());
-                break;
-            case "shows":
-                this.refreshList(this.cinema.getShowList());
-                break;
-        }
-        JPanel panel = new JPanel();
-        this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
-        this.centerPanel.revalidate();
-        this.centerPanel.repaint();
-    }
-    
-    /**
-     * updateCenterPanelForm
-     * @return void
-     */
-    private void updateCenterPanelForm(String category)
-    {
-        
-        this.centerPanel.removeAll();
-        
-        JPanel panel = new JPanel();
-        
-        JTextField textField1;
-        JTextField textField2;
-        JTextField textField3;
-        JTextField textField4;
-        JTextField textField5;
-        JTextField textField6;
-        JTextField textField7;
-        JButton submit;
-        switch(category)
-        {
-            case "films":
-                panel.setLayout(new GridLayout(2,6,5,5));
-                panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-                textField1 = new JTextField(20);
-                this.formData.put("title", textField1);
-                textField2 = new JTextField(20);
-                this.formData.put("director", textField2);
-                textField3 = new JTextField(4);
-                this.formData.put("year", textField3);
-                textField4 = new JTextField(20);
-                this.formData.put("language", textField4);
-                textField5 = new JTextField(2);
-                this.formData.put("subtitles", textField5);
-                submit = new JButton("Submit");
-                submit.addActionListener(addFilmActionListener);
-                
-                panel.add(new JLabel("Title:"));
-                panel.add(textField1);
-                panel.add(new JLabel("Director:"));
-                panel.add(textField2);
-                panel.add(new JLabel("Year:"));
-                panel.add(textField3);
-                panel.add(new JLabel("Language:"));
-                panel.add(textField4);
-                panel.add(new JLabel("Subtitles:"));
-                panel.add(textField5);
-                panel.add(new JLabel(""));
-                panel.add(submit);
-                break;
-            case "shows":
-                panel.setLayout(new GridLayout(2,7,5,5));
-                panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-                textField1 = new JTextField(4);
-                this.formData.put("year", textField1);
-                textField2 = new JTextField(2);
-                this.formData.put("month", textField2);
-                textField3 = new JTextField(2);//
-                this.formData.put("date", textField3);
-                textField4 = new JTextField(2);
-                this.formData.put("hour", textField4);
-                textField5 = new JTextField(2);
-                this.formData.put("minute", textField5);
-                textField6 = new JTextField(20);
-                this.formData.put("priceRegular", textField5);
-                textField7 = new JTextField(20);
-                this.formData.put("priceVip", textField5);
-                this.formData.put("detailsEntered", "true");
-                submit = new JButton("Submit");
-                submit.addActionListener(addShowActionListener);
-                
-                panel.add(new JLabel("Year (eg: 2017)"));
-                panel.add(textField1);
-                panel.add(new JLabel("MonthNo. (eg: 6)"));
-                panel.add(textField2);
-                panel.add(new JLabel("Date (eg 25)"));
-                panel.add(textField3);
-                panel.add(new JLabel("Hour (0-23)"));
-                panel.add(textField4);
-                panel.add(new JLabel("Minute (0-59)"));
-                panel.add(textField5);
-                panel.add(new JLabel("Price Regular (eg 8.50)"));
-                panel.add(textField6);
-                panel.add(new JLabel("Price VIP (eg 10.75)"));
-                panel.add(textField7);
-                panel.add(submit);
-                break;
-            }
-        this.centerPanel.add(panel);
-        this.centerPanel.revalidate();
-        this.centerPanel.repaint();
-    }
-    
-    /**
-     * updateCenterPanelIndex
-     * @param String category
-     * @return void
-     */
-    private void updateCenterPanelAddShowSelectFilm()
-    {
-        this.centerPanel.removeAll();
-        this.refreshList(this.cinema.getFilmList());
-        JPanel panel = new JPanel();
-        this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
-        this.centerPanel.revalidate();
-        this.centerPanel.repaint();
-    }
-    
-    /**
-     * updateCenterPanelAddShowSelectScreen
-     * @param String category
-     * @return void
-     */
-    private void updateCenterPanelAddShowSelectScreen()
-    {
-        this.centerPanel.removeAll();
-        this.refreshList(this.cinema.getScreenList());
-        JPanel panel = new JPanel();
-        this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
-        this.centerPanel.revalidate();
-        this.centerPanel.repaint();
-    }
-    
-    /**
-     * updateEastPanel
-     * @param Object object
-     * @return void
-     */
-    private void updateEastPanel(Object object)
-    {   
-        this.eastPanel.removeAll();
-        if(object instanceof Film)
-        {
-            Film film = (Film)object;
-            if(film==null)
-            {
-                throw new IllegalArgumentException("Film Id is not recognized");
-            }
-            eastPanel.add(new JLabel("<html>Title: " + film.getTitle() + "<br />Director: " + film.getDirector() + "<br />Year: " + film.getYear() + "<br /></html>"));
-        }
-        
-        if(object instanceof Show)
-        {
-            Show show = (Show)object;
-            if(show==null)
-            {
-                throw new IllegalArgumentException("Show Id is not recognized");
-            }
-            
-            // The following is adapted from:
-            // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
-            // Author: Guillaume Polet
-            // Accessed 26-DEC-2017
-            
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-            ArrayList<JComponent> componentList = new ArrayList<JComponent>();
-            componentList.add(new JLabel("Film: " + show.getFilm().getTitle()));
-            componentList.add(new JLabel("DateTime: " + show.getDateTime()));
-            componentList.add(new JLabel("Screen: " + show.getScreen().getTitle()));    
-            for(JComponent component : componentList)
-            {  
-                JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                insidePanel.add(component);  
-                panel.add(insidePanel);
-            }
-            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            insidePanel.add(new JLabel("SEATING GRID"));
-            panel.add(insidePanel);
-            insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            insidePanel.add(this.getSeatingGridPanel(this.cinema.getSeatingGrid(show)));
-            panel.add(insidePanel);
-            eastPanel.add(panel);
-        }        
-        this.eastPanel.revalidate();
-        this.eastPanel.repaint();        
-    }
-    
-        
-    /**
-     * clearEastPanel
-     * Clear all content from the eastPanel
-     * @return void
-     */
-    
-    private void clearEastPanel()
-    {
-        this.eastPanel.removeAll();
-        this.eastPanel.revalidate();
-        this.eastPanel.repaint();        
-    }
-    
-    /**
-     * updateEastPanelAddShow
-     * @param Map formData
-     * @return void
-     */
-    private void updateEastPanelAddShow(Object object)
-    {   
-        this.eastPanel.removeAll();
-        
-        if(object instanceof Film)
-        {
-            Film film = (Film)object;
-            if(film==null)
-            {
-                throw new IllegalArgumentException("Film Id is not recognized");
-            }
-            eastPanel.add(new JLabel("<html>Title: " + film.getTitle() + "<br />Director: " + film.getDirector() + "<br />Year: " + film.getYear() + "<br /></html>"));
-            this.formData.put("tempFilm", film);// place film in temporary HashMap location, until 'Select Film for Show' has been clicked. 
-            JButton addFilmButton = new JButton("Select Film for Show");
-            addFilmButton.addActionListener(addShowActionListener);
-            this.eastPanel.add(addFilmButton);
-        }
-        
-        if(object instanceof Screen)
-        {
-            Screen screen = (Screen)object;
-            if(screen==null)
-            {
-                throw new IllegalArgumentException("Screen Id is not recognized");
-            }
-            eastPanel.add(new JLabel("<html>Title: " + screen.getTitle()));
-            formData.put("tempScreen", screen);// place screen in temporary HashMap location, until 'Select Screen for Show' has been clicked. 
-            JButton addScreenButton = new JButton("Select Screen for Show");
-            addScreenButton.addActionListener(addShowActionListener);
-            this.eastPanel.add(addScreenButton);
-        }
-        
-        this.eastPanel.revalidate();
-        this.eastPanel.repaint();  
-    }
-    
-    /**
-     * updateSouthPanel
-     * @return void
-     */
-    private void updateSouthPanel()
-    {
-        this.southPanel.removeAll();
-        JLabel label = new JLabel("Please make a selection:");
-        JTextField textField = new JTextField(20);
-        JButton button = new JButton("Submit");
-        southPanel.add(label);
-        southPanel.add(textField);
-        southPanel.add(button);
-        this.southPanel.revalidate();
-        this.southPanel.repaint();
-    }
-    
-    
-    /**
-     * clearSouthPanel
-     * Clear all content from the southPanel
-     * @return void
-     */
-    private void clearSouthPanel()
-    {
-        this.southPanel.removeAll();
-        this.southPanel.revalidate();
-        this.southPanel.repaint();        
-    }
-       
     /**
      * getPrimaryNavPanel
      * @return JPanel
@@ -634,22 +559,62 @@ public class Gui extends UserInterface
     // All MouseListeners and ActionListeners
     // adapted from: CCS course materials
     // Date: 26-DEC-2017
+
+    /**
+     * Method mouseClicked on JList selection
+     * If the mouse is clicked once at an item in the JList, the eastPanel is 
+     * updated with the details for the list
+     * @param e object holding mouse event information
+     */    
     
-    MouseListener listMouseListener = new MouseAdapter()
+    MouseListener filmsIndexListMouseListener = new MouseAdapter()
     {
-        /**
-         * Method mouseClicked on JList selection
-         * If the mouse is clicked once at an item in the JList, the eastPanel is 
-         * updated with the details for the list
-         * @param e object holding mouse event information
-         */
         public void mouseClicked(MouseEvent e)
         {            
             if (e.getClickCount() == 1) 
             {
                 int index = indexList.locationToIndex(e.getPoint());
-                Object object = (Object) listModel.elementAt(index);
-                updateEastPanel(object);
+                Film film = (Film) listModel.elementAt(index);
+                updateEastPanelFilmsIndex(film);
+            }
+        }
+    };    
+    
+    MouseListener showsIndexListMouseListener = new MouseAdapter()
+    {
+        public void mouseClicked(MouseEvent e)
+        {            
+            if (e.getClickCount() == 1) 
+            {
+                int index = indexList.locationToIndex(e.getPoint());
+                Show show = (Show) listModel.elementAt(index);
+                updateEastPanelShowsIndex(show);
+            }
+        }
+    };    
+    
+    MouseListener addShowSelectFilmListMouseListener = new MouseAdapter()
+    {
+        public void mouseClicked(MouseEvent e)
+        {            
+            if (e.getClickCount() == 1) 
+            {
+                int index = indexList.locationToIndex(e.getPoint());
+                Film film = (Film) listModel.elementAt(index);
+                updateEastPanelAddShowSelectFilm(film);
+            }
+        }
+    };
+    
+    MouseListener addShowSelectScreenListMouseListener = new MouseAdapter()
+    {
+        public void mouseClicked(MouseEvent e)
+        {            
+            if (e.getClickCount() == 1) 
+            {
+                int index = indexList.locationToIndex(e.getPoint());
+                Screen screen = (Screen) listModel.elementAt(index);
+                updateEastPanelAddShowSelectScreen(screen);
             }
         }
     };
@@ -659,6 +624,7 @@ public class Gui extends UserInterface
         public void actionPerformed(ActionEvent e)
         {      
             // Use of the getClientProperty to identify the button where the event originated
+            // and redirect the user to that page. 
             // Code adapted from:
             // https://stackoverflow.com/questions/11037622/pass-variables-to-actionlistener-in-java
             // Author: Robin
@@ -683,18 +649,10 @@ public class Gui extends UserInterface
         }
     };
     
-    
-        
     ActionListener addFilmActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
         {      
-            // Use of the getClientProperty to identify the button where the event originated
-            // Code adapted from:
-            // https://stackoverflow.com/questions/11037622/pass-variables-to-actionlistener-in-java
-            // Author: Robin
-            // Accessed: 26-DEC-2017
-            
             JTextField title = (JTextField)formData.get("title");
             JTextField director = (JTextField)formData.get("director");
             JTextField language = (JTextField)formData.get("language");
@@ -702,19 +660,22 @@ public class Gui extends UserInterface
             JTextField yearTextField= (JTextField)formData.get("year");
             int yearInt = 0;
             
-            if(title.getText().length()>20||title.getText().length()<3)
+            if(!isLengthInRange(title.getText(),3,20))
             {
                 return;
             }
-            else if(director.getText().length()>20||director.getText().length()<3)
+            
+            if(!isLengthInRange(director.getText(),3,20))
             {
                 return;
             }
-            else if(language.getText().length()>20||language.getText().length()<3)
+            
+            if(!isLengthInRange(language.getText(),3,20))
             {
                 return;
             }
-            else if(subtitles.getText().length()>2||subtitles.getText().length()<1)
+            
+            if(!isLengthInRange(subtitles.getText(),1,2))
             {
                 return;
             }
@@ -731,38 +692,13 @@ public class Gui extends UserInterface
         }
     };
     
-    MouseListener addShowListMouseListener = new MouseAdapter()
-    {
-        /**
-         * Method mouseClicked on JList selection
-         * If the mouse is clicked once at an item in the JList, the eastPanel is 
-         * updated with the details for the list
-         * @param e object holding mouse event information
-         */
-        public void mouseClicked(MouseEvent e)
-        {   
-            if (e.getClickCount() == 1) 
-            {
-                int index = indexList.locationToIndex(e.getPoint());
-                Object object = (Object) listModel.elementAt(index);
-                updateEastPanelAddShow(object);
-            }
-        }
-    };
-        
     ActionListener addShowActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
         {      
-            // Use of the getClientProperty to identify the button where the event originated
-            // Code adapted from:
-            // https://stackoverflow.com/questions/11037622/pass-variables-to-actionlistener-in-java
-            // Author: Robin
-            // Accessed: 26-DEC-2017
-            
             Film film;
             Screen screen;
-            if(formData.get("tempFilm")!=null)
+            if(formData.get("tempFilm")!=null)//formData stores a temporary film when eastPanel loads. Move it to "film" key to confirm
             {
                 formData.put("film", formData.get("tempFilm"));
                 formData.remove("tempFilm");
@@ -805,7 +741,6 @@ public class Gui extends UserInterface
             
             if(formData.get("detailsEntered")!=null)
             {
-
                 try
                 {
                     JTextField yearTextField = (JTextField)formData.get("year");
@@ -825,32 +760,42 @@ public class Gui extends UserInterface
                 } catch (Exception ex) {
                     return;
                 }
+                
                 if(yearInt>2050||yearInt<2000||monthInt>12||monthInt<1||dateInt>31||dateInt<1||hourInt>23||hourInt<0||minuteInt>59||minuteInt<0||priceRegularFloat>500.0||priceRegularFloat<0.0||priceVipFloat>500.0||priceVipFloat<0.0)
                 {
                     return;
                 }
-                
-                
                 screen = (Screen)formData.get("screen");
             }
             else
             {
-                displayAddShowDetails();
+                displayAddShowEnterDetails();
                 return;
             }
-            
-            date = new GregorianCalendar(yearInt, monthInt, dateInt, hourInt, minuteInt);
-            
-            cinema.addShow(date, screen, film, (float)12.50, (float)15.00);
-            formData = null;// reset the data object
-            System.out.println("completed the show maker");
-            displayShowsIndexPage();
+            date = new GregorianCalendar(yearInt, monthInt, dateInt, hourInt, minuteInt);// set the date with the user input
+            cinema.addShow(date, screen, film, (float)priceRegularFloat, (float)priceVipFloat);// add the new show to the database
+            formData = new HashMap<String, Object>();// reset the formData storage. 
+            displayShowsIndexPage();// redirect to the shows index
             return;
         }
     };
     
     /**
+     * isLengthInRange
+     * @param String 
+     * @param int minLength
+     * @param int maxLength
+     * @return boolean
+     */
+    private boolean isLengthInRange(String string, int minLength, int maxLength)
+    {
+        return(string.length()>=minLength&&string.length()<=maxLength);
+    }
+   
+    /**
      * getSeatingGridPanel
+     * 
+     * Create a JPanel version of the seatingGrid
      * @param boolean[][] seatingGrid
      * @return JPanel seatingGridPanel
      */
@@ -908,19 +853,5 @@ public class Gui extends UserInterface
             panel.add(label);
         }
         return panel;
-    }
-    
-    /**
-     * addPanels
-     * Add the north, centre, east and south panels 
-     * to the layout
-     * @return void
-     */
-    public void addPanels()
-    {
-        this.frame.getContentPane().add(northPanel, BorderLayout.NORTH);
-        this.frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
-        this.frame.getContentPane().add(eastPanel, BorderLayout.EAST);
-        this.frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
     }
 }
