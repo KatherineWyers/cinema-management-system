@@ -69,3 +69,6 @@ Assumptions: There is no need to validate whether the ticket being sold is for a
 
 
 Conclusion: Over the course of this project, I have studied the best practices. Some of the structure that I implemented early in the project is not ideal. The cinema class has too many methods, as does the CLI class. I have tried to break methods up so that they all fit within the screen-size. There are two classes that are too big. There are too many methods in the cinema class, leaving it with low cohesion. The methods inside are not related enough. With more time, these would be refactored to seperate them according to categories. 
+
+
+GUI -> addFilm -> The add film form creates a HashMap of <String, JTextfield>. This HashMap is passed as a variable along with the button when it is pressed. getClientProperty. This keeps pointing to the JTextfield after the submit button has been pressed, so it allows the event listener to read the data that was entered. 
