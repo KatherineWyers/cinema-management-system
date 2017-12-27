@@ -392,6 +392,66 @@ public class Gui extends UserInterface
         eastPanel.add(panel);  
         this.refreshEastPanel();
     }
+    
+    /**
+     * displayBookingsIndexPage()
+     * @return void
+     */
+    private void displayBookingsIndexPage()
+    {    
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("bookings", 1), BorderLayout.SOUTH);
+        this.refreshList(this.cinema.getBookingList());// Load the index list and display it
+        this.indexList = new JList<Object>(listModel);
+        this.centerPanel.add(this.indexList);
+        this.indexList.addMouseListener(bookingsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
+        this.updateEastPanelBookingsIndex(this.cinema.getBookingList().get(0));// Display the first film in the list by default
+        this.showPanels();
+    }
+      
+    /**
+     * updateEastPanelFilmsIndex
+     * @param Film film
+     * @return void
+     */
+    private void updateEastPanelBookingsIndex(Booking booking)
+    {   
+        this.clearEastPanel();
+        if(booking==null)
+        {
+            throw new IllegalArgumentException("Booking Id is not recognized");
+        }
+        
+        // The following is adapted from:
+        // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
+        // Author: Guillaume Polet
+        // Accessed 26-DEC-2017
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        ArrayList<JComponent> componentList = new ArrayList<JComponent>();
+        componentList.add(new JLabel("CustomerName: " + booking.getCustomer().getId()));
+        componentList.add(new JLabel("CustomerId: " + booking.getCustomer().getId())); 
+       for(Ticket ticket : this.cinema.getTicketList(booking))
+       {
+           componentList.add(new JLabel("Ticket: " + ticket.toString())); 
+           if(this.cinema.getReviews().get(ticket.getId())!=null)
+           {
+               componentList.add(new JLabel("+++Customer Review:       " + this.cinema.getReviews().get(ticket.getId()).getReview()));
+               componentList.add(new JLabel("+++Customer Rating (1-5): " + this.cinema.getReviews().get(ticket.getId()).getRating()));
+           }
+       }    
+        
+        for(JComponent component : componentList)
+        {  
+            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            insidePanel.add(component);  
+            panel.add(insidePanel);
+        }
+        eastPanel.add(panel);  
+        this.refreshEastPanel();
+    }
       
     
     /**
@@ -510,7 +570,7 @@ public class Gui extends UserInterface
         JButton customersNavBtn = new JButton("Customers");
         customersNavBtn.putClientProperty("page", "customersIndex");
         JButton bookingsNavBtn = new JButton("Bookings");
-        //bookingsNavBtn.putClientProperty("page", "bookingsIndex");
+        bookingsNavBtn.putClientProperty("page", "bookingsIndex");
         JButton reportsNavBtn = new JButton("Reports");
         //reportsNavBtn.putClientProperty("page", "reportsIndex");
         
@@ -561,6 +621,8 @@ public class Gui extends UserInterface
         // Set default label
         JButton button1 = new JButton("Button 1");
         JButton button2 = new JButton("Button 2");
+        JButton button3 = new JButton("Button 3");
+        JButton button4 = new JButton("Button 4");
         
         // set the labels for the buttons. Only add the required buttons.
         switch(category)
@@ -591,6 +653,12 @@ public class Gui extends UserInterface
                 panel.add(button1);
                 button1.addActionListener(NavButtonActionListener);
                 break;
+            case "bookings":
+                button1.setText("Index");
+                button1.putClientProperty("page", "bookingsIndex");
+                panel.add(button1);
+                button1.addActionListener(NavButtonActionListener);
+                break;
         }
 
         // highlight the button that is currently active
@@ -601,6 +669,12 @@ public class Gui extends UserInterface
                 break;
             case 2:
                 button2 = this.setButtonColorActive(button2);
+                break;
+            case 3:
+                button3 = this.setButtonColorActive(button3);
+                break;
+            case 4:
+                button4 = this.setButtonColorActive(button4);
                 break;
         }
         return panel;
@@ -702,7 +776,20 @@ public class Gui extends UserInterface
                 updateEastPanelCustomersIndex(customer);
             }
         }
-    };    
+    };
+    
+    MouseListener bookingsIndexListMouseListener = new MouseAdapter()
+    {
+        public void mouseClicked(MouseEvent e)
+        {            
+            if (e.getClickCount() == 1) 
+            {
+                int index = indexList.locationToIndex(e.getPoint());
+                Booking booking = (Booking) listModel.elementAt(index);
+                updateEastPanelBookingsIndex(booking);
+            }
+        }
+    };     
     
     ActionListener NavButtonActionListener = new ActionListener()
     {
@@ -732,6 +819,9 @@ public class Gui extends UserInterface
                     break;
                 case "customersIndex":
                     displayCustomersIndexPage();
+                    break;
+                case "bookingsIndex":
+                    displayBookingsIndexPage();
                     break;
             }
         }
