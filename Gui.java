@@ -59,7 +59,7 @@ public class Gui extends UserInterface
         this.frame = new JFrame("Odeon Cinema System");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(frameWidth,frameHeight);
-        //this.frame.pack();
+        this.frame.pack();
         frame.setVisible(true);
     }
     
@@ -677,7 +677,7 @@ public class Gui extends UserInterface
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanel(20, "ticketId", "Ticket Id", panel);
         panel = this.addTextFieldToPanel(20, "review", "Review", panel);
-        panel = this.addTextFieldToPanel(20, "rating", "Rating", panel);
+        panel = this.addTextFieldToPanel(1, "rating", "Rating", panel);
         panel.add(new JLabel(""));//blank label so submit button moves to second column
         JButton submit = new JButton("Submit");
         submit.addActionListener(bookingsReviewAndRateActionListener);
@@ -842,7 +842,7 @@ public class Gui extends UserInterface
         panel.add(this.setButtonColorDull(blank2));
         panel.add(this.setButtonColorDull(blank3));
         
-        panel = this.addTextFieldToPanelWithDefaultText(20, "year", "Enter Year (eg 2017)", Integer.toString(year), panel);
+        panel = this.addTextFieldToPanelWithDefaultText(4, "year", "Enter Year (eg 2017)", Integer.toString(year), panel);
         JButton updateYearBtn = new JButton("Update Year");
         updateYearBtn.putClientProperty("month", month);
         //button is a seat-button. Add the correct ActionListener
@@ -1484,6 +1484,8 @@ public class Gui extends UserInterface
     {
         public void actionPerformed(ActionEvent e)
         {      
+            JFrame popupFrame = new JFrame("Add Film");
+            
             JTextField title = (JTextField)formData.get("title");
             JTextField director = (JTextField)formData.get("director");
             JTextField language = (JTextField)formData.get("language");
@@ -1493,21 +1495,25 @@ public class Gui extends UserInterface
             
             if(!isLengthInRange(title.getText(),3,20))
             {
+                JOptionPane.showMessageDialog(popupFrame, "Film Title must be between 3 and 20 characters in length");
                 return;
             }
             
             if(!isLengthInRange(director.getText(),3,20))
             {
+                JOptionPane.showMessageDialog(popupFrame, "Director name must be between 3 and 20 characters in length");
                 return;
             }
             
             if(!isLengthInRange(language.getText(),3,20))
             {
+                JOptionPane.showMessageDialog(popupFrame, "Language must be between 3 and 20 characters in length");
                 return;
             }
             
-            if(!isLengthInRange(subtitles.getText(),1,2))
+            if(!isLengthInRange(subtitles.getText(),0,4))
             {
+                JOptionPane.showMessageDialog(popupFrame, "Subtitles must be an acronym between 0 and 4 characters in length");
                 return;
             }
 
@@ -1515,6 +1521,12 @@ public class Gui extends UserInterface
             {
                 yearInt = Integer.parseInt(yearTextField.getText());
             } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(popupFrame, "Year must be a number");
+                return;
+            }
+            if(yearInt<1900||yearInt>2050)
+            {
+                JOptionPane.showMessageDialog(popupFrame, "Year must be between 1900 and 2050");
                 return;
             }
             cinema.addFilm(title.getText(), yearInt, director.getText(), language.getText(), subtitles.getText());
@@ -1568,7 +1580,8 @@ public class Gui extends UserInterface
             int minuteInt = 0;
             float priceRegularFloat = (float)0.0;
             float priceVipFloat = (float)0.0;
-            Calendar date;
+            
+            JFrame popupFrame = new JFrame("Add Show");
             
             if(formData.get("detailsEntered")!=null)
             {
@@ -1576,24 +1589,104 @@ public class Gui extends UserInterface
                 {
                     JTextField yearTextField = (JTextField)formData.get("year");
                     yearInt = Integer.parseInt(yearTextField.getText());
-                    JTextField monthTextField = (JTextField)formData.get("month");
-                    monthInt = Integer.parseInt(monthTextField.getText());
-                    JTextField dateTextField = (JTextField)formData.get("date");
-                    dateInt = Integer.parseInt(dateTextField.getText());
-                    JTextField hourTextField = (JTextField)formData.get("hour");
-                    hourInt = Integer.parseInt(hourTextField.getText());
-                    JTextField minuteTextField = (JTextField)formData.get("minute");
-                    minuteInt = Integer.parseInt(minuteTextField.getText());
-                    JTextField priceRegularTextField = (JTextField)formData.get("priceRegular");
-                    priceRegularFloat = Float.parseFloat(priceRegularTextField.getText());
-                    JTextField priceVipTextField = (JTextField)formData.get("priceVip");
-                    priceVipFloat = Float.parseFloat(priceVipTextField.getText());   
-                } catch (Exception ex) {
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(popupFrame, "Year is not a number");
                     return;
                 }
                 
-                if(yearInt>2050||yearInt<2000||monthInt>12||monthInt<1||dateInt>31||dateInt<1||hourInt>23||hourInt<0||minuteInt>59||minuteInt<0||priceRegularFloat>500.0||priceRegularFloat<0.0||priceVipFloat>500.0||priceVipFloat<0.0)
+                try
                 {
+                    JTextField monthTextField = (JTextField)formData.get("month");
+                    monthInt = Integer.parseInt(monthTextField.getText());
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(popupFrame, "Month is not a number. Month must be a number between 1 and 12");
+                    return;
+                }
+                
+                try
+                {
+                    JTextField dateTextField = (JTextField)formData.get("date");
+                    dateInt = Integer.parseInt(dateTextField.getText());
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(popupFrame, "Date is not a number");
+                    return;
+                }
+                
+                try
+                {
+                    JTextField hourTextField = (JTextField)formData.get("hour");
+                    hourInt = Integer.parseInt(hourTextField.getText());
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(popupFrame, "Hour is not a number");
+                    return;
+                }
+                
+                try
+                {
+                    JTextField minuteTextField = (JTextField)formData.get("minute");
+                    minuteInt = Integer.parseInt(minuteTextField.getText());                    
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(popupFrame, "Minute is not a number");
+                    return;
+                }
+                
+                try
+                {
+                    JTextField priceRegularTextField = (JTextField)formData.get("priceRegular");
+                    priceRegularFloat = Float.parseFloat(priceRegularTextField.getText());                    
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(popupFrame, "PriceRegular is not a number");
+                    return;
+                }
+                
+                try
+                {
+                    JTextField priceVipTextField = (JTextField)formData.get("priceVip");
+                    priceVipFloat = Float.parseFloat(priceVipTextField.getText());                      
+                } catch(NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(popupFrame, "PriceVip is not a number");
+                    return;
+                }
+                
+                if(yearInt<2015||yearInt>2050)
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "Year must be between 2015 and 2050");
+                    return;
+                }
+                
+                if(monthInt<1||monthInt>12)
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "Month must be a number between 1 and 12");
+                    return;
+                }
+                
+                if(dateInt<1||dateInt>31)
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "Date must be between 1 and 31");
+                    return;
+                }
+                
+                if(hourInt<0||hourInt>23)
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "Hour must be between 0 and 23");
+                    return;
+                }
+                
+                if(minuteInt<0||minuteInt>59)
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "Minute must be between 0 and 59");
+                    return;
+                }
+                
+                if(priceRegularFloat<0||priceRegularFloat>500)
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "PriceRegular must be between 0.0 and 500.0");
+                    return;
+                }
+                
+                if(priceVipFloat<0||priceVipFloat>500)
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "PriceVip must be between 0.0 and 500.0");
                     return;
                 }
                 screen = (Screen)formData.get("screen");
@@ -1603,15 +1696,23 @@ public class Gui extends UserInterface
                 displayAddShowEnterDetails();
                 return;
             }
-            date = new GregorianCalendar(yearInt, monthInt, dateInt, hourInt, minuteInt);// set the date with the user input
-            cinema.addShow(date, screen, film, (float)priceRegularFloat, (float)priceVipFloat);// add the new show to the database
+            
+            Calendar calendar = Calendar.getInstance();
+            calendar.setLenient(false);  
+            calendar.set(yearInt, (monthInt-1), dateInt, hourInt, minuteInt);  
+            try {  
+                calendar.getTime(); 
+            } catch (Exception ex) { 
+                JOptionPane.showMessageDialog(popupFrame, "Date is not valid");
+                return;
+            }  
+        
+            cinema.addShow(calendar, screen, film, (float)priceRegularFloat, (float)priceVipFloat);// add the new show to the database
             formData = new HashMap<String, Object>();// reset the formData storage. 
             displayShowsIndexPage();// redirect to the shows index
             return;
         }
     };
-    
-
     
     ActionListener addBookingSelectCustomerTypeActionListener = new ActionListener()
     {
@@ -1637,12 +1738,18 @@ public class Gui extends UserInterface
     {
         public void actionPerformed(ActionEvent e)
         {
+            JFrame popupFrame = new JFrame("Add Booking");
             if(formData.get("customerName")==null)
             {
                 displayAddBookingSelectCustomerType();
                 return;
             }
             JTextField customerNameTextField = (JTextField)formData.get("customerName");
+            if(customerNameTextField.getText().length()<3||customerNameTextField.getText().length()>20)
+            {
+                JOptionPane.showMessageDialog(popupFrame, "Customer Name must be between 3 and 20 characters in length");
+                return;
+            }
             Customer customer = cinema.getNewCustomer(customerNameTextField.getText());
             formData.put("customer", customer);
             displayAddBookingSelectShow();
@@ -1650,11 +1757,11 @@ public class Gui extends UserInterface
         }
     };
     
-    
     ActionListener addBookingSetExistingCustomerActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
         {
+            JFrame popupFrame = new JFrame("Add Booking");
             if(formData.get("customerId")==null)
             {
                 displayAddBookingSelectCustomerType();
@@ -1666,9 +1773,7 @@ public class Gui extends UserInterface
             {
                 customerId = Integer.parseInt(customerIdTextField.getText());
             } catch (NumberFormatException ex) {
-                JFrame popupFrame = new JFrame("Checkout");
                 JOptionPane.showMessageDialog(popupFrame, "CustomerId entered is not a number.");
-                displayAddBookingSelectCustomerType();
                 return;
             }
             Customer customer;
@@ -1676,8 +1781,7 @@ public class Gui extends UserInterface
             {
                 customer = cinema.getCustomer(customerId);
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(frame, ex.getMessage());
-                displayAddBookingSelectCustomerType();
+                JOptionPane.showMessageDialog(popupFrame, ex.getMessage());
                 return;
             }
             formData.put("customer", customer);
@@ -1690,9 +1794,9 @@ public class Gui extends UserInterface
     {
         public void actionPerformed(ActionEvent e)
         {
+            JFrame popupFrame = new JFrame("Add Booking");
             if(formData.get("booker")==null)
             {
-                JOptionPane.showMessageDialog(frame, "Booking Cancelled");
                 displayBookingsIndexPage();
                 return;
             }
@@ -1710,14 +1814,16 @@ public class Gui extends UserInterface
                         displayBookingsIndexPage();
                         return;
                     }
-                    displayAddBookingSelectSeats(booker);
-                    return;
                 case "card":
                     reply = JOptionPane.showConfirmDialog(null, "Proceed with Card Payment?", "Checkout", JOptionPane.YES_NO_OPTION);
                     if (reply == JOptionPane.YES_OPTION) {
                         formData.put("seatSelectionComplete", "true");
-                        JFrame popupFrame = new JFrame("Checkout");
                         String refNum = JOptionPane.showInputDialog(popupFrame, "Enter Card-payment Reference Number");
+                        if(refNum.length()>8)
+                        {
+                            JOptionPane.showMessageDialog(popupFrame, "Payment Cancelled.\nCash Payment Reference Number must be 1 to 8 characters in length");
+                            return;
+                        }
                         booker.finalizeCardPayment(refNum);
                         JOptionPane.showMessageDialog(popupFrame, "Cash Payment Accepted.\nBooking Process Completed Successfully."); 
                         displayBookingsIndexPage();
@@ -1831,6 +1937,8 @@ public class Gui extends UserInterface
             Ticket ticket;
             Show show;
             
+            JFrame popupFrame = new JFrame("Move Ticket");
+            
             if(formData.get("ticketId")==null)
             {
                 displayBookingsMoveTicketPage();
@@ -1842,9 +1950,7 @@ public class Gui extends UserInterface
             {
                 ticketId = Integer.parseInt(ticketIdTextField.getText());
             } catch (NumberFormatException ex) {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, "TicketId entered is not a number.");
-                displayBookingsMoveTicketPage();
                 return;
             }
             
@@ -1852,9 +1958,7 @@ public class Gui extends UserInterface
             {
                 ticket = cinema.getTicket(ticketId);
             } catch (IllegalArgumentException ex) {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, ex.getMessage());
-                displayBookingsMoveTicketPage();
                 return;
             }
             formData.put("ticket", ticket);
@@ -1932,9 +2036,10 @@ public class Gui extends UserInterface
     {
         public void actionPerformed(ActionEvent e)
         {
+            JFrame popupFrame = new JFrame("Move Ticket");
+            
             if(formData.get("transferer")==null)
             {
-                JOptionPane.showMessageDialog(frame, "Transfer Cancelled");
                 displayBookingsIndexPage();
                 return;
             }
@@ -1942,13 +2047,8 @@ public class Gui extends UserInterface
             String paymentType = "";
             if(transferer.getSurcharge()>0)
             {
-                Object[] options = {"Cash",
-                "Card"};
-                JFrame popupFrame = new JFrame("Checkout");
-                int reply = JOptionPane.showOptionDialog(frame,"Select Payment Method","Checkout", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null,     //do not use a custom Icon
-                options,  //the titles of buttons
-                options[0]); //default button title
+                Object[] options = {"Cash", "Card"};
+                int reply = JOptionPane.showOptionDialog(frame,"Select Payment Method","Checkout", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]); 
                 
                 if (reply == JOptionPane.YES_OPTION) {
                     formData.put("seatSelectionComplete", "true");
@@ -1961,6 +2061,11 @@ public class Gui extends UserInterface
                 {
                     formData.put("seatSelectionComplete", "true");
                     String refNum = JOptionPane.showInputDialog(popupFrame, "Enter Card-payment Reference Number");
+                    if(refNum.length()>8)
+                    {
+                        JOptionPane.showMessageDialog(popupFrame, "Payment Cancelled.\nCash Payment Reference Number must be 1 to 8 characters in length");
+                        return;
+                    }
                     transferer.finalizeCardPayment(refNum);
                     JOptionPane.showMessageDialog(popupFrame, "Cash Payment Accepted.\nTransfer Process Completed Successfully."); 
                     displayBookingsIndexPage();
@@ -1970,7 +2075,6 @@ public class Gui extends UserInterface
             else
             {
                 transferer.finalizeNoChargeTransfer();
-                JFrame popupFrame = new JFrame("Checkout");
                 JOptionPane.showMessageDialog(popupFrame, "Transfer Process Completed Successfully."); 
                 displayBookingsIndexPage();
                 return;
@@ -1986,12 +2090,11 @@ public class Gui extends UserInterface
             int rating;
             Ticket ticket;
             int ticketId;
+            JFrame popupFrame = new JFrame("Review And Rate");
             
             if(formData.get("ticketId")==null||formData.get("review")==null||formData.get("rating")==null)
             {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, "All fields must be completed.");
-                displayBookingsReviewAndRatePage();
                 return;
             }
             JTextField ticketIdTextField = (JTextField)formData.get("ticketId");
@@ -2000,9 +2103,7 @@ public class Gui extends UserInterface
             {
                 ticketId = Integer.parseInt(ticketIdTextField.getText());
             } catch (NumberFormatException ex) {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, "TicketId entered is not a number.");
-                displayBookingsReviewAndRatePage();
                 return;
             }
             
@@ -2010,17 +2111,14 @@ public class Gui extends UserInterface
             {
                 ticket = cinema.getTicket(ticketId);
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(frame, ex.getMessage());
-                displayBookingsReviewAndRatePage();
+                JOptionPane.showMessageDialog(popupFrame, ex.getMessage());
                 return;
             }
             
             JTextField reviewTextField = (JTextField)formData.get("review");
-            if(reviewTextField.getText().length()>255)
+            if(reviewTextField.getText().length()>20)
             {
-                JFrame popupFrame = new JFrame("Invalid Input");
-                JOptionPane.showMessageDialog(popupFrame, "Review must be less than 255 characters.");
-                displayBookingsReviewAndRatePage();
+                JOptionPane.showMessageDialog(popupFrame, "Review must be less than 20 characters.");
                 return;
             }
             review = reviewTextField.getText();
@@ -2030,22 +2128,17 @@ public class Gui extends UserInterface
             {
                 rating = Integer.parseInt(ratingTextField.getText());
             } catch (NumberFormatException ex) {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, "Rating entered is not a number.");
-                displayBookingsReviewAndRatePage();
                 return;
             }
             
             if(rating<1||rating>5)
             {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, "Rating must be between 1 and 5.");
-                displayBookingsReviewAndRatePage();
                 return;
             }
             
             cinema.addReview(ticket, review, rating);
-            JFrame popupFrame = new JFrame("Review and Rating");
             JOptionPane.showMessageDialog(popupFrame, "Review and Rating added successfully.");
             displayBookingsReviewAndRatePage();
             return;
@@ -2056,6 +2149,8 @@ public class Gui extends UserInterface
     {
         public void actionPerformed(ActionEvent e)
         {
+            JFrame popupFrame = new JFrame("Tickets And Ratings Report");
+            
             if(formData.get("year")==null)
             {
                 displayReportsTicketsAndRatingsPage();
@@ -2068,24 +2163,19 @@ public class Gui extends UserInterface
             }
             int year = 0;
             int month = (Integer)((JButton)e.getSource()).getClientProperty("month");
-            
-            
+
             JTextField yearTextField = (JTextField)formData.get("year");
             try
             {
                 year = Integer.parseInt(yearTextField.getText());
             } catch (NumberFormatException ex) {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, "Year entered is not a number.");
-                displayReportsTicketsAndRatingsPage();
                 return;
             }
             
-            if(year<2000|year>2050)
+            if(year<2015||year>2050)
             {
-                JFrame popupFrame = new JFrame("Invalid Input");
-                JOptionPane.showMessageDialog(popupFrame, "Year must be between 2000 and 2050.");
-                displayReportsTicketsAndRatingsPage();
+                JOptionPane.showMessageDialog(popupFrame, "Year must be between 2015 and 2050.");
                 return;
             } 
             
@@ -2093,11 +2183,12 @@ public class Gui extends UserInterface
             return;
         }
     };
-
+    
     ActionListener reportsIncomeSetYearMonthActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
         {
+            JFrame popupFrame = new JFrame("Income Report");
             
             if(formData.get("year")==null)
             {
@@ -2118,23 +2209,20 @@ public class Gui extends UserInterface
             {
                 year = Integer.parseInt(yearTextField.getText());
             } catch (NumberFormatException ex) {
-                JFrame popupFrame = new JFrame("Invalid Input");
                 JOptionPane.showMessageDialog(popupFrame, "Year entered is not a number.");
-                displayReportsTicketsAndRatingsPage();
                 return;
             }
             
-            if(year<2000|year>2050)
+            if(year<2015||year>2050)
             {
-                JFrame popupFrame = new JFrame("Invalid Input");
-                JOptionPane.showMessageDialog(popupFrame, "Year must be between 2000 and 2050.");
-                displayReportsTicketsAndRatingsPage();
+                JOptionPane.showMessageDialog(popupFrame, "Year must be between 2015 and 2050.");
                 return;
             } 
             displayReportsIncomeForSelectedMonth(month,year);
             return;
         }
     };
+    
     /**
      * isLengthInRange
      * @param String 
