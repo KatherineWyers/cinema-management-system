@@ -50,14 +50,14 @@ public class Gui extends UserInterface
         this.centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         this.centerPanel.setBackground(Color.white);
         this.eastPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        this.eastPanel.setMinimumSize(new Dimension(400,0));
-        this.eastPanel.setPreferredSize(new Dimension(400,0));
+        this.eastPanel.setMinimumSize(new Dimension(512,0));
+        this.eastPanel.setPreferredSize(new Dimension(512,0));
         this.eastPanel.setBackground(Color.white);
         this.southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         this.frame = new JFrame("Odeon Cinema System");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        this.frame.setPreferredSize(new Dimension(800,600));
-        this.frame.setMinimumSize(new Dimension(800,600));
+        this.frame.setPreferredSize(new Dimension(1024,768));
+        this.frame.setMinimumSize(new Dimension(1024,768));
         this.frame.setResizable(false);
         this.frame.pack();
         frame.setVisible(true);
@@ -71,8 +71,8 @@ public class Gui extends UserInterface
     private void oneColumnLayout()
     {
         this.centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        this.centerPanel.setMinimumSize(new Dimension(799,0));
-        this.centerPanel.setPreferredSize(new Dimension(799,0));
+        this.centerPanel.setMinimumSize(new Dimension(1023,0));
+        this.centerPanel.setPreferredSize(new Dimension(1023,0));
         this.eastPanel.setMinimumSize(new Dimension(1,0));
         this.eastPanel.setPreferredSize(new Dimension(1,0));
     }
@@ -85,10 +85,10 @@ public class Gui extends UserInterface
     private void twoColumnLayout()
     {
         this.centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        this.centerPanel.setMinimumSize(new Dimension(500,0));
-        this.centerPanel.setPreferredSize(new Dimension(500,0));
-        this.eastPanel.setMinimumSize(new Dimension(300,0));
-        this.eastPanel.setPreferredSize(new Dimension(300,0));
+        this.centerPanel.setMinimumSize(new Dimension(512,0));
+        this.centerPanel.setPreferredSize(new Dimension(512,0));
+        this.eastPanel.setMinimumSize(new Dimension(512,0));
+        this.eastPanel.setPreferredSize(new Dimension(512,0));
     }
     
     /**
@@ -118,10 +118,24 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("FILM INDEX: Select Film"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         this.indexList.addMouseListener(filmsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelFilmsIndex(this.cinema.getFilmList().get(0));// Display the first film in the list by default
         this.showPanels();
+    }
+    
+    /**
+     * addScrollbars
+     * @param JPanel
+     * @return JScrollPane
+     */
+    private JScrollPane addScrollbars(JPanel panel)
+    {
+       JScrollPane scrollPane = new JScrollPane(panel);
+       scrollPane.setPreferredSize(new Dimension(390,460));
+       return scrollPane;
     }
     
       
@@ -213,8 +227,9 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("SHOWS INDEX: Select Show"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
-        
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         this.indexList.addMouseListener(showsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelShowsIndex(this.cinema.getShowList().get(0));// preselect the first show
         this.showPanels();
@@ -276,7 +291,9 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("ADD SHOW: Select Film"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         this.indexList.addMouseListener(addShowSelectFilmListMouseListener);
         this.updateEastPanelAddShowSelectFilm(this.cinema.getFilmList().get(0));// preselect the first film
         this.showPanels();
@@ -321,7 +338,9 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("ADD SHOW: Select Screen"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         this.indexList.addMouseListener(addShowSelectScreenListMouseListener);
         this.updateEastPanelAddShowSelectScreen(this.cinema.getScreenList().get(0));// preselect the first film
         this.showPanels();
@@ -408,7 +427,9 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("CUSTOMERS INDEX: Select Customer"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         this.indexList.addMouseListener(customersIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelCustomersIndex(this.cinema.getCustomerList().get(0));// Display the first film in the list by default
         this.showPanels();
@@ -447,7 +468,9 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("BOOKINGS INDEX: Select Booking"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         this.indexList.addMouseListener(bookingsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelBookingsIndex(this.cinema.getBookingList().get(0));// Display the first film in the list by default
         this.showPanels();
@@ -469,8 +492,8 @@ public class Gui extends UserInterface
         panel.add(new JLabel(Integer.toString(booking.getCustomer().getId())));
        for(Ticket ticket : this.cinema.getTicketList(booking))
        {
-           panel.add(new JLabel(""));
-           panel.add(new JLabel(""));
+           panel.add(new JLabel("-----"));
+           panel.add(new JLabel("-----"));
            panel.add(new JLabel("Film"));
            panel.add(new JLabel(ticket.getShow().getFilm().getTitle()));
            panel.add(new JLabel("DateTime"));
@@ -485,9 +508,11 @@ public class Gui extends UserInterface
                panel.add(new JLabel(Integer.toString(this.cinema.getReviews().get(ticket.getId()).getRating())));
            }
        }    
-       panel.add(new JLabel(""));
-       panel.add(new JLabel(""));
-       eastPanel.add(panel);  
+       panel.add(new JLabel("-----"));
+       panel.add(new JLabel("-----"));
+       JScrollPane scrollPane = new JScrollPane(panel);
+       scrollPane.setPreferredSize(new Dimension(390,460));
+       eastPanel.add(scrollPane);  
        this.refreshEastPanel();
     }
     
@@ -634,7 +659,9 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("ADD BOOKING: Select Show"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         
         this.indexList.addMouseListener(addBookingSelectShowListMouseListener);
         this.updateEastPanelAddBookingSelectShow(this.cinema.getShowList().get(0));// preselect the first film
@@ -774,7 +801,9 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("MOVE TICKET: Select New Show"), BorderLayout.NORTH);
-        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        JPanel listContainer = new JPanel();
+        listContainer.add(this.indexList);
+        this.centerPanel.add(this.addScrollbars(listContainer), BorderLayout.CENTER);
         this.indexList.addMouseListener(bookingsMoveTicketSelectShowListMouseListener);
         this.updateEastPanelBookingsMoveTicketSelectShow(this.cinema.getShowList().get(0));// preselect the first film
         this.showPanels();
@@ -926,6 +955,7 @@ public class Gui extends UserInterface
         // Reports gets added to centerPanel here
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(this.getMonthYearMenuPanel(month, year, "ticketsAndRatings"), BorderLayout.NORTH);
+
         panel.add(this.getTicketsAndRatingsReportPanel(month, year), BorderLayout.CENTER);
         
         // centerPanel
