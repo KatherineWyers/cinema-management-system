@@ -461,7 +461,7 @@ public class Gui extends UserInterface
      */
     private void displayAddBookingPage()
     {
-        this.formData = new HashMap<String, Object>();
+        this.formData = new HashMap<String, Object>();// reset the formData Map
         this.displayAddBookingSelectCustomerType();
     } 
     
@@ -574,7 +574,7 @@ public class Gui extends UserInterface
         this.clearPanels();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 2), BorderLayout.SOUTH);
-        this.centerPanel.add(this.getSeatingGridButtons(booker.getSeatingGrid()));
+        this.centerPanel.add(this.getSeatingGridButtons(booker.getSeatingGrid(), "booker"));
         JButton cashPaymentBtn = new JButton("Cash Payment");
         cashPaymentBtn.putClientProperty("paymentType", "cash");
         cashPaymentBtn.addActionListener(addBookingSelectPaymentTypeActionListener);
@@ -583,6 +583,82 @@ public class Gui extends UserInterface
         cardPaymentBtn.addActionListener(addBookingSelectPaymentTypeActionListener);
         this.southPanel.add(cashPaymentBtn);
         this.southPanel.add(cardPaymentBtn);
+        this.showPanels();
+    }
+    
+    /**
+     * displayBookingsMoveTicketPage()
+     * @return void
+     */
+    private void displayBookingsMoveTicketPage()
+    {
+        this.formData = new HashMap<String, Object>();// reset the formData Map
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("bookings", 3), BorderLayout.SOUTH);
+        JPanel panel = new JPanel();   
+        panel.setLayout(new GridLayout(2,2,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        panel = this.addTextFieldToPanel(20, "ticketId", "Ticket Id", panel);
+        panel.add(new JLabel(""));//blank label so submit button moves to second column
+        JButton submit = new JButton("Submit");
+        submit.addActionListener(bookingsMoveTicketActionListener);
+        panel.add(submit);
+        this.centerPanel.add(panel);
+        this.showPanels();
+    }   
+    
+    /**
+     * displayBookingsMoveTicketSelectShow()
+     * @return void
+     */
+    private void displayBookingsMoveTicketSelectShow()
+    {    
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("bookings", 3), BorderLayout.SOUTH);
+        this.refreshList(this.cinema.getShowList());
+        this.indexList = new JList<Object>(listModel);
+        this.centerPanel.add(this.indexList);
+        this.indexList.addMouseListener(bookingsMoveTicketSelectShowListMouseListener);
+        this.updateEastPanelBookingsMoveTicketSelectShow(this.cinema.getShowList().get(0));// preselect the first film
+        this.showPanels();
+    }  
+    
+    /**
+     * updateEastPanelAddShowSelectScreen
+     * @param Screen screen
+     * @return void
+     */
+    private void updateEastPanelBookingsMoveTicketSelectShow(Show show)
+    {   
+        this.clearEastPanel();
+        if(show==null)
+        {
+            throw new IllegalArgumentException("Show Id is not recognized");
+        }
+        eastPanel.add(new JLabel("<html>Film: " + show.getFilm().getTitle() + ", <br />Screen: " + show.getScreen().getTitle() + ", <br />DateTime: " + show.getDateTime()));
+        formData.put("tempShow", show);// place screen in temporary HashMap location, until 'Select Screen for Show' has been clicked. 
+        JButton addShowButton = new JButton("Select Show for Transfer");
+        addShowButton.addActionListener(bookingsMoveTicketActionListener);
+        this.eastPanel.add(addShowButton);
+        this.refreshEastPanel();
+    }
+    
+    /**
+     * displayBookingsMoveTicketSelectSeat()
+     * @param Transferer transferer
+     * @return void
+     */
+    private void displayBookingsMoveTicketSelectSeat(Transferer transferer)
+    {    
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("bookings", 3), BorderLayout.SOUTH);
+        this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()), "transferer"));
+        JButton processTransferBtn = new JButton("Process Transfer");
+        processTransferBtn.addActionListener(bookingsMoveTicketSelectPaymentTypeActionListener);
+        this.southPanel.add(processTransferBtn);
         this.showPanels();
     }
     
@@ -801,10 +877,14 @@ public class Gui extends UserInterface
                 button1.putClientProperty("page", "bookingsIndex");
                 button2.setText("Add");
                 button2.putClientProperty("page", "addBooking");
+                button3.setText("Move Ticket");
+                button3.putClientProperty("page", "bookingsMoveTicket");
                 panel.add(button1);
                 panel.add(button2);
+                panel.add(button3);
                 button1.addActionListener(NavButtonActionListener);
                 button2.addActionListener(NavButtonActionListener);
+                button3.addActionListener(NavButtonActionListener);
                 break;
         }
 
@@ -993,7 +1073,20 @@ public class Gui extends UserInterface
                 updateEastPanelAddBookingSelectShow(show);
             }
         }
-    };  
+    };   
+    
+    MouseListener bookingsMoveTicketSelectShowListMouseListener = new MouseAdapter()
+    {
+        public void mouseClicked(MouseEvent e)
+        {            
+            if (e.getClickCount() == 1) 
+            {
+                int index = indexList.locationToIndex(e.getPoint());
+                Show show = (Show) listModel.elementAt(index);
+                updateEastPanelBookingsMoveTicketSelectShow(show);
+            }
+        }
+    }; 
    
     
     ActionListener NavButtonActionListener = new ActionListener()
@@ -1030,6 +1123,9 @@ public class Gui extends UserInterface
                     break;
                 case "addBooking":
                     displayAddBookingPage();
+                    break;
+                case "bookingsMoveTicket":
+                    displayBookingsMoveTicketPage();
                     break;
             }
         }
@@ -1069,7 +1165,7 @@ public class Gui extends UserInterface
             try
             {
                 yearInt = Integer.parseInt(yearTextField.getText());
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                 return;
             }
             cinema.addFilm(title.getText(), yearInt, director.getText(), language.getText(), subtitles.getText());
@@ -1215,7 +1311,16 @@ public class Gui extends UserInterface
                 return;
             }
             JTextField customerIdTextField = (JTextField)formData.get("customerId");
-            int customerId = Integer.parseInt(customerIdTextField.getText());
+            int customerId;
+            try
+            {
+                customerId = Integer.parseInt(customerIdTextField.getText());
+            } catch (NumberFormatException ex) {
+                JFrame popupFrame = new JFrame("Checkout");
+                JOptionPane.showMessageDialog(popupFrame, "CustomerId entered is not a number.");
+                displayAddBookingSelectCustomerType();
+                return;
+            }
             Customer customer;
             try
             {
@@ -1261,10 +1366,10 @@ public class Gui extends UserInterface
                     reply = JOptionPane.showConfirmDialog(null, "Proceed with Card Payment?", "Checkout", JOptionPane.YES_NO_OPTION);
                     if (reply == JOptionPane.YES_OPTION) {
                         formData.put("seatSelectionComplete", "true");
-                        JFrame frame = new JFrame("Checkout");
-                        String refNum = JOptionPane.showInputDialog(frame, "Enter Card-payment Reference Number");
+                        JFrame popupFrame = new JFrame("Checkout");
+                        String refNum = JOptionPane.showInputDialog(popupFrame, "Enter Card-payment Reference Number");
                         booker.finalizeCardPayment(refNum);
-                        JOptionPane.showMessageDialog(frame, "Cash Payment Accepted.\nBooking Process Completed Successfully."); 
+                        JOptionPane.showMessageDialog(popupFrame, "Cash Payment Accepted.\nBooking Process Completed Successfully."); 
                         displayBookingsIndexPage();
                         return;
                     }
@@ -1274,9 +1379,6 @@ public class Gui extends UserInterface
         }
     };
     
-    
-    
-   
     ActionListener addBookingActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
@@ -1345,7 +1447,8 @@ public class Gui extends UserInterface
                             row = 5;
                             break;
                     }
-                    num = Integer.parseInt(seatSelected.substring(1));
+                    
+                    num = Integer.parseInt(seatSelected.substring(1));// No need for try/catch because the input only comes from seatingGrid buttons
                     
                     if(booker.isExistReservation(row, num))
                     {
@@ -1364,6 +1467,166 @@ public class Gui extends UserInterface
             {
                 formData.remove("seatSelectionComplete");
                 displayAddBookingSelectSeats(booker);// seat selection form has the cash/card option buttons
+                return;
+            }
+        }
+    };
+    
+
+    ActionListener bookingsMoveTicketActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            Transferer transferer;
+            Ticket ticket;
+            Show show;
+            
+            if(formData.get("ticketId")==null)
+            {
+                displayBookingsMoveTicketPage();
+                return;
+            }
+            JTextField ticketIdTextField = (JTextField)formData.get("ticketId");
+            int ticketId = 0;
+            try
+            {
+                ticketId = Integer.parseInt(ticketIdTextField.getText());
+            } catch (NumberFormatException ex) {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "TicketId entered is not a number.");
+                displayBookingsMoveTicketPage();
+                return;
+            }
+            
+            try
+            {
+                ticket = cinema.getTicket(ticketId);
+            } catch (IllegalArgumentException ex) {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, ex.getMessage());
+                displayBookingsMoveTicketPage();
+                return;
+            }
+            formData.put("ticket", ticket);
+            
+            if(formData.get("tempShow")!=null)//formData stores a temporary show when eastPanel loads. Move it to "show" key to confirm
+            {
+                formData.put("show", formData.get("tempShow"));
+                formData.remove("tempShow");
+                show = (Show)formData.get("show");
+            }
+            else if(formData.get("show")!=null)
+            {
+                show = (Show)formData.get("show");
+            }
+            else
+            {
+                displayBookingsMoveTicketSelectShow();
+                return;
+            }
+            
+            // Ensure that the transferer is only created in the first pass
+            if(formData.get("transferer")==null)
+            { 
+                transferer = cinema.getNewTransferer(show, ticket);  
+                formData.put("transferer", transferer);
+            }
+            else
+            {
+                transferer = (Transferer)formData.get("transferer");
+            }
+
+            if(formData.get("seatSelectionComplete")==null)
+            {
+                String seatSelected = (String)((JButton)e.getSource()).getClientProperty("seatSelected");
+                int row = 0;
+                int num = 0;
+                if(seatSelected!=null)
+                {
+                    switch(seatSelected.substring(0, 1))
+                    {
+                        case "A":
+                            row = 1;
+                            break;
+                        case "B":
+                            row = 2;
+                            break;
+                        case "C":
+                            row = 3;
+                            break;
+                        case "D":
+                            row = 4;
+                            break;
+                        case "E":
+                            row = 5;
+                            break;
+                    }
+                    
+                    num = Integer.parseInt(seatSelected.substring(1));// No need for try/catch because the input only comes from seatingGrid buttons
+                    
+                    transferer.setReservation(row, num);// when a new reservation is set, transferer automatically overrides the old reservation
+                }
+                displayBookingsMoveTicketSelectSeat(transferer);
+                return;
+            }
+            if(formData.get("proceedWithPayment")==null)
+            {
+                formData.remove("seatSelectionComplete");
+                displayBookingsMoveTicketSelectSeat(transferer);// seat selection form has the cash/card option buttons
+                return;
+            }
+        }
+    };
+    
+    ActionListener bookingsMoveTicketSelectPaymentTypeActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            System.out.println("bookingsMoveTicketSelectPaymentTypeActionListener reached...");
+            if(formData.get("transferer")==null)
+            {
+                JOptionPane.showMessageDialog(frame, "Transfer Cancelled");
+                displayBookingsIndexPage();
+                return;
+            }
+            Transferer transferer = (Transferer)formData.get("transferer");
+            
+            System.out.println("bookingsMoveTicketSelectPaymentTypeActionListener transferer created...");
+            String paymentType = "";
+            if(transferer.getSurcharge()>0)
+            {
+                Object[] options = {"Cash",
+                "Card"};
+                JFrame popupFrame = new JFrame("Checkout");
+                int reply = JOptionPane.showOptionDialog(frame,"Select Payment Method","Checkout", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null,     //do not use a custom Icon
+                options,  //the titles of buttons
+                options[0]); //default button title
+                
+                if (reply == JOptionPane.YES_OPTION) {
+                    formData.put("seatSelectionComplete", "true");
+                    transferer.finalizeCashPayment();
+                    JOptionPane.showMessageDialog(frame, "Cash Payment Accepted.\nTranfer Process Completed Successfully.");
+                    displayBookingsIndexPage();
+                    return;
+                }
+                else
+                {
+                    formData.put("seatSelectionComplete", "true");
+                    String refNum = JOptionPane.showInputDialog(popupFrame, "Enter Card-payment Reference Number");
+                    transferer.finalizeCardPayment(refNum);
+                    JOptionPane.showMessageDialog(popupFrame, "Cash Payment Accepted.\nTransfer Process Completed Successfully."); 
+                    displayBookingsIndexPage();
+                    return;
+                }
+            }
+            else
+            {
+                System.out.println("bookingsMoveTicketSelectPaymentTypeActionListener nochargetransfer reached...");
+                transferer.finalizeNoChargeTransfer();
+                JFrame popupFrame = new JFrame("Checkout");
+                JOptionPane.showMessageDialog(popupFrame, "Transfer Process Completed Successfully."); 
+                displayBookingsIndexPage();
                 return;
             }
         }
@@ -1448,10 +1711,13 @@ public class Gui extends UserInterface
      * getSeatingGridPanel
      * 
      * Create a JPanel version of the seatingGrid
+     * Accepts a String param booker or transferer so it 
+     * can be used form both
      * @param boolean[][] seatingGrid
+     * @param String {booker, transferer}
      * @return JPanel seatingGridPanel
      */
-    public JPanel getSeatingGridButtons(boolean[][] seatingGrid)
+    public JPanel getSeatingGridButtons(boolean[][] seatingGrid, String ticketManager)
     {
         JPanel panel = new JPanel();
         List<JButton> gridList = new ArrayList<JButton>();
@@ -1499,52 +1765,42 @@ public class Gui extends UserInterface
         JButton a1 = new JButton("[_]");
         if(seatingGrid[0][0]){a1.setLabel("[X]");};
         a1.putClientProperty("seatSelected", "A1");
-        a1.addActionListener(addBookingActionListener);
         gridList.add(a1);
         JButton a2 = new JButton("[_]");
         if(seatingGrid[0][1]){a2.setLabel("[X]");};
         a2.putClientProperty("seatSelected", "A2");
-        a2.addActionListener(addBookingActionListener);
         gridList.add(a2);
         JButton a3 = new JButton("[_]");
         if(seatingGrid[0][2]){a3.setLabel("[X]");};
         a3.putClientProperty("seatSelected", "A3");
-        a3.addActionListener(addBookingActionListener);
         gridList.add(a3);
         JButton a4 = new JButton("[_]");
         if(seatingGrid[0][3]){a4.setLabel("[X]");};
         a4.putClientProperty("seatSelected", "A4");
-        a4.addActionListener(addBookingActionListener);
         gridList.add(a4);
         JButton a5 = new JButton("[_]");
         if(seatingGrid[0][4]){a5.setLabel("[X]");};
         a5.putClientProperty("seatSelected", "A5");
-        a5.addActionListener(addBookingActionListener);
         gridList.add(a5);
         JButton a6 = new JButton("[_]");
         if(seatingGrid[0][5]){a6.setLabel("[X]");};
         a6.putClientProperty("seatSelected", "A6");
-        a6.addActionListener(addBookingActionListener);
         gridList.add(a6);
         JButton a7 = new JButton("[_]");
         if(seatingGrid[0][6]){a7.setLabel("[X]");};
         a7.putClientProperty("seatSelected", "A7");
-        a7.addActionListener(addBookingActionListener);
         gridList.add(a7);
         JButton a8 = new JButton("[_]");
         if(seatingGrid[0][7]){a8.setLabel("[X]");};
         a8.putClientProperty("seatSelected", "A8");
-        a8.addActionListener(addBookingActionListener);
         gridList.add(a8);
         JButton a9 = new JButton("[_]");
         if(seatingGrid[0][8]){a9.setLabel("[X]");};
         a9.putClientProperty("seatSelected", "A9");
-        a9.addActionListener(addBookingActionListener);
         gridList.add(a9);
         JButton a10 = new JButton("[_]");
         if(seatingGrid[0][9]){a10.setLabel("[X]");};
         a10.putClientProperty("seatSelected", "A10");
-        a10.addActionListener(addBookingActionListener);
         gridList.add(a10);
         
         // row B
@@ -1554,52 +1810,42 @@ public class Gui extends UserInterface
         JButton b1 = new JButton("[_]");
         if(seatingGrid[1][0]){b1.setLabel("[X]");};
         b1.putClientProperty("seatSelected", "B1");
-        b1.addActionListener(addBookingActionListener);
         gridList.add(b1);
         JButton b2 = new JButton("[_]");
         if(seatingGrid[1][1]){b2.setLabel("[X]");};
         b2.putClientProperty("seatSelected", "B2");
-        b2.addActionListener(addBookingActionListener);
         gridList.add(b2);
         JButton b3 = new JButton("[_]");
         if(seatingGrid[1][2]){b3.setLabel("[X]");};
         b3.putClientProperty("seatSelected", "B3");
-        b3.addActionListener(addBookingActionListener);
         gridList.add(b3);
         JButton b4 = new JButton("[_]");
         if(seatingGrid[1][3]){b4.setLabel("[X]");};
         b4.putClientProperty("seatSelected", "B4");
-        b4.addActionListener(addBookingActionListener);
         gridList.add(b4);
         JButton b5 = new JButton("[_]");
         if(seatingGrid[1][4]){b5.setLabel("[X]");};
         b5.putClientProperty("seatSelected", "B5");
-        b5.addActionListener(addBookingActionListener);
         gridList.add(b5);
         JButton b6 = new JButton("[_]");
         if(seatingGrid[1][5]){b6.setLabel("[X]");};
         b6.putClientProperty("seatSelected", "B6");
-        b6.addActionListener(addBookingActionListener);
         gridList.add(b6);
         JButton b7 = new JButton("[_]");
         if(seatingGrid[1][6]){b7.setLabel("[X]");};
         b7.putClientProperty("seatSelected", "B7");
-        b7.addActionListener(addBookingActionListener);
         gridList.add(b7);
         JButton b8 = new JButton("[_]");
         if(seatingGrid[1][7]){b8.setLabel("[X]");};
         b8.putClientProperty("seatSelected", "B8");
-        b8.addActionListener(addBookingActionListener);
         gridList.add(b8);
         JButton b9 = new JButton("[_]");
         if(seatingGrid[1][8]){b9.setLabel("[X]");};
         b9.putClientProperty("seatSelected", "B9");
-        b9.addActionListener(addBookingActionListener);
         gridList.add(b9);
         JButton b10 = new JButton("[_]");
         if(seatingGrid[1][9]){b10.setLabel("[X]");};
         b10.putClientProperty("seatSelected", "B10");
-        b10.addActionListener(addBookingActionListener);
         gridList.add(b10);
         
         // row C
@@ -1609,52 +1855,42 @@ public class Gui extends UserInterface
         JButton c1 = new JButton("[_]");
         if(seatingGrid[2][0]){c1.setLabel("[X]");};
         c1.putClientProperty("seatSelected", "C1");
-        c1.addActionListener(addBookingActionListener);
         gridList.add(c1);
         JButton c2 = new JButton("[_]");
         if(seatingGrid[2][1]){c2.setLabel("[X]");};
         c2.putClientProperty("seatSelected", "C2");
-        c2.addActionListener(addBookingActionListener);
         gridList.add(c2);
         JButton c3 = new JButton("[_]");
         if(seatingGrid[2][2]){c3.setLabel("[X]");};
         c3.putClientProperty("seatSelected", "C3");
-        c3.addActionListener(addBookingActionListener);
         gridList.add(c3);
         JButton c4 = new JButton("[_]");
         if(seatingGrid[2][3]){c4.setLabel("[X]");};
         c4.putClientProperty("seatSelected", "C4");
-        c4.addActionListener(addBookingActionListener);
         gridList.add(c4);
         JButton c5 = new JButton("[_]");
         if(seatingGrid[2][4]){c5.setLabel("[X]");};
         c5.putClientProperty("seatSelected", "C5");
-        c5.addActionListener(addBookingActionListener);
         gridList.add(c5);
         JButton c6 = new JButton("[_]");
         if(seatingGrid[2][5]){c6.setLabel("[X]");};
         c6.putClientProperty("seatSelected", "C6");
-        c6.addActionListener(addBookingActionListener);
         gridList.add(c6);
         JButton c7 = new JButton("[_]");
         if(seatingGrid[2][6]){c7.setLabel("[X]");};
         c7.putClientProperty("seatSelected", "C7");
-        c7.addActionListener(addBookingActionListener);
         gridList.add(c7);
         JButton c8 = new JButton("[_]");
         if(seatingGrid[2][7]){c8.setLabel("[X]");};
         c8.putClientProperty("seatSelected", "C8");
-        c8.addActionListener(addBookingActionListener);
         gridList.add(c8);
         JButton c9 = new JButton("[_]");
         if(seatingGrid[2][8]){c9.setLabel("[X]");};
         c9.putClientProperty("seatSelected", "C9");
-        c9.addActionListener(addBookingActionListener);
         gridList.add(c9);
         JButton c10 = new JButton("[_]");
         if(seatingGrid[2][9]){c10.setLabel("[X]");};
         c10.putClientProperty("seatSelected", "C10");
-        c10.addActionListener(addBookingActionListener);
         gridList.add(c10);
         
         // row D
@@ -1664,52 +1900,42 @@ public class Gui extends UserInterface
         JButton d1 = new JButton("[_]");
         if(seatingGrid[3][0]){d1.setLabel("[X]");};
         d1.putClientProperty("seatSelected", "D1");
-        d1.addActionListener(addBookingActionListener);
         gridList.add(d1);
         JButton d2 = new JButton("[_]");
         if(seatingGrid[3][1]){d2.setLabel("[X]");};
         d2.putClientProperty("seatSelected", "D2");
-        d2.addActionListener(addBookingActionListener);
         gridList.add(d2);
         JButton d3 = new JButton("[_]");
         if(seatingGrid[3][2]){d3.setLabel("[X]");};
         d3.putClientProperty("seatSelected", "D3");
-        d3.addActionListener(addBookingActionListener);
         gridList.add(d3);
         JButton d4 = new JButton("[_]");
         if(seatingGrid[3][3]){d4.setLabel("[X]");};
         d4.putClientProperty("seatSelected", "D4");
-        d4.addActionListener(addBookingActionListener);
         gridList.add(d4);
         JButton d5 = new JButton("[_]");
         if(seatingGrid[3][4]){d5.setLabel("[X]");};
         d5.putClientProperty("seatSelected", "D5");
-        d5.addActionListener(addBookingActionListener);
         gridList.add(d5);
         JButton d6 = new JButton("[_]");
         if(seatingGrid[3][5]){d6.setLabel("[X]");};
         d6.putClientProperty("seatSelected", "D6");
-        d6.addActionListener(addBookingActionListener);
         gridList.add(d6);
         JButton d7 = new JButton("[_]");
         if(seatingGrid[3][6]){d7.setLabel("[X]");};
         d7.putClientProperty("seatSelected", "D7");
-        d7.addActionListener(addBookingActionListener);
         gridList.add(d7);
         JButton d8 = new JButton("[_]");
         if(seatingGrid[3][7]){d8.setLabel("[X]");};
         d8.putClientProperty("seatSelected", "D8");
-        d8.addActionListener(addBookingActionListener);
         gridList.add(d8);
         JButton d9 = new JButton("[_]");
         if(seatingGrid[3][8]){d9.setLabel("[X]");};
         d9.putClientProperty("seatSelected", "D9");
-        d9.addActionListener(addBookingActionListener);
         gridList.add(d9);
         JButton d10 = new JButton("[_]");
         if(seatingGrid[3][9]){d10.setLabel("[X]");};
         d10.putClientProperty("seatSelected", "D10");
-        d10.addActionListener(addBookingActionListener);
         gridList.add(d10);
         
         // row E
@@ -1719,52 +1945,42 @@ public class Gui extends UserInterface
         JButton e1 = new JButton("[_]");
         if(seatingGrid[4][0]){e1.setLabel("[X]");};
         e1.putClientProperty("seatSelected", "E1");
-        e1.addActionListener(addBookingActionListener);
         gridList.add(e1);
         JButton e2 = new JButton("[_]");
         if(seatingGrid[4][1]){e2.setLabel("[X]");};
         e2.putClientProperty("seatSelected", "E2");
-        e2.addActionListener(addBookingActionListener);
         gridList.add(e2);
         JButton e3 = new JButton("[_]");
         if(seatingGrid[4][2]){e3.setLabel("[X]");};
         e3.putClientProperty("seatSelected", "E3");
-        e3.addActionListener(addBookingActionListener);
         gridList.add(e3);
         JButton e4 = new JButton("[_]");
         if(seatingGrid[4][3]){e4.setLabel("[X]");};
         e4.putClientProperty("seatSelected", "E4");
-        e4.addActionListener(addBookingActionListener);
         gridList.add(e4);
         JButton e5 = new JButton("[_]");
         if(seatingGrid[4][4]){e5.setLabel("[X]");};
         e5.putClientProperty("seatSelected", "E5");
-        e5.addActionListener(addBookingActionListener);
         gridList.add(e5);
         JButton e6 = new JButton("[_]");
         if(seatingGrid[4][5]){e6.setLabel("[X]");};
         e6.putClientProperty("seatSelected", "E6");
-        e6.addActionListener(addBookingActionListener);
         gridList.add(e6);
         JButton e7 = new JButton("[_]");
         if(seatingGrid[4][6]){e7.setLabel("[X]");};
         e7.putClientProperty("seatSelected", "E7");
-        e7.addActionListener(addBookingActionListener);
         gridList.add(e7);
         JButton e8 = new JButton("[_]");
         if(seatingGrid[4][7]){e8.setLabel("[X]");};
         e8.putClientProperty("seatSelected", "E8");
-        e8.addActionListener(addBookingActionListener);
         gridList.add(e8);
         JButton e9 = new JButton("[_]");
         if(seatingGrid[4][8]){e9.setLabel("[X]");};
         e9.putClientProperty("seatSelected", "E9");
-        e9.addActionListener(addBookingActionListener);
         gridList.add(e9);
         JButton e10 = new JButton("[_]");
         if(seatingGrid[4][9]){e10.setLabel("[X]");};
         e10.putClientProperty("seatSelected", "E10");
-        e10.addActionListener(addBookingActionListener);
         gridList.add(e10);
 
         // seat numbers
@@ -1802,9 +2018,23 @@ public class Gui extends UserInterface
         ten = setButtonColorDull(ten);
         gridList.add(ten);
         
+        int i = 0;
         for(JButton button : gridList)
         {
+            if(i>10&&i<66)
+                {
+                    //button is a seat-button. Add the correct ActionListener
+                    if(ticketManager.equals("booker"))
+                    {
+                        button.addActionListener(addBookingActionListener);
+                    }
+                    else
+                    {
+                        button.addActionListener(bookingsMoveTicketActionListener);
+                    }
+                }
             panel.add(button);
+            i++;
         }
         return panel;
     }

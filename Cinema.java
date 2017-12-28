@@ -320,6 +320,21 @@ public class Cinema
     }
 
     /**
+     * Get ticket by id
+     *
+     * @param  int ticketId 
+     * @return void
+     */
+    public Ticket getTicket(int ticketId) throws IllegalArgumentException
+    {  
+        if(tickets.get(ticketId)==null)
+        {
+            throw new IllegalArgumentException("TicketId not recognized");
+        }
+        return tickets.get(ticketId);
+    }
+
+    /**
      * Get a list of tickets
      * @return List tickets
      */
