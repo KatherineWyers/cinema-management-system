@@ -663,6 +663,30 @@ public class Gui extends UserInterface
     }
     
     /**
+     * displayBookingsReviewAndRatePage()
+     * @return void
+     */
+    private void displayBookingsReviewAndRatePage()
+    {
+        this.formData = new HashMap<String, Object>();// reset the formData Map
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("bookings", 4), BorderLayout.SOUTH);
+        JPanel panel = new JPanel();   
+        panel.setLayout(new GridLayout(4,2,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        panel = this.addTextFieldToPanel(20, "ticketId", "Ticket Id", panel);
+        panel = this.addTextFieldToPanel(20, "review", "Review", panel);
+        panel = this.addTextFieldToPanel(20, "rating", "Rating", panel);
+        panel.add(new JLabel(""));//blank label so submit button moves to second column
+        JButton submit = new JButton("Submit");
+        submit.addActionListener(bookingsReviewAndRateActionListener);
+        panel.add(submit);
+        this.centerPanel.add(panel);
+        this.showPanels();
+    }   
+    
+    /**
      * addTextFieldToPanel
      * @param int maxLength
      * @param String title
@@ -879,12 +903,16 @@ public class Gui extends UserInterface
                 button2.putClientProperty("page", "addBooking");
                 button3.setText("Move Ticket");
                 button3.putClientProperty("page", "bookingsMoveTicket");
+                button4.setText("Review and Rate");
+                button4.putClientProperty("page", "bookingsReviewAndRate");
                 panel.add(button1);
                 panel.add(button2);
                 panel.add(button3);
+                panel.add(button4);
                 button1.addActionListener(NavButtonActionListener);
                 button2.addActionListener(NavButtonActionListener);
                 button3.addActionListener(NavButtonActionListener);
+                button4.addActionListener(NavButtonActionListener);
                 break;
         }
 
@@ -1126,6 +1154,9 @@ public class Gui extends UserInterface
                     break;
                 case "bookingsMoveTicket":
                     displayBookingsMoveTicketPage();
+                    break;
+                case "bookingsReviewAndRate":
+                    displayBookingsReviewAndRatePage();
                     break;
             }
         }
@@ -1629,6 +1660,80 @@ public class Gui extends UserInterface
                 displayBookingsIndexPage();
                 return;
             }
+        }
+    };
+    
+    ActionListener bookingsReviewAndRateActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            String review;
+            int rating;
+            Ticket ticket;
+            int ticketId;
+            
+            if(formData.get("ticketId")==null||formData.get("review")==null||formData.get("rating")==null)
+            {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "All fields must be completed.");
+                displayBookingsReviewAndRatePage();
+                return;
+            }
+            JTextField ticketIdTextField = (JTextField)formData.get("ticketId");
+            
+            try
+            {
+                ticketId = Integer.parseInt(ticketIdTextField.getText());
+            } catch (NumberFormatException ex) {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "TicketId entered is not a number.");
+                displayBookingsReviewAndRatePage();
+                return;
+            }
+            
+            try
+            {
+                ticket = cinema.getTicket(ticketId);
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage());
+                displayBookingsReviewAndRatePage();
+                return;
+            }
+            
+            JTextField reviewTextField = (JTextField)formData.get("review");
+            if(reviewTextField.getText().length()>255)
+            {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "Review must be less than 255 characters.");
+                displayBookingsReviewAndRatePage();
+                return;
+            }
+            review = reviewTextField.getText();
+            
+            JTextField ratingTextField = (JTextField)formData.get("rating");
+            try
+            {
+                rating = Integer.parseInt(ratingTextField.getText());
+            } catch (NumberFormatException ex) {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "Rating entered is not a number.");
+                displayBookingsReviewAndRatePage();
+                return;
+            }
+            
+            if(rating<1||rating>5)
+            {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "Rating must be between 1 and 5.");
+                displayBookingsReviewAndRatePage();
+                return;
+            }
+            
+            cinema.addReview(ticket, review, rating);
+            JFrame popupFrame = new JFrame("Review and Rating");
+            JOptionPane.showMessageDialog(popupFrame, "Review and Rating added successfully.");
+            displayBookingsReviewAndRatePage();
+            return;
         }
     };
     
