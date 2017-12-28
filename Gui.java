@@ -12,7 +12,7 @@ import java.util.HashMap;
  * Gui interface for the application
  *
  * @author Katherine Wyers
- * @version 1.0
+ * @version 28-DEC-2017
  * 
  * Adapted from: H. Gan 2015
  */
@@ -740,7 +740,6 @@ public class Gui extends UserInterface
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
         Reporter reporter = new Reporter(this.cinema);
-        System.out.println("Passing values to reporter: " + month + " " + year);
         List<TicketReport> ticketReportList = reporter.getTicketReportList(month, year);
         panel.add(new Label("REPORT - Tickets Sold and Average Rating"));// heading
         panel.add(new Label("YEAR: " + year + ", MONTH: " + ((int)month+1)));// heading
@@ -2062,7 +2061,6 @@ public class Gui extends UserInterface
                 displayReportsTicketsAndRatingsPage();
                 return;
             }
-            System.out.println("reportsTicketsAndRatingsSetYearMonthActionListener reached...");
             if(((JButton)e.getSource()).getClientProperty("month")==null)
             {
                 displayReportsTicketsAndRatingsPage();
@@ -2071,7 +2069,6 @@ public class Gui extends UserInterface
             int year = 0;
             int month = (Integer)((JButton)e.getSource()).getClientProperty("month");
             
-            System.out.println("reportsTicketsAndRatingsSetYearMonthActionListener month set...");
             
             JTextField yearTextField = (JTextField)formData.get("year");
             try
@@ -2092,7 +2089,6 @@ public class Gui extends UserInterface
                 return;
             } 
             
-            System.out.println("reportsTicketsAndRatingsSetYearMonthActionListener month and year set..." + year + " " + month);
             displayReportsTicketsAndRatingsForSelectedMonth(month,year);
             return;
         }
@@ -2102,7 +2098,6 @@ public class Gui extends UserInterface
     {
         public void actionPerformed(ActionEvent e)
         {
-            System.out.println("reportsIncomeSetYearMonthActionListener reached...");
             
             if(formData.get("year")==null)
             {

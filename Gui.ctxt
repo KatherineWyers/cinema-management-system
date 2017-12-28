@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Gui
-comment0.text=\r\n\ Gui\ interface\ for\ the\ application\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n\ \r\n\ Adapted\ from\:\ H.\ Gan\ 2015\r\n
+comment0.text=\r\n\ Gui\ interface\ for\ the\ application\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 28-DEC-2017\r\n\ \r\n\ Adapted\ from\:\ H.\ Gan\ 2015\r\n
 comment1.params=
 comment1.target=Gui()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Gui\r\n
