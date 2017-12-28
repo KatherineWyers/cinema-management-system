@@ -19,8 +19,6 @@ import java.util.HashMap;
 public class Gui extends UserInterface
 {
     private JFrame frame;
-    private int frameWidth;
-    private int frameHeight;
     private JList<Object> indexList;
     private DefaultListModel<Object> listModel;
     
@@ -45,22 +43,52 @@ public class Gui extends UserInterface
      */
     private void setupFrame()
     {
-        this.frameWidth = 1024;
-        this.frameHeight = 768;
         this.indexList = new JList<Object>();
         this.listModel = new DefaultListModel<Object>();
         
         this.northPanel = new JPanel(new BorderLayout());
-        this.centerPanel = new JPanel();
-        this.eastPanel = new JPanel();
-        this.southPanel = new JPanel();
-        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
-        
+        this.centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        this.centerPanel.setBackground(Color.white);
+        this.eastPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        this.eastPanel.setMinimumSize(new Dimension(400,0));
+        this.eastPanel.setPreferredSize(new Dimension(400,0));
+        this.eastPanel.setBackground(Color.white);
+        this.southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         this.frame = new JFrame("Odeon Cinema System");
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(frameWidth,frameHeight);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        this.frame.setPreferredSize(new Dimension(800,600));
+        this.frame.setMinimumSize(new Dimension(800,600));
+        this.frame.setResizable(false);
         this.frame.pack();
         frame.setVisible(true);
+    }
+    
+    /**
+     * oneColumnLayout
+     * Create layout with Centre panel as full width
+     * @return void
+     */
+    private void oneColumnLayout()
+    {
+        this.centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        this.centerPanel.setMinimumSize(new Dimension(799,0));
+        this.centerPanel.setPreferredSize(new Dimension(799,0));
+        this.eastPanel.setMinimumSize(new Dimension(1,0));
+        this.eastPanel.setPreferredSize(new Dimension(1,0));
+    }
+    
+    /**
+     * twoColumnLayout
+     * Create layout with 2/3 center and 1/3 east
+     * @return void
+     */
+    private void twoColumnLayout()
+    {
+        this.centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        this.centerPanel.setMinimumSize(new Dimension(500,0));
+        this.centerPanel.setPreferredSize(new Dimension(500,0));
+        this.eastPanel.setMinimumSize(new Dimension(300,0));
+        this.eastPanel.setPreferredSize(new Dimension(300,0));
     }
     
     /**
@@ -82,15 +110,20 @@ public class Gui extends UserInterface
     private void displayFilmsIndexPage()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("films"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("films", 1), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getFilmList());// Load the index list and display it
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("FILM INDEX: Select Film"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
         this.indexList.addMouseListener(filmsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelFilmsIndex(this.cinema.getFilmList().get(0));// Display the first film in the list by default
         this.showPanels();
     }
+    
       
     /**
      * updateEastPanelFilmsIndex
@@ -100,31 +133,20 @@ public class Gui extends UserInterface
     private void updateEastPanelFilmsIndex(Film film)
     {   
         this.clearEastPanel();
-        if(film==null)
-        {
-            throw new IllegalArgumentException("Film Id is not recognized");
-        }
-        
-        // The following is adapted from:
-        // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
-        // Author: Guillaume Polet
-        // Accessed 26-DEC-2017
-        
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        ArrayList<JComponent> componentList = new ArrayList<JComponent>();
-        componentList.add(new JLabel("Title: " + film.getTitle()));
-        componentList.add(new JLabel("Director: " + film.getDirector()));
-        componentList.add(new JLabel("Year: " + film.getYear()));
-        componentList.add(new JLabel("Language: " + film.getLanguage()));
-        componentList.add(new JLabel("Subtitles: " + film.getSubtitles()));   
-        for(JComponent component : componentList)
-        {  
-            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            insidePanel.add(component);  
-            panel.add(insidePanel);
-        }
-        eastPanel.add(panel);  
+        JPanel panel = new JPanel(); 
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.setLayout(new GridLayout(0,2,20,20));
+        panel.add(new JLabel("Title"));
+        panel.add(new JLabel(film.getTitle()));
+        panel.add(new JLabel("Director"));
+        panel.add(new JLabel(film.getDirector()));
+        panel.add(new JLabel("Year"));
+        panel.add(new JLabel(Integer.toString(film.getYear())));
+        panel.add(new JLabel("Language"));
+        panel.add(new JLabel(film.getLanguage()));
+        panel.add(new JLabel("Subtitles"));
+        panel.add(new JLabel(film.getSubtitles()));  
+        this.eastPanel.add(panel); 
         this.refreshEastPanel();
     }
     
@@ -136,6 +158,7 @@ public class Gui extends UserInterface
     private void displayAddFilmPage()
     {    
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("films"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("films", 2), BorderLayout.SOUTH);
         this.addAddFilmFormToCenterPanel();
@@ -149,7 +172,7 @@ public class Gui extends UserInterface
     private void addAddFilmFormToCenterPanel()
     {
         JPanel panel = new JPanel();   
-        panel.setLayout(new GridLayout(6,2,5,5));
+        panel.setLayout(new GridLayout(10,2,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanel(20, "title", "Title", panel);
         panel = this.addTextFieldToPanel(20, "director", "Director", panel);
@@ -160,7 +183,19 @@ public class Gui extends UserInterface
         JButton submit = new JButton("Submit");
         submit.addActionListener(addFilmActionListener);
         panel.add(submit);
-        this.centerPanel.add(panel);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("Add New Film"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
     }
     
     /**
@@ -170,11 +205,16 @@ public class Gui extends UserInterface
     private void displayShowsIndexPage()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("shows", 1), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getShowList());// Load the index list and display it
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("SHOWS INDEX: Select Show"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        
         this.indexList.addMouseListener(showsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelShowsIndex(this.cinema.getShowList().get(0));// preselect the first show
         this.showPanels();
@@ -188,35 +228,24 @@ public class Gui extends UserInterface
     private void updateEastPanelShowsIndex(Show show)
     {   
         this.clearEastPanel();
-        if(show==null)
-        {
-            throw new IllegalArgumentException("Show Id is not recognized");
-        }
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         
-        // The following is adapted from:
-        // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
-        // Author: Guillaume Polet
-        // Accessed 26-DEC-2017
+        JPanel topPanel = new JPanel(new GridLayout(3,2,20,20));
+        topPanel.add(new JLabel("Film"));
+        topPanel.add(new JLabel(show.getFilm().getTitle()));
+        topPanel.add(new JLabel("DateTime"));
+        topPanel.add(new JLabel(show.getDateTime()));
+        topPanel.add(new JLabel("Screen"));
+        topPanel.add(new JLabel(show.getScreen().getTitle()));
+        JPanel midPanel = this.getHeaderPanel("SEATING GRID");
+        JPanel bottomPanel = this.getSeatingGridPanel(this.cinema.getSeatingGrid(show));
         
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        ArrayList<JComponent> componentList = new ArrayList<JComponent>();
-        componentList.add(new JLabel("Film: " + show.getFilm().getTitle()));
-        componentList.add(new JLabel("DateTime: " + show.getDateTime()));
-        componentList.add(new JLabel("Screen: " + show.getScreen().getTitle()));    
-        for(JComponent component : componentList)
-        {  
-            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            insidePanel.add(component);  
-            panel.add(insidePanel);
-        }
-        JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        insidePanel.add(new JLabel("SEATING GRID"));
-        panel.add(insidePanel);
-        insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        insidePanel.add(this.getSeatingGridPanel(this.cinema.getSeatingGrid(show)));
-        panel.add(insidePanel);
-        eastPanel.add(panel);     
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(midPanel, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        
+        eastPanel.add(mainPanel);     
         this.refreshEastPanel();  
     }
     
@@ -239,11 +268,15 @@ public class Gui extends UserInterface
     private void displayAddShowSelectFilm()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("shows", 2), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getFilmList());
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("ADD SHOW: Select Film"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
         this.indexList.addMouseListener(addShowSelectFilmListMouseListener);
         this.updateEastPanelAddShowSelectFilm(this.cinema.getFilmList().get(0));// preselect the first film
         this.showPanels();
@@ -257,14 +290,18 @@ public class Gui extends UserInterface
     private void updateEastPanelAddShowSelectFilm(Film film)
     {   
         this.clearEastPanel();
-        if(film==null)
-        {
-            throw new IllegalArgumentException("Film is not recognized");
-        }
-        eastPanel.add(new JLabel("<html>Title: " + film.getTitle() + "<br />Director: " + film.getDirector() + "<br />Year: " + film.getYear() + "<br /></html>"));
-        this.formData.put("tempFilm", film);// place film in temporary HashMap location, until 'Select Film for Show' has been clicked. 
+        JPanel panel = new JPanel(new GridLayout(3,2,20,20));
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(new JLabel("Title"));
+        panel.add(new JLabel(film.getTitle()));
+        panel.add(new JLabel("Director"));
+        panel.add(new JLabel(film.getDirector()));
+        panel.add(new JLabel("Year"));
+        panel.add(new JLabel(Integer.toString(film.getYear())));
+        this.formData.put("tempFilm", film);// place film in temporary HashMap location, until 'Select Film for Show' has been clicked.
         JButton addFilmButton = new JButton("Select Film for Show");
         addFilmButton.addActionListener(addShowActionListener);
+        this.eastPanel.add(panel);
         this.eastPanel.add(addFilmButton);
         this.refreshEastPanel();
     }
@@ -276,11 +313,15 @@ public class Gui extends UserInterface
     private void displayAddShowSelectScreen()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("shows", 2), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getScreenList());
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("ADD SHOW: Select Screen"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
         this.indexList.addMouseListener(addShowSelectScreenListMouseListener);
         this.updateEastPanelAddShowSelectScreen(this.cinema.getScreenList().get(0));// preselect the first film
         this.showPanels();
@@ -294,15 +335,15 @@ public class Gui extends UserInterface
     private void updateEastPanelAddShowSelectScreen(Screen screen)
     {   
         this.clearEastPanel();
-        if(screen==null)
-        {
-            throw new IllegalArgumentException("Screen Id is not recognized");
-        }
-        eastPanel.add(new JLabel("<html>Title: " + screen.getTitle()));
+        JPanel panel = new JPanel(new GridLayout(3,1,20,20));
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(new JLabel("SCREEN SELECTED"));
+        panel.add(new JLabel(screen.getTitle()));
         formData.put("tempScreen", screen);// place screen in temporary HashMap location, until 'Select Screen for Show' has been clicked. 
         JButton addScreenButton = new JButton("Select Screen for Show");
         addScreenButton.addActionListener(addShowActionListener);
-        this.eastPanel.add(addScreenButton);
+        panel.add(addScreenButton);
+        this.eastPanel.add(panel);
         this.refreshEastPanel();
     }
     
@@ -313,6 +354,7 @@ public class Gui extends UserInterface
     private void displayAddShowEnterDetails()
     {
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("shows"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("shows", 2), BorderLayout.SOUTH);
         this.addAddShowEnterDetailsFormToCenterPanel();
@@ -326,7 +368,7 @@ public class Gui extends UserInterface
     private void addAddShowEnterDetailsFormToCenterPanel()
     {
         JPanel panel = new JPanel();   
-        panel.setLayout(new GridLayout(8,2,5,5));
+        panel.setLayout(new GridLayout(10,2,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanel(4, "year", "Year (eg: 2017)", panel);
         panel = this.addTextFieldToPanel(2, "month", "MonthNo. (eg: 6)", panel);
@@ -340,7 +382,15 @@ public class Gui extends UserInterface
         JButton submit = new JButton("Submit");
         submit.addActionListener(addShowActionListener);
         panel.add(submit);
-        this.centerPanel.add(panel);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("Enter Details For New Show"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
     }
     
     /**
@@ -350,11 +400,15 @@ public class Gui extends UserInterface
     private void displayCustomersIndexPage()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("customers"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("customers", 1), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getCustomerList());// Load the index list and display it
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("CUSTOMERS INDEX: Select Customer"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
         this.indexList.addMouseListener(customersIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelCustomersIndex(this.cinema.getCustomerList().get(0));// Display the first film in the list by default
         this.showPanels();
@@ -368,27 +422,12 @@ public class Gui extends UserInterface
     private void updateEastPanelCustomersIndex(Customer customer)
     {   
         this.clearEastPanel();
-        if(customer==null)
-        {
-            throw new IllegalArgumentException("Customer Id is not recognized");
-        }
-        
-        // The following is adapted from:
-        // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
-        // Author: Guillaume Polet
-        // Accessed 26-DEC-2017
-        
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        ArrayList<JComponent> componentList = new ArrayList<JComponent>();
-        componentList.add(new JLabel("CustomerName: " + customer.getName()));
-        componentList.add(new JLabel("CustomerId: " + customer.getId())); 
-        for(JComponent component : componentList)
-        {  
-            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            insidePanel.add(component);  
-            panel.add(insidePanel);
-        }
+        JPanel panel = new JPanel(new GridLayout(2,2,20,20));
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(new JLabel("CustomerName"));
+        panel.add(new JLabel(customer.getName()));
+        panel.add(new JLabel("CustomerId"));
+        panel.add(new JLabel(Integer.toString(customer.getId())));
         eastPanel.add(panel);  
         this.refreshEastPanel();
     }
@@ -400,11 +439,15 @@ public class Gui extends UserInterface
     private void displayBookingsIndexPage()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 1), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getBookingList());// Load the index list and display it
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("BOOKINGS INDEX: Select Booking"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
         this.indexList.addMouseListener(bookingsIndexListMouseListener);// Event listener. When the list is clicked, it updates the eastPanel
         this.updateEastPanelBookingsIndex(this.cinema.getBookingList().get(0));// Display the first film in the list by default
         this.showPanels();
@@ -418,39 +461,34 @@ public class Gui extends UserInterface
     private void updateEastPanelBookingsIndex(Booking booking)
     {   
         this.clearEastPanel();
-        if(booking==null)
-        {
-            throw new IllegalArgumentException("Booking Id is not recognized");
-        }
-        
-        // The following is adapted from:
-        // https://stackoverflow.com/questions/11735237/swing-aligning-jpanels-in-a-boxlayout
-        // Author: Guillaume Polet
-        // Accessed 26-DEC-2017
-        
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        ArrayList<JComponent> componentList = new ArrayList<JComponent>();
-        componentList.add(new JLabel("CustomerName: " + booking.getCustomer().getId()));
-        componentList.add(new JLabel("CustomerId: " + booking.getCustomer().getId())); 
+        JPanel panel = new JPanel(new GridLayout(0,2,20,20));
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(new JLabel("Customer Name"));
+        panel.add(new JLabel(booking.getCustomer().getName()));
+        panel.add(new JLabel("CustomerId"));
+        panel.add(new JLabel(Integer.toString(booking.getCustomer().getId())));
        for(Ticket ticket : this.cinema.getTicketList(booking))
        {
-           componentList.add(new JLabel("Ticket: " + ticket.toString())); 
+           panel.add(new JLabel(""));
+           panel.add(new JLabel(""));
+           panel.add(new JLabel("Film"));
+           panel.add(new JLabel(ticket.getShow().getFilm().getTitle()));
+           panel.add(new JLabel("DateTime"));
+           panel.add(new JLabel(ticket.getShow().getDateTime()));
+           panel.add(new JLabel("Seat"));
+           panel.add(new JLabel(ticket.getSeatName()));
            if(this.cinema.getReviews().get(ticket.getId())!=null)
            {
-               componentList.add(new JLabel("+++Customer Review:       " + this.cinema.getReviews().get(ticket.getId()).getReview()));
-               componentList.add(new JLabel("+++Customer Rating (1-5): " + this.cinema.getReviews().get(ticket.getId()).getRating()));
+               panel.add(new JLabel("+++Customer Review"));
+               panel.add(new JLabel(this.cinema.getReviews().get(ticket.getId()).getReview()));
+               panel.add(new JLabel("+++Customer Rating (1-5)"));
+               panel.add(new JLabel(Integer.toString(this.cinema.getReviews().get(ticket.getId()).getRating())));
            }
        }    
-        
-        for(JComponent component : componentList)
-        {  
-            JComponent insidePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            insidePanel.add(component);  
-            panel.add(insidePanel);
-        }
-        eastPanel.add(panel);  
-        this.refreshEastPanel();
+       panel.add(new JLabel(""));
+       panel.add(new JLabel(""));
+       eastPanel.add(panel);  
+       this.refreshEastPanel();
     }
     
     /**
@@ -472,16 +510,25 @@ public class Gui extends UserInterface
     private void displayAddBookingSelectCustomerType()
     {    
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 2), BorderLayout.SOUTH);
+        
+        JPanel panel = new JPanel();
         JButton newCustomerBtn = new JButton("New Customer");
         newCustomerBtn.putClientProperty("customerType", "newCustomer");
         newCustomerBtn.addActionListener(addBookingSelectCustomerTypeActionListener);
         JButton existingCustomerBtn = new JButton("Existing Customer");
         existingCustomerBtn.putClientProperty("customerType", "existingCustomer");
         existingCustomerBtn.addActionListener(addBookingSelectCustomerTypeActionListener);
-        this.centerPanel.add(newCustomerBtn);
-        this.centerPanel.add(existingCustomerBtn);
+        panel.add(newCustomerBtn);
+        panel.add(existingCustomerBtn);
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("ADD BOOKING: Select Customer Type"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
+        
         this.showPanels();
     }
     
@@ -492,17 +539,39 @@ public class Gui extends UserInterface
     private void displayAddBookingEnterCustomerId()
     {
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 2), BorderLayout.SOUTH);
         JPanel panel = new JPanel();   
-        panel.setLayout(new GridLayout(2,2,5,5));
+        panel.setLayout(new GridLayout(10,2,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanel(20, "customerId", "Customer Id", panel);
         panel.add(new JLabel(""));//blank label so submit button moves to second column
         JButton submit = new JButton("Submit");
         submit.addActionListener(addBookingSetExistingCustomerActionListener);
         panel.add(submit);
-        this.centerPanel.add(panel);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("ADD BOOKING: Enter Customer Id"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
+        
         this.showPanels();
     }   
     
@@ -513,17 +582,39 @@ public class Gui extends UserInterface
     private void displayAddBookingNewCustomer()
     {
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 2), BorderLayout.SOUTH);
         JPanel panel = new JPanel();   
-        panel.setLayout(new GridLayout(2,2,5,5));
+        panel.setLayout(new GridLayout(10,2,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanel(20, "customerName", "Customer Name", panel);
         panel.add(new JLabel(""));//blank label so submit button moves to second column
         JButton submit = new JButton("Submit");
         submit.addActionListener(addBookingSetNewCustomerActionListener);
         panel.add(submit);
-        this.centerPanel.add(panel);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("ADD BOOKING: Enter Customer Details"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
+        
         this.showPanels();
     }   
     
@@ -534,11 +625,17 @@ public class Gui extends UserInterface
     private void displayAddBookingSelectShow()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 2), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getShowList());
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("ADD BOOKING: Select Show"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
+        
         this.indexList.addMouseListener(addBookingSelectShowListMouseListener);
         this.updateEastPanelAddBookingSelectShow(this.cinema.getShowList().get(0));// preselect the first film
         this.showPanels();
@@ -552,14 +649,18 @@ public class Gui extends UserInterface
     private void updateEastPanelAddBookingSelectShow(Show show)
     {   
         this.clearEastPanel();
-        if(show==null)
-        {
-            throw new IllegalArgumentException("Show Id is not recognized");
-        }
-        eastPanel.add(new JLabel("<html>Film: " + show.getFilm().getTitle() + ", <br />Screen: " + show.getScreen().getTitle() + ", <br />DateTime: " + show.getDateTime()));
+        JPanel panel = new JPanel(new GridLayout(3,2,20,20));
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(new JLabel("Film"));
+        panel.add(new JLabel(show.getFilm().getTitle()));
+        panel.add(new JLabel("Screen"));
+        panel.add(new JLabel(show.getScreen().getTitle()));
+        panel.add(new JLabel("DateTime"));
+        panel.add(new JLabel(show.getDateTime()));
         formData.put("tempShow", show);// place screen in temporary HashMap location, until 'Select Screen for Show' has been clicked. 
         JButton addShowButton = new JButton("Select Show for Booking");
         addShowButton.addActionListener(addBookingActionListener);
+        this.eastPanel.add(panel);
         this.eastPanel.add(addShowButton);
         this.refreshEastPanel();
     }
@@ -572,9 +673,37 @@ public class Gui extends UserInterface
     private void displayAddBookingSelectSeats(Booker booker)
     {    
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 2), BorderLayout.SOUTH);
-        this.centerPanel.add(this.getSeatingGridButtons(booker.getSeatingGrid(), "booker"));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("ADD BOOKING: Select Seats"), BorderLayout.NORTH);
+        this.centerPanel.add(this.getSeatingGridButtons(booker.getSeatingGrid(), "booker"), BorderLayout.CENTER);
+        
+        this.updateSouthPanelAddBookingSelectSeats();
+        this.showPanels();
+    }
+    
+    /**
+     * updateSouthPanelAddBookingSelectSeats
+     * @return void
+     */
+    private void updateSouthPanelAddBookingSelectSeats()
+    {   
+        this.clearSouthPanel();
+        Booker booker = (Booker)this.formData.get("booker");
+        if(booker!=null)
+        {
+            for(Reservation reservation : booker.getReservations())
+            {
+                this.southPanel.add(new JLabel(cinema.convertToRowLetter(reservation.getRow()) + Integer.toString(reservation.getNum())));
+                this.southPanel.add(new JLabel(", "));
+            }  
+            this.southPanel.add(new JLabel("TOTAL PRICE: $" + booker.getTotalPrice()));
+        }
+        
         JButton cashPaymentBtn = new JButton("Cash Payment");
         cashPaymentBtn.putClientProperty("paymentType", "cash");
         cashPaymentBtn.addActionListener(addBookingSelectPaymentTypeActionListener);
@@ -583,7 +712,7 @@ public class Gui extends UserInterface
         cardPaymentBtn.addActionListener(addBookingSelectPaymentTypeActionListener);
         this.southPanel.add(cashPaymentBtn);
         this.southPanel.add(cardPaymentBtn);
-        this.showPanels();
+        this.refreshSouthPanel();
     }
     
     /**
@@ -594,17 +723,38 @@ public class Gui extends UserInterface
     {
         this.formData = new HashMap<String, Object>();// reset the formData Map
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 3), BorderLayout.SOUTH);
         JPanel panel = new JPanel();   
-        panel.setLayout(new GridLayout(2,2,5,5));
+        panel.setLayout(new GridLayout(10,2,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanel(20, "ticketId", "Ticket Id", panel);
         panel.add(new JLabel(""));//blank label so submit button moves to second column
         JButton submit = new JButton("Submit");
         submit.addActionListener(bookingsMoveTicketActionListener);
         panel.add(submit);
-        this.centerPanel.add(panel);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("MOVE TICKET: Enter Ticket Id"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
         this.showPanels();
     }   
     
@@ -615,11 +765,16 @@ public class Gui extends UserInterface
     private void displayBookingsMoveTicketSelectShow()
     {    
         this.clearPanels();
+        this.twoColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 3), BorderLayout.SOUTH);
         this.refreshList(this.cinema.getShowList());
         this.indexList = new JList<Object>(listModel);
-        this.centerPanel.add(this.indexList);
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("MOVE TICKET: Select New Show"), BorderLayout.NORTH);
+        this.centerPanel.add(this.indexList, BorderLayout.CENTER);
         this.indexList.addMouseListener(bookingsMoveTicketSelectShowListMouseListener);
         this.updateEastPanelBookingsMoveTicketSelectShow(this.cinema.getShowList().get(0));// preselect the first film
         this.showPanels();
@@ -633,14 +788,18 @@ public class Gui extends UserInterface
     private void updateEastPanelBookingsMoveTicketSelectShow(Show show)
     {   
         this.clearEastPanel();
-        if(show==null)
-        {
-            throw new IllegalArgumentException("Show Id is not recognized");
-        }
-        eastPanel.add(new JLabel("<html>Film: " + show.getFilm().getTitle() + ", <br />Screen: " + show.getScreen().getTitle() + ", <br />DateTime: " + show.getDateTime()));
+        JPanel panel = new JPanel(new GridLayout(3,2,20,20));
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(new JLabel("Film"));
+        panel.add(new JLabel(show.getFilm().getTitle()));
+        panel.add(new JLabel("Screen"));
+        panel.add(new JLabel(show.getScreen().getTitle()));
+        panel.add(new JLabel("DateTime"));
+        panel.add(new JLabel(show.getDateTime()));
         formData.put("tempShow", show);// place screen in temporary HashMap location, until 'Select Screen for Show' has been clicked. 
         JButton addShowButton = new JButton("Select Show for Transfer");
         addShowButton.addActionListener(bookingsMoveTicketActionListener);
+        this.eastPanel.add(panel);
         this.eastPanel.add(addShowButton);
         this.refreshEastPanel();
     }
@@ -653,13 +812,40 @@ public class Gui extends UserInterface
     private void displayBookingsMoveTicketSelectSeat(Transferer transferer)
     {    
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 3), BorderLayout.SOUTH);
-        this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()), "transferer"));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("MOVE TICKET: Select Seat"), BorderLayout.NORTH);
+        this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()), BorderLayout.CENTER));
+        
+        this.updateSouthPanelBookingMoveTicketSelectSeat();
+        this.showPanels();
+    }
+    
+    /**
+     * updateEastPanelBookingMoveTicketSelectSeat
+     * @return void
+     */
+    private void updateSouthPanelBookingMoveTicketSelectSeat()
+    {   
+        this.clearSouthPanel();
+        Transferer transferer = (Transferer)this.formData.get("transferer");
+        if(transferer!=null)
+        {
+            if(transferer.getReservation()!=null)
+            {
+                this.southPanel.add(new JLabel("SEAT: " + cinema.convertToRowLetter(transferer.getReservation().getRow()) + Integer.toString(transferer.getReservation().getNum())));
+                this.southPanel.add(new JLabel("TRANSFER PRICE: $" + transferer.getSurcharge()));
+            }    
+        }
+        
         JButton processTransferBtn = new JButton("Process Transfer");
         processTransferBtn.addActionListener(bookingsMoveTicketSelectPaymentTypeActionListener);
         this.southPanel.add(processTransferBtn);
-        this.showPanels();
+        this.refreshSouthPanel();
     }
     
     /**
@@ -670,19 +856,36 @@ public class Gui extends UserInterface
     {
         this.formData = new HashMap<String, Object>();// reset the formData Map
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("bookings"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("bookings", 4), BorderLayout.SOUTH);
         JPanel panel = new JPanel();   
-        panel.setLayout(new GridLayout(4,2,5,5));
+        panel.setLayout(new GridLayout(10,2,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanel(20, "ticketId", "Ticket Id", panel);
-        panel = this.addTextFieldToPanel(20, "review", "Review", panel);
+        panel = this.addTextFieldToPanel(20, "review", "Review (max 20 char.)", panel);
         panel = this.addTextFieldToPanel(1, "rating", "Rating", panel);
         panel.add(new JLabel(""));//blank label so submit button moves to second column
         JButton submit = new JButton("Submit");
         submit.addActionListener(bookingsReviewAndRateActionListener);
         panel.add(submit);
-        this.centerPanel.add(panel);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("BOOKINGS: Enter Review and Rating"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
         this.showPanels();
     }   
     
@@ -717,13 +920,18 @@ public class Gui extends UserInterface
     private void displayReportsTicketsAndRatingsForSelectedMonth(int month, int year)
     {    
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("reports"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("reports", 1), BorderLayout.SOUTH);
         // Reports gets added to centerPanel here
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(this.getMonthYearMenuPanel(month, year, "ticketsAndRatings"), BorderLayout.NORTH);
         panel.add(this.getTicketsAndRatingsReportPanel(month, year), BorderLayout.CENTER);
-        this.centerPanel.add(panel);
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("REPORTS: Tickets And Average Ratings"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
         this.showPanels();
     }
     
@@ -779,13 +987,18 @@ public class Gui extends UserInterface
     private void displayReportsIncomeForSelectedMonth(int month, int year)
     {    
         this.clearPanels();
+        this.oneColumnLayout();
         this.northPanel.add(this.getPrimaryNavPanel("reports"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("reports", 2), BorderLayout.SOUTH);
         // Reports gets added to centerPanel here
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(this.getMonthYearMenuPanel(month, year, "income"), BorderLayout.NORTH);
         panel.add(this.getIncomeReportPanel(month, year), BorderLayout.CENTER);
-        this.centerPanel.add(panel);
+        
+        // centerPanel
+        this.centerPanel.setLayout(new BorderLayout());
+        this.centerPanel.add(this.getHeaderPanel("REPORTS: Income Generated Per Film"), BorderLayout.NORTH);
+        this.centerPanel.add(panel, BorderLayout.CENTER);
         this.showPanels();
     }
     
@@ -832,15 +1045,8 @@ public class Gui extends UserInterface
     {
         JPanel panel = new JPanel();   
         List<JButton> buttonList = new ArrayList<JButton>();
-        panel.setLayout(new GridLayout(8,3,5,5));
+        panel.setLayout(new GridLayout(6,3,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        // create top gray row
-        JButton blank1 = new JButton("");
-        JButton blank2 = new JButton("");
-        JButton blank3 = new JButton("");
-        panel.add(this.setButtonColorDull(blank1));
-        panel.add(this.setButtonColorDull(blank2));
-        panel.add(this.setButtonColorDull(blank3));
         
         panel = this.addTextFieldToPanelWithDefaultText(4, "year", "Enter Year (eg 2017)", Integer.toString(year), panel);
         JButton updateYearBtn = new JButton("Update Year");
@@ -956,14 +1162,6 @@ public class Gui extends UserInterface
             panel.add(button);
         }
         
-        // create lower gray line
-        JButton blank4 = new JButton("");
-        JButton blank5 = new JButton("");
-        JButton blank6 = new JButton("");
-        panel.add(this.setButtonColorDull(blank4));
-        panel.add(this.setButtonColorDull(blank5));
-        panel.add(this.setButtonColorDull(blank6));
-        
         return panel;
     }
     
@@ -1025,6 +1223,16 @@ public class Gui extends UserInterface
     }
     
     /**
+     * clearSouthPanel
+     * Call removeAll on southPanel
+     * @return void
+     */
+    private void clearSouthPanel()
+    {
+        this.southPanel.removeAll();
+    }
+    
+    /**
      * refreshCenterPanel
      * Call revalidate and repaint on eastPanel
      * @return void
@@ -1044,6 +1252,17 @@ public class Gui extends UserInterface
     {
         this.eastPanel.revalidate();
         this.eastPanel.repaint();
+    }
+    
+    /**
+     * refreshSouthPanel
+     * Call revalidate and repaint on southPanel
+     * @return void
+     */
+    private void refreshSouthPanel()
+    {
+        this.southPanel.revalidate();
+        this.southPanel.repaint();
     }
     
     /**
@@ -2573,41 +2792,6 @@ public class Gui extends UserInterface
         if(seatingGrid[4][9]){e10.setLabel("[X]");};
         e10.putClientProperty("seatSelected", "E10");
         gridList.add(e10);
-
-        // seat numbers
-        JButton blank = new JButton("");
-        blank = setButtonColorDull(blank);
-        gridList.add(blank);
-        JButton one = new JButton("1");
-        one = setButtonColorDull(one);
-        gridList.add(one);
-        JButton two = new JButton("2");
-        two = setButtonColorDull(two);
-        gridList.add(two);
-        JButton three = new JButton("3");
-        three = setButtonColorDull(three);
-        gridList.add(three);
-        JButton four = new JButton("4");
-        four = setButtonColorDull(four);
-        gridList.add(four);
-        JButton five = new JButton("5");
-        five = setButtonColorDull(five);
-        gridList.add(five);
-        JButton six = new JButton("6");
-        six = setButtonColorDull(six);
-        gridList.add(six);
-        JButton seven = new JButton("7");
-        seven = setButtonColorDull(seven);
-        gridList.add(seven);
-        JButton eight = new JButton("8");
-        eight = setButtonColorDull(eight);
-        gridList.add(eight);
-        JButton nine = new JButton("9");
-        nine = setButtonColorDull(nine);
-        gridList.add(nine);
-        JButton ten = new JButton("10");
-        ten = setButtonColorDull(ten);
-        gridList.add(ten);
         
         int i = 0;
         for(JButton button : gridList)
@@ -2627,6 +2811,25 @@ public class Gui extends UserInterface
             panel.add(button);
             i++;
         }
+        return panel;
+    }
+    
+    
+    /**
+     * getHeaderPanel
+     * Return a JPanel with the parameter 
+     * seting as a header
+     * @param String header
+     * @return JPanel panel
+     */
+    private JPanel getHeaderPanel(String header)
+    {
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.white);
+        header.toUpperCase();
+        JLabel label = new JLabel(header);
+        label.setFont(new Font("Serif", Font.BOLD, 20));
+        panel.add(label);
         return panel;
     }
 }

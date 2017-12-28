@@ -75,6 +75,15 @@ public abstract class SeatAllocation
     }
     
     /**
+     * getSeatName
+     * @return String seatName
+     */
+    public String getSeatName()
+    {
+        return this.convertToRowLetter(this.getRow()) + this.getNum();
+    }
+    
+    /**
      * Convert row int to row letter
      * @param int row at int
      * @return String rowLetter
