@@ -117,6 +117,28 @@ public class Booker extends TicketManager
     }
     
     /**
+     * isExistReservation
+     * Check whether there is a 
+     * reservation at that seat
+     * @param Show show
+     * @param int row
+     * @param int num
+     * @return boolean
+     */
+    public boolean isExistReservation(int row, int num)
+    {
+        for(Reservation r : this.getReservations())
+        {
+            if(r.getShow()==this.show&&r.getRow()==row&&r.getNum()==num)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    /**
      * Finalize the current booking
      * Add seatReservations to the show and create the payment
      * @param int row
