@@ -687,6 +687,187 @@ public class Gui extends UserInterface
     }   
     
     /**
+     * displayReportsPage
+     * Display the default reports page
+     * @return void
+     */
+    private void displayReportsPage()
+    {
+        this.displayReportsTicketsAndRatingsPage();
+    }
+    
+    /**
+     * this.displayReportsTicketsAndReviewPage()
+     * Set the default values to the current year and month
+     * and call the displayReportsTicketsAndReviewForSelectedMonth()
+     * @return void
+     */
+    private void displayReportsTicketsAndRatingsPage()
+    {
+        Calendar calendar = Calendar.getInstance();
+        this.displayReportsTicketsAndRatingsForSelectedMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));// default variables to the current month and year
+    }
+    
+    /**
+     * displayReportsTicketsAndReviewForSelectedMonth()
+     * @param int month// zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @param int year
+     * @return void
+     */
+    private void displayReportsTicketsAndRatingsForSelectedMonth(int month, int year)
+    {    
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("reports"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("reports", 1), BorderLayout.SOUTH);
+        this.centerPanel.add(this.getMonthYearMenuPanel(month, year));
+        // Reports gets added to centerPanel here
+        this.centerPanel.add(this.getTicketsAndRatingsReportPanel(month, year));
+        this.showPanels();
+    }
+    
+    /**
+     * getYearMonthMenuPanel
+     * get a JPanel with JTextField for year and 12 buttons for the months 
+     * The value for year is passed to the ActionListener using the formData map
+     * The value for month is passed to the ActionListener using the getClientProperty
+     * @int month// currently selected month , zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @int year// currently selected year
+     */
+    private JPanel getMonthYearMenuPanel(int month, int year)
+    {
+        
+        JPanel panel = new JPanel();   
+        panel.setLayout(new GridLayout(2,7,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        panel = this.addTextFieldToPanelWithDefaultText(20, "year", "Year (eg 2017)", Integer.toString(year), panel);
+        JButton updateYearBtn = new JButton("Update Year");
+        updateYearBtn.putClientProperty("month", month);
+        updateYearBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(updateYearBtn);
+        JButton janBtn = new JButton("Jan");
+        janBtn.putClientProperty("month", (int)0);
+        janBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(janBtn);
+        JButton febBtn = new JButton("Feb");
+        febBtn.putClientProperty("month", (int)1);
+        febBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(febBtn);
+        JButton marBtn = new JButton("Mar");
+        marBtn.putClientProperty("month", (int)2);
+        marBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(marBtn);
+        JButton aprBtn = new JButton("Apr");
+        aprBtn.putClientProperty("month", (int)3);
+        aprBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(aprBtn);
+        JButton mayBtn = new JButton("May");
+        mayBtn.putClientProperty("month", (int)4);
+        mayBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(mayBtn);
+        JButton junBtn = new JButton("Jun");
+        junBtn.putClientProperty("month", (int)5);
+        junBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(junBtn);
+        JButton julBtn = new JButton("Jul");
+        julBtn.putClientProperty("month", (int)6);
+        julBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(julBtn);
+        JButton augBtn = new JButton("Aug");
+        augBtn.putClientProperty("month", (int)7);
+        augBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(augBtn);
+        JButton sepBtn = new JButton("Sep");
+        sepBtn.putClientProperty("month", (int)8);
+        sepBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(sepBtn);
+        JButton octBtn = new JButton("Oct");
+        octBtn.putClientProperty("month", (int)9);
+        octBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(octBtn);
+        JButton novBtn = new JButton("Nov");
+        novBtn.putClientProperty("month", (int)10);
+        novBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(novBtn);
+        JButton decBtn = new JButton("Dec");
+        decBtn.putClientProperty("month", (int)11);
+        decBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        panel.add(decBtn);
+        
+        switch(month)
+        {
+            case 0:
+                janBtn = this.setButtonColorActive(janBtn);
+                break;
+            case 1:
+                febBtn = this.setButtonColorActive(febBtn);
+                break;
+            case 2:
+                marBtn = this.setButtonColorActive(marBtn);
+                break;
+            case 3:
+                aprBtn = this.setButtonColorActive(aprBtn);
+                break;
+            case 4:
+                mayBtn = this.setButtonColorActive(mayBtn);
+                break;
+            case 5:
+                junBtn = this.setButtonColorActive(junBtn);
+                break;
+            case 6:
+                julBtn = this.setButtonColorActive(julBtn);
+                break;
+            case 7:
+                augBtn = this.setButtonColorActive(augBtn);
+                break;
+            case 8:
+                sepBtn = this.setButtonColorActive(sepBtn);
+                break;
+            case 9:
+                octBtn = this.setButtonColorActive(octBtn);
+                break;
+            case 10:
+                novBtn = this.setButtonColorActive(novBtn);
+                break;
+            case 11:
+                decBtn = this.setButtonColorActive(decBtn);
+                break;
+        }
+        return panel;
+    }
+    
+    /**
+     * getTicketsAndRatingsReportPanel
+     * @int month // zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @int year
+     * @return JPanel
+     */
+    private JPanel getTicketsAndRatingsReportPanel(int month, int year)
+    {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0,1,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        
+        Reporter reporter = new Reporter(this.cinema);
+        System.out.println("Passing values to reporter: " + month + " " + year);
+        List<TicketReport> ticketReportList = reporter.getTicketReportList(month, year);
+        panel.add(new Label("REPORT - Tickets Sold and Average Rating"));// heading
+        panel.add(new Label("YEAR: " + year + ", MONTH: " + ((int)month+1)));// heading
+        panel.add(new Label(""));// add a margin
+        if(ticketReportList.size()==0)
+        {
+            panel.add(new Label("No Tickets Sold"));
+        }
+        else
+        {
+            for(TicketReport ticketReport : ticketReportList)
+            {
+                panel.add(new Label(ticketReport.toString()));
+            }   
+        }
+        return panel;
+    }
+    
+    /**
      * addTextFieldToPanel
      * @param int maxLength
      * @param String title
@@ -696,6 +877,24 @@ public class Gui extends UserInterface
     private JPanel addTextFieldToPanel(int maxLength, String title, String label, JPanel panel)
     {
         JTextField textField = new JTextField(maxLength);
+        this.formData.put(title, textField);
+        panel.add(new JLabel(label));
+        panel.add(textField);
+        return panel;
+    }
+    
+    /**
+     * addTextFieldToPanel
+     * @param int maxLength
+     * @param String title
+     * @param String label
+     * @param String defaultText
+     * @return JPanel panel
+     */
+    private JPanel addTextFieldToPanelWithDefaultText(int maxLength, String title, String label, String defaultText, JPanel panel)
+    {
+        JTextField textField = new JTextField(defaultText);
+        textField.setColumns(maxLength);
         this.formData.put(title, textField);
         panel.add(new JLabel(label));
         panel.add(textField);
@@ -815,7 +1014,7 @@ public class Gui extends UserInterface
         JButton bookingsNavBtn = new JButton("Bookings");
         bookingsNavBtn.putClientProperty("page", "bookingsIndex");
         JButton reportsNavBtn = new JButton("Reports");
-        //reportsNavBtn.putClientProperty("page", "reportsIndex");
+        reportsNavBtn.putClientProperty("page", "reportsIndex");
         
         filmsNavBtn.addActionListener(NavButtonActionListener);
         showsNavBtn.addActionListener(NavButtonActionListener);
@@ -913,6 +1112,16 @@ public class Gui extends UserInterface
                 button2.addActionListener(NavButtonActionListener);
                 button3.addActionListener(NavButtonActionListener);
                 button4.addActionListener(NavButtonActionListener);
+                break;
+            case "reports":
+                button1.setText("Tickets&Ratings");
+                button1.putClientProperty("page", "reportsTicketsAndRatings");
+                panel.add(button1);
+                button1.addActionListener(NavButtonActionListener);
+                button2.setText("Income");
+                button2.putClientProperty("page", "reportsIncome");
+                panel.add(button2);
+                button2.addActionListener(NavButtonActionListener);
                 break;
         }
 
@@ -1158,6 +1367,15 @@ public class Gui extends UserInterface
                 case "bookingsReviewAndRate":
                     displayBookingsReviewAndRatePage();
                     break;
+                case "reportsIndex":
+                    displayReportsPage();
+                    break;
+                case "reportsTicketsAndRatings":
+                    displayReportsTicketsAndRatingsPage();
+                    break;
+                // case "reportsIncome":
+                    // displayReportsIncomePage();
+                    // break;
             }
         }
     };
@@ -1331,6 +1549,7 @@ public class Gui extends UserInterface
             return;
         }
     };
+    
     
     ActionListener addBookingSetExistingCustomerActionListener = new ActionListener()
     {
@@ -1613,7 +1832,6 @@ public class Gui extends UserInterface
     {
         public void actionPerformed(ActionEvent e)
         {
-            System.out.println("bookingsMoveTicketSelectPaymentTypeActionListener reached...");
             if(formData.get("transferer")==null)
             {
                 JOptionPane.showMessageDialog(frame, "Transfer Cancelled");
@@ -1621,8 +1839,6 @@ public class Gui extends UserInterface
                 return;
             }
             Transferer transferer = (Transferer)formData.get("transferer");
-            
-            System.out.println("bookingsMoveTicketSelectPaymentTypeActionListener transferer created...");
             String paymentType = "";
             if(transferer.getSurcharge()>0)
             {
@@ -1653,7 +1869,6 @@ public class Gui extends UserInterface
             }
             else
             {
-                System.out.println("bookingsMoveTicketSelectPaymentTypeActionListener nochargetransfer reached...");
                 transferer.finalizeNoChargeTransfer();
                 JFrame popupFrame = new JFrame("Checkout");
                 JOptionPane.showMessageDialog(popupFrame, "Transfer Process Completed Successfully."); 
@@ -1733,6 +1948,51 @@ public class Gui extends UserInterface
             JFrame popupFrame = new JFrame("Review and Rating");
             JOptionPane.showMessageDialog(popupFrame, "Review and Rating added successfully.");
             displayBookingsReviewAndRatePage();
+            return;
+        }
+    };
+    
+    ActionListener reportsTicketsAndRatingsSetYearMonthActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if(formData.get("year")==null)
+            {
+                displayReportsTicketsAndRatingsPage();
+                return;
+            }
+            System.out.println("reportsTicketsAndRatingsSetYearMonthActionListener reached...");
+            if(((JButton)e.getSource()).getClientProperty("month")==null)
+            {
+                displayReportsTicketsAndRatingsPage();
+                return;
+            }
+            int year = 0;
+            int month = (Integer)((JButton)e.getSource()).getClientProperty("month");
+            
+            System.out.println("reportsTicketsAndRatingsSetYearMonthActionListener month set...");
+            
+            JTextField yearTextField = (JTextField)formData.get("year");
+            try
+            {
+                year = Integer.parseInt(yearTextField.getText());
+            } catch (NumberFormatException ex) {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "Year entered is not a number.");
+                displayReportsTicketsAndRatingsPage();
+                return;
+            }
+            
+            if(year<2000|year>2050)
+            {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "Year must be between 2000 and 2050.");
+                displayReportsTicketsAndRatingsPage();
+                return;
+            } 
+            
+            System.out.println("reportsTicketsAndRatingsSetYearMonthActionListener month and year set..." + year + " " + month);
+            displayReportsTicketsAndRatingsForSelectedMonth(month,year);
             return;
         }
     };

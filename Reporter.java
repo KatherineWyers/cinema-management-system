@@ -36,17 +36,24 @@ public class Reporter
         while (it.hasNext())
         {
             Ticket ticket = (Ticket) (  it.next()  );
-            // Check if the film has already been added to the ticketReportMap
-            if(ticketReportMap.get(ticket.getShow().getFilm().getId())==null)
+            
+            int ticketMonth = ticket.getShow().getDate().get(Calendar.MONTH);
+            int ticketYear = ticket.getShow().getDate().get(Calendar.YEAR);
+            
+            if(ticketMonth==month&&ticketYear==year)
             {
-                TicketReport ticketReport = new TicketReport(ticket.getShow().getFilm(), month, year);// create new TicketReport
-                ticketReportMap.put(ticket.getShow().getFilm().getId(),ticketReport);// add to the map, with filmId as key
-            }
-            ticketReportMap.get(ticket.getShow().getFilm().getId()).incrementTicketCounter();// increment the ticket counter for the ticketReport
-            if(this.cinema.getReviews().get(ticket.getId())!=null)
-            {
-                ticketReportMap.get(ticket.getShow().getFilm().getId()).incrementRatingCounter();/// if the ticket has a rating, increment the ratingCounter
-                ticketReportMap.get(ticket.getShow().getFilm().getId()).addRating(this.cinema.getReviews().get(ticket.getId()).getRating());/// add the rating to the ratingSum;
+                // Check if the film has already been added to the ticketReportMap
+                if(ticketReportMap.get(ticket.getShow().getFilm().getId())==null)
+                {
+                    TicketReport ticketReport = new TicketReport(ticket.getShow().getFilm(), month, year);// create new TicketReport
+                    ticketReportMap.put(ticket.getShow().getFilm().getId(),ticketReport);// add to the map, with filmId as key
+                }
+                ticketReportMap.get(ticket.getShow().getFilm().getId()).incrementTicketCounter();// increment the ticket counter for the ticketReport
+                if(this.cinema.getReviews().get(ticket.getId())!=null)
+                {
+                    ticketReportMap.get(ticket.getShow().getFilm().getId()).incrementRatingCounter();/// if the ticket has a rating, increment the ratingCounter
+                    ticketReportMap.get(ticket.getShow().getFilm().getId()).addRating(this.cinema.getReviews().get(ticket.getId()).getRating());/// add the rating to the ratingSum;
+                }                
             }
         }
         ArrayList<TicketReport> ticketReportList = new ArrayList<TicketReport> (ticketReportMap.values());// Convert the map to a list
