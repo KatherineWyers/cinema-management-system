@@ -719,10 +719,102 @@ public class Gui extends UserInterface
         this.clearPanels();
         this.northPanel.add(this.getPrimaryNavPanel("reports"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("reports", 1), BorderLayout.SOUTH);
-        this.centerPanel.add(this.getMonthYearMenuPanel(month, year));
+        this.centerPanel.add(this.getMonthYearMenuPanel(month, year, "ticketsAndRatings"));
         // Reports gets added to centerPanel here
         this.centerPanel.add(this.getTicketsAndRatingsReportPanel(month, year));
         this.showPanels();
+    }
+    
+    /**
+     * getTicketsAndRatingsReportPanel
+     * @int month // zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @int year
+     * @return JPanel
+     */
+    private JPanel getTicketsAndRatingsReportPanel(int month, int year)
+    {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0,1,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        
+        Reporter reporter = new Reporter(this.cinema);
+        System.out.println("Passing values to reporter: " + month + " " + year);
+        List<TicketReport> ticketReportList = reporter.getTicketReportList(month, year);
+        panel.add(new Label("REPORT - Tickets Sold and Average Rating"));// heading
+        panel.add(new Label("YEAR: " + year + ", MONTH: " + ((int)month+1)));// heading
+        panel.add(new Label(""));// add a margin
+        if(ticketReportList.size()==0)
+        {
+            panel.add(new Label("No Tickets Sold"));
+        }
+        else
+        {
+            for(TicketReport ticketReport : ticketReportList)
+            {
+                panel.add(new Label(ticketReport.toString()));
+            }   
+        }
+        return panel;
+    }
+    
+    /**
+     * this.displayReportsIncomePage()
+     * Set the default values to the current year and month
+     * and call the displayReportsIncomeForSelectedMonth()
+     * @return void
+     */
+    private void displayReportsIncomePage()
+    {
+        Calendar calendar = Calendar.getInstance();
+        this.displayReportsIncomeForSelectedMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));// default variables to the current month and year
+    }
+    
+    /**
+     * displayReportsIncomeForSelectedMonth()
+     * @param int month// zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @param int year
+     * @return void
+     */
+    private void displayReportsIncomeForSelectedMonth(int month, int year)
+    {    
+        this.clearPanels();
+        this.northPanel.add(this.getPrimaryNavPanel("reports"), BorderLayout.NORTH);
+        this.northPanel.add(this.getSecondaryNavPanel("reports", 2), BorderLayout.SOUTH);
+        this.centerPanel.add(this.getMonthYearMenuPanel(month, year, "income"));
+        // Reports gets added to centerPanel here
+        this.centerPanel.add(this.getIncomeReportPanel(month, year));
+        this.showPanels();
+    }
+    
+    /**
+     * geIncomeReportPanel
+     * @int month // zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @int year
+     * @return JPanel
+     */
+    private JPanel getIncomeReportPanel(int month, int year)
+    {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0,1,5,5));
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        
+        Reporter reporter = new Reporter(this.cinema);
+        List<IncomeReport> incomeReportList = reporter.getIncomeReportList(month, year);
+        panel.add(new Label("REPORT - Income"));// heading
+        panel.add(new Label("YEAR: " + year + ", MONTH: " + ((int)month+1)));// heading
+        panel.add(new Label(""));// add a margin
+        if(incomeReportList.size()==0)
+        {
+            panel.add(new Label("No Tickets Sold"));
+        }
+        else
+        {
+            for(IncomeReport incomeReport : incomeReportList)
+            {
+                panel.add(new Label(incomeReport.toString()));
+            }   
+        }
+        return panel;
     }
     
     /**
@@ -733,65 +825,52 @@ public class Gui extends UserInterface
      * @int month// currently selected month , zero-based [0: Jan, 1: Feb, 11: Dec]
      * @int year// currently selected year
      */
-    private JPanel getMonthYearMenuPanel(int month, int year)
+    private JPanel getMonthYearMenuPanel(int month, int year, String report)
     {
-        
         JPanel panel = new JPanel();   
+        List<JButton> buttonList = new ArrayList<JButton>();
         panel.setLayout(new GridLayout(2,7,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         panel = this.addTextFieldToPanelWithDefaultText(20, "year", "Year (eg 2017)", Integer.toString(year), panel);
         JButton updateYearBtn = new JButton("Update Year");
         updateYearBtn.putClientProperty("month", month);
-        updateYearBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(updateYearBtn);
+        buttonList.add(updateYearBtn);
         JButton janBtn = new JButton("Jan");
         janBtn.putClientProperty("month", (int)0);
-        janBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(janBtn);
+        buttonList.add(janBtn);
         JButton febBtn = new JButton("Feb");
         febBtn.putClientProperty("month", (int)1);
-        febBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(febBtn);
+        buttonList.add(febBtn);
         JButton marBtn = new JButton("Mar");
         marBtn.putClientProperty("month", (int)2);
-        marBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(marBtn);
+        buttonList.add(marBtn);
         JButton aprBtn = new JButton("Apr");
         aprBtn.putClientProperty("month", (int)3);
-        aprBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(aprBtn);
+        buttonList.add(aprBtn);
         JButton mayBtn = new JButton("May");
         mayBtn.putClientProperty("month", (int)4);
-        mayBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(mayBtn);
+        buttonList.add(mayBtn);
         JButton junBtn = new JButton("Jun");
         junBtn.putClientProperty("month", (int)5);
-        junBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(junBtn);
+        buttonList.add(junBtn);
         JButton julBtn = new JButton("Jul");
         julBtn.putClientProperty("month", (int)6);
-        julBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(julBtn);
+        buttonList.add(julBtn);
         JButton augBtn = new JButton("Aug");
         augBtn.putClientProperty("month", (int)7);
-        augBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(augBtn);
+        buttonList.add(augBtn);
         JButton sepBtn = new JButton("Sep");
         sepBtn.putClientProperty("month", (int)8);
-        sepBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(sepBtn);
+        buttonList.add(sepBtn);
         JButton octBtn = new JButton("Oct");
         octBtn.putClientProperty("month", (int)9);
-        octBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(octBtn);
+        buttonList.add(octBtn);
         JButton novBtn = new JButton("Nov");
         novBtn.putClientProperty("month", (int)10);
-        novBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(novBtn);
+        buttonList.add(novBtn);
         JButton decBtn = new JButton("Dec");
         decBtn.putClientProperty("month", (int)11);
-        decBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
-        panel.add(decBtn);
+        buttonList.add(decBtn);
         
         switch(month)
         {
@@ -832,37 +911,19 @@ public class Gui extends UserInterface
                 decBtn = this.setButtonColorActive(decBtn);
                 break;
         }
-        return panel;
-    }
-    
-    /**
-     * getTicketsAndRatingsReportPanel
-     * @int month // zero-based [0: Jan, 1: Feb, 11: Dec]
-     * @int year
-     * @return JPanel
-     */
-    private JPanel getTicketsAndRatingsReportPanel(int month, int year)
-    {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0,1,5,5));
-        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
-        Reporter reporter = new Reporter(this.cinema);
-        System.out.println("Passing values to reporter: " + month + " " + year);
-        List<TicketReport> ticketReportList = reporter.getTicketReportList(month, year);
-        panel.add(new Label("REPORT - Tickets Sold and Average Rating"));// heading
-        panel.add(new Label("YEAR: " + year + ", MONTH: " + ((int)month+1)));// heading
-        panel.add(new Label(""));// add a margin
-        if(ticketReportList.size()==0)
+        for(JButton button : buttonList)
         {
-            panel.add(new Label("No Tickets Sold"));
-        }
-        else
-        {
-            for(TicketReport ticketReport : ticketReportList)
+            //button is a seat-button. Add the correct ActionListener
+            if(report.equals("ticketsAndRatings"))
             {
-                panel.add(new Label(ticketReport.toString()));
-            }   
+                button.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+            }
+            else
+            {
+                button.addActionListener(reportsIncomeSetYearMonthActionListener);
+            }
+            panel.add(button);
         }
         return panel;
     }
@@ -1373,9 +1434,9 @@ public class Gui extends UserInterface
                 case "reportsTicketsAndRatings":
                     displayReportsTicketsAndRatingsPage();
                     break;
-                // case "reportsIncome":
-                    // displayReportsIncomePage();
-                    // break;
+                case "reportsIncome":
+                    displayReportsIncomePage();
+                    break;
             }
         }
     };
@@ -1996,7 +2057,49 @@ public class Gui extends UserInterface
             return;
         }
     };
-    
+
+    ActionListener reportsIncomeSetYearMonthActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            System.out.println("reportsIncomeSetYearMonthActionListener reached...");
+            
+            if(formData.get("year")==null)
+            {
+                displayReportsIncomePage();
+                return;
+            }
+            
+            if(((JButton)e.getSource()).getClientProperty("month")==null)
+            {
+                displayReportsIncomePage();
+                return;
+            }
+            int year = 0;
+            int month = (Integer)((JButton)e.getSource()).getClientProperty("month");
+            
+            JTextField yearTextField = (JTextField)formData.get("year");
+            try
+            {
+                year = Integer.parseInt(yearTextField.getText());
+            } catch (NumberFormatException ex) {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "Year entered is not a number.");
+                displayReportsTicketsAndRatingsPage();
+                return;
+            }
+            
+            if(year<2000|year>2050)
+            {
+                JFrame popupFrame = new JFrame("Invalid Input");
+                JOptionPane.showMessageDialog(popupFrame, "Year must be between 2000 and 2050.");
+                displayReportsTicketsAndRatingsPage();
+                return;
+            } 
+            displayReportsIncomeForSelectedMonth(month,year);
+            return;
+        }
+    };
     /**
      * isLengthInRange
      * @param String 

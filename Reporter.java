@@ -78,13 +78,19 @@ public class Reporter
         while (it.hasNext())
         {
             Ticket ticket = (Ticket) (  it.next()  );
-            // Check if the film has already been added to the ticketReportMap
-            if(incomeReportMap.get(ticket.getShow().getFilm().getId())==null)
+            int ticketMonth = ticket.getShow().getDate().get(Calendar.MONTH);
+            int ticketYear = ticket.getShow().getDate().get(Calendar.YEAR);
+            
+            if(ticketMonth==month&&ticketYear==year)
             {
-                IncomeReport incomeReport = new IncomeReport(ticket.getShow().getFilm(), month, year);// create new IncomeReport
-                incomeReportMap.put(ticket.getShow().getFilm().getId(),incomeReport);// add to the map, with filmId as key
+                // Check if the film has already been added to the ticketReportMap
+                if(incomeReportMap.get(ticket.getShow().getFilm().getId())==null)
+                {
+                    IncomeReport incomeReport = new IncomeReport(ticket.getShow().getFilm(), month, year);// create new IncomeReport
+                    incomeReportMap.put(ticket.getShow().getFilm().getId(),incomeReport);// add to the map, with filmId as key
+                }
+                incomeReportMap.get(ticket.getShow().getFilm().getId()).addIncome(ticket.getPrice());/// add the rating to the ratingSum;
             }
-            incomeReportMap.get(ticket.getShow().getFilm().getId()).addIncome(ticket.getPrice());/// add the rating to the ratingSum;
         }
         ArrayList<IncomeReport> incomeReportList = new ArrayList<IncomeReport> (incomeReportMap.values());// Convert the map to a list
         Collections.sort(incomeReportList, new IncomeComparator());// Sorts the array list using comparator
