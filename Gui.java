@@ -719,9 +719,11 @@ public class Gui extends UserInterface
         this.clearPanels();
         this.northPanel.add(this.getPrimaryNavPanel("reports"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("reports", 1), BorderLayout.SOUTH);
-        this.centerPanel.add(this.getMonthYearMenuPanel(month, year, "ticketsAndRatings"));
         // Reports gets added to centerPanel here
-        this.centerPanel.add(this.getTicketsAndRatingsReportPanel(month, year));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(this.getMonthYearMenuPanel(month, year, "ticketsAndRatings"), BorderLayout.NORTH);
+        panel.add(this.getTicketsAndRatingsReportPanel(month, year), BorderLayout.CENTER);
+        this.centerPanel.add(panel);
         this.showPanels();
     }
     
@@ -780,9 +782,11 @@ public class Gui extends UserInterface
         this.clearPanels();
         this.northPanel.add(this.getPrimaryNavPanel("reports"), BorderLayout.NORTH);
         this.northPanel.add(this.getSecondaryNavPanel("reports", 2), BorderLayout.SOUTH);
-        this.centerPanel.add(this.getMonthYearMenuPanel(month, year, "income"));
         // Reports gets added to centerPanel here
-        this.centerPanel.add(this.getIncomeReportPanel(month, year));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(this.getMonthYearMenuPanel(month, year, "income"), BorderLayout.NORTH);
+        panel.add(this.getIncomeReportPanel(month, year), BorderLayout.CENTER);
+        this.centerPanel.add(panel);
         this.showPanels();
     }
     
@@ -829,12 +833,39 @@ public class Gui extends UserInterface
     {
         JPanel panel = new JPanel();   
         List<JButton> buttonList = new ArrayList<JButton>();
-        panel.setLayout(new GridLayout(2,7,5,5));
+        panel.setLayout(new GridLayout(8,3,5,5));
         panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        panel = this.addTextFieldToPanelWithDefaultText(20, "year", "Year (eg 2017)", Integer.toString(year), panel);
+        // create top gray row
+        JButton blank1 = new JButton("");
+        JButton blank2 = new JButton("");
+        JButton blank3 = new JButton("");
+        panel.add(this.setButtonColorDull(blank1));
+        panel.add(this.setButtonColorDull(blank2));
+        panel.add(this.setButtonColorDull(blank3));
+        
+        panel = this.addTextFieldToPanelWithDefaultText(20, "year", "Enter Year (eg 2017)", Integer.toString(year), panel);
         JButton updateYearBtn = new JButton("Update Year");
         updateYearBtn.putClientProperty("month", month);
-        buttonList.add(updateYearBtn);
+        //button is a seat-button. Add the correct ActionListener
+        if(report.equals("ticketsAndRatings"))
+        {
+            updateYearBtn.addActionListener(reportsTicketsAndRatingsSetYearMonthActionListener);
+        }
+        else
+        {
+            updateYearBtn.addActionListener(reportsIncomeSetYearMonthActionListener);
+        }
+        panel.add(updateYearBtn);
+        
+        // create middle gray line
+        JButton blank7 = new JButton("");
+        JButton blank8 = new JButton("");
+        JButton blank9 = new JButton("");
+        panel.add(this.setButtonColorDull(blank7));
+        panel.add(this.setButtonColorDull(blank8));
+        panel.add(this.setButtonColorDull(blank9));
+        
+        // add buttons to month array
         JButton janBtn = new JButton("Jan");
         janBtn.putClientProperty("month", (int)0);
         buttonList.add(janBtn);
@@ -911,7 +942,7 @@ public class Gui extends UserInterface
                 decBtn = this.setButtonColorActive(decBtn);
                 break;
         }
-        
+               
         for(JButton button : buttonList)
         {
             //button is a seat-button. Add the correct ActionListener
@@ -925,6 +956,15 @@ public class Gui extends UserInterface
             }
             panel.add(button);
         }
+        
+        // create lower gray line
+        JButton blank4 = new JButton("");
+        JButton blank5 = new JButton("");
+        JButton blank6 = new JButton("");
+        panel.add(this.setButtonColorDull(blank4));
+        panel.add(this.setButtonColorDull(blank5));
+        panel.add(this.setButtonColorDull(blank6));
+        
         return panel;
     }
     
