@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=GuiSplashScreen
+comment0.text=\r\n\ GuiSplashScreen\r\n\ Display\ an\ image\ when\ the\ application\ loads\r\n\ \r\n\ Adapted\ from\:\r\n\ https\://stackoverflow.com/questions/9864267/\r\n\ loading-image-resource/9866659\#9866659\r\n\ \r\n\ @author\ nIcE\ cOw\r\n\ @version\ 10-MAY-2013\r\n
+comment1.params=
+comment1.target=void\ displaySplashScreen()
+comment2.params=
+comment2.target=javax.swing.JPanel\ getSplashPanel()
+comment2.text=\r\n\ getSplashPanel\r\n\ @return\ JPanel\r\n
+comment3.params=args
+comment3.target=void\ main(java.lang.String[])
+comment4.params=
+comment4.target=void\ run()
+numComments=5

@@ -55,9 +55,7 @@ public class Gui extends UserInterface
         this.eastPanel.setBackground(Color.white);
         this.southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         this.frame = new JFrame("Odeon Cinema System");
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        this.frame.setPreferredSize(new Dimension(1024,768));
-        this.frame.setMinimumSize(new Dimension(1024,768));
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setResizable(false);
         this.frame.pack();
         frame.setVisible(true);
@@ -97,10 +95,41 @@ public class Gui extends UserInterface
      */
     public void run()
     {
+        this.displaySplashScreen();// resizes the frame
+        this.addDelayInSeconds(5);
+        this.resizeFrame();//return the frame to the correct size
         this.displayFilmsIndexPage();
         this.frame.pack();
         this.frame.setVisible(true); 
         // Application will quit when user clicks 'X' in the application interface
+    }
+    
+    
+    /**
+     * displaySplashScreen
+     * @return void
+     */
+    private void displaySplashScreen()
+    {
+        this.frame.setPreferredSize(new Dimension(1024,350));
+        this.frame.setMinimumSize(new Dimension(1024,350));
+        
+        GuiSplashScreen splash = new GuiSplashScreen();
+        this.clearPanels();
+        this.oneColumnLayout();
+        this.centerPanel.add(splash.getSplashPanel());
+        this.showPanels();
+    }
+    
+    /**
+     * resizeFrame
+     * Set the frame back to the correct size
+     * @return void
+     */
+    private void resizeFrame()
+    {
+        this.frame.setPreferredSize(new Dimension(1024,768));
+        this.frame.setMinimumSize(new Dimension(1024,768));   
     }
     
     /**
