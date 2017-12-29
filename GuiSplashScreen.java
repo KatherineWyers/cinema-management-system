@@ -42,7 +42,7 @@ public class GuiSplashScreen extends JPanel
         public ImagePanel()
         {
             try {
-                    image = ImageIO.read(ImagePanel.class.getResource("/resources/odeon-logo.png"));
+                    image = ImageIO.read(ImagePanel.class.getResource("resources/odeon-logo.jpg"));
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }

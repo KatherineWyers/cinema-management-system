@@ -111,8 +111,8 @@ public class Gui extends UserInterface
      */
     private void displaySplashScreen()
     {
-        this.frame.setPreferredSize(new Dimension(1024,350));
-        this.frame.setMinimumSize(new Dimension(1024,350));
+        this.frame.setPreferredSize(new Dimension(1024,560));
+        this.frame.setMinimumSize(new Dimension(1024,560));
         
         GuiSplashScreen splash = new GuiSplashScreen();
         this.clearPanels();
@@ -527,6 +527,8 @@ public class Gui extends UserInterface
            panel.add(new JLabel(ticket.getShow().getFilm().getTitle()));
            panel.add(new JLabel("DateTime"));
            panel.add(new JLabel(ticket.getShow().getDateTime()));
+           panel.add(new JLabel("TicketId"));
+           panel.add(new JLabel(Integer.toString(ticket.getId())));
            panel.add(new JLabel("Seat"));
            panel.add(new JLabel(ticket.getSeatName()));
            if(this.cinema.getReviews().get(ticket.getId())!=null)
@@ -877,7 +879,18 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(this.getHeaderPanel("MOVE TICKET: Select Seat"), BorderLayout.NORTH);
-        this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()), BorderLayout.CENTER));
+        
+        // if the current ticket is for the current show, pass the seatName to the grid to exclude it
+        // Otherwise, display full seating grid for the show and pass in a NULL string for seatName
+        String seatName;
+        if(transferer.getTicket().getShow()==transferer.getShow())
+        {
+            this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()), transferer.getTicket().getSeatName()));
+        }
+        else
+        {
+            this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGrid(), "NULL"));
+        }
         
         this.updateSouthPanelBookingMoveTicketSelectSeat();
         this.showPanels();
@@ -1588,6 +1601,28 @@ public class Gui extends UserInterface
         return button;
     }
     
+    /**
+     * setButtonColorWarning
+     * Set the background color of the button
+     * so show that it is for the current page
+     * 
+     * Adapted from code at 
+     * https://stackoverflow.com/questions/1065691
+     * /how-to-set-the-background-color-of-a-jbutton-on-the-mac-os
+     * 
+     * Author: codethulu
+     * Accessed 26-DEC-2017
+     * 
+     * @return JButton
+     */
+    private JButton setButtonColorWarning(JButton button)
+   {
+        button.setBackground(Color.orange);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        return button;
+    }
+    
     // All MouseListeners and ActionListeners
     // adapted from: CCS course materials
     // Date: 26-DEC-2017
@@ -1984,6 +2019,13 @@ public class Gui extends UserInterface
                 JOptionPane.showMessageDialog(popupFrame, "Date is not valid");
                 return;
             }  
+            
+            Calendar now = Calendar.getInstance();
+            if(calendar.before(now))
+            {
+                JOptionPane.showMessageDialog(popupFrame, "Cannot create a show with a date in the past");
+                return;
+            }
         
             cinema.addShow(calendar, screen, film, (float)priceRegularFloat, (float)priceVipFloat);// add the new show to the database
             formData = new HashMap<String, Object>();// reset the formData storage. 
@@ -2120,6 +2162,7 @@ public class Gui extends UserInterface
             Customer customer;
             Show show;
             Booker booker;
+            JFrame popupFrame = new JFrame("Add Booking");
             
             //before making the booker, we need a show and a customer
             if(formData.get("customer")==null)
@@ -2132,6 +2175,16 @@ public class Gui extends UserInterface
             if(formData.get("tempShow")!=null)//formData stores a temporary show when eastPanel loads. Move it to "show" key to confirm
             {
                 formData.put("show", formData.get("tempShow"));
+                
+                // Only allow booking to be created for shows in the future
+                Show tempShow = (Show)formData.get("tempShow");
+                Calendar now = Calendar.getInstance();
+                if(tempShow.getDate().before(now))
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "Cannot create a booking for a show with a date in the past");
+                    return;
+                }
+                
                 formData.remove("tempShow");
                 show = (Show)formData.get("show");
             }
@@ -2239,11 +2292,29 @@ public class Gui extends UserInterface
                 JOptionPane.showMessageDialog(popupFrame, ex.getMessage());
                 return;
             }
+
+            Calendar now = Calendar.getInstance();
+            if(ticket.getShow().getDate().before(now))
+            {
+                JOptionPane.showMessageDialog(popupFrame, "Ticket Expired: Cannot transfer a ticket that was purchased for a show in the past");
+                return;
+            }            
+            
             formData.put("ticket", ticket);
             
             if(formData.get("tempShow")!=null)//formData stores a temporary show when eastPanel loads. Move it to "show" key to confirm
             {
                 formData.put("show", formData.get("tempShow"));
+                
+                // Only allow booking to be created for shows in the future
+                Show tempShow = (Show)formData.get("tempShow");
+                now = Calendar.getInstance();
+                if(tempShow.getDate().before(now))
+                {
+                    JOptionPane.showMessageDialog(popupFrame, "Cannot move the ticket to a show with a date in the past");
+                    return;
+                }                
+                
                 formData.remove("tempShow");
                 show = (Show)formData.get("show");
             }
@@ -2392,6 +2463,13 @@ public class Gui extends UserInterface
                 JOptionPane.showMessageDialog(popupFrame, ex.getMessage());
                 return;
             }
+
+            Calendar now = Calendar.getInstance();
+            if(ticket.getShow().getDate().after(now))
+            {
+                JOptionPane.showMessageDialog(popupFrame, "Cannot log a review for a ticket if the show is in the future");
+                return;
+            } 
             
             JTextField reviewTextField = (JTextField)formData.get("review");
             if(reviewTextField.getText().length()>20)
@@ -2583,7 +2661,7 @@ public class Gui extends UserInterface
      * Accepts a String param booker or transferer so it 
      * can be used form both
      * @param boolean[][] seatingGrid
-     * @param String {booker, transferer}
+     * @param String ticketManager {booker, transferSeatName eg A1, B2, C1}
      * @return JPanel seatingGridPanel
      */
     public JPanel getSeatingGridButtons(boolean[][] seatingGrid, String ticketManager)
@@ -2852,19 +2930,62 @@ public class Gui extends UserInterface
         e10.putClientProperty("seatSelected", "E10");
         gridList.add(e10);
         
+        // seat numbers.
+        JButton seatNums0 = new JButton("");
+        seatNums0 = setButtonColorDull(seatNums0);
+        gridList.add(seatNums0);
+        JButton seatNums1 = new JButton("1");
+        seatNums1 = setButtonColorDull(seatNums1);
+        gridList.add(seatNums1);
+        JButton seatNums2 = new JButton("2");
+        seatNums2 = setButtonColorDull(seatNums2);
+        gridList.add(seatNums2);
+        JButton seatNums3 = new JButton("3");
+        seatNums3 = setButtonColorDull(seatNums3);
+        gridList.add(seatNums3);
+        JButton seatNums4 = new JButton("4");
+        seatNums4 = setButtonColorDull(seatNums4);
+        gridList.add(seatNums4);
+        JButton seatNums5 = new JButton("5");
+        seatNums5 = setButtonColorDull(seatNums5);
+        gridList.add(seatNums5);
+        JButton seatNums6 = new JButton("6");
+        seatNums6 = setButtonColorDull(seatNums6);
+        gridList.add(seatNums6);
+        JButton seatNums7 = new JButton("7");
+        seatNums7 = setButtonColorDull(seatNums7);
+        gridList.add(seatNums7);
+        JButton seatNums8 = new JButton("8");
+        seatNums8 = setButtonColorDull(seatNums8);
+        gridList.add(seatNums8);
+        JButton seatNums9 = new JButton("9");
+        seatNums9 = setButtonColorDull(seatNums9);
+        gridList.add(seatNums9);
+        JButton seatNums10 = new JButton("10");
+        seatNums10 = setButtonColorDull(seatNums10);
+        gridList.add(seatNums10);
+        
         int i = 0;
         for(JButton button : gridList)
         {
-            if(i>10&&i<66)
+            if((i>10&&i<66)&&(button.getLabel().equals("[_]")))// filter out the occupied seats
                 {
-                    //button is a seat-button. Add the correct ActionListener
-                    if(ticketManager.equals("booker"))
+                    if(!ticketManager.equals(button.getClientProperty("seatSelected")))// filter out the current ticket seatName
                     {
-                        button.addActionListener(addBookingActionListener);
+                        //button is an unoccupied seat-button that is not the current transferer ticket. Add the correct ActionListener
+                        if(ticketManager.equals("booker"))
+                        {
+                            button.addActionListener(addBookingActionListener);
+                        }
+                        else
+                        {
+                            button.addActionListener(bookingsMoveTicketActionListener);
+                        }
                     }
                     else
                     {
-                        button.addActionListener(bookingsMoveTicketActionListener);
+                        // button is current seatName
+                        button = setButtonColorWarning(button);
                     }
                 }
             panel.add(button);
