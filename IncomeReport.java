@@ -1,9 +1,11 @@
 
 /**
- * Write a description of class IncomeReport here.
+ * IncomeReport Class
+ * Each object is a single report on a single film 
+ * for a specified month and year
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Katherine Wyers
+ * @version DEC-2017
  */
 public class IncomeReport extends Report
 {
@@ -12,9 +14,9 @@ public class IncomeReport extends Report
     /**
      * Constructor for objects of class IncomeReport
      * 
-     * @param Film film
-     * @param int month
-     * @param int year
+     * @param film Film 
+     * @param month int 
+     * @param year int 
      */
     public IncomeReport(Film film, int month, int year)
     {
@@ -42,7 +44,7 @@ public class IncomeReport extends Report
      * used by the Transferer object when generating 
      * the report
      * 
-     * @return void
+     * @param income float
      */
     public void addIncome(float income)
     {

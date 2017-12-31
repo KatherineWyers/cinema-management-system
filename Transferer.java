@@ -18,9 +18,9 @@ public class Transferer extends TicketManager
     /**
      * Constructor for objects of class Transferer
      * 
-     * @param Cinema cinema
-     * @param Show show
-     * @param Ticket ticket
+     * @param cinema Cinema
+     * @param show Show
+     * @param ticket Ticket
      */
     public Transferer(Cinema cinema, Show show, Ticket ticket)
     {
@@ -35,7 +35,7 @@ public class Transferer extends TicketManager
      * 
      * Get the current ticket being transferred
      * 
-     * @return Ticket ticket
+     * @return Ticket
      */
     public Ticket getTicket()
     {
@@ -44,7 +44,7 @@ public class Transferer extends TicketManager
     
     /**
      * getSeatingGrid
-     * 
+         * 
      * Get the proposed seating grid updated with the temporary seat reservations
      * 
      * @return boolean[][]
@@ -72,7 +72,7 @@ public class Transferer extends TicketManager
      * Note: the cinema does not offer refunds if a ticket is transferred 
      * and the new seat is cheaper than the value of the ticket. 
      * 
-     * @param String ticketType
+     * @param ticketType String 
      * @return float
      */
     public float getTicketTransferSurcharge(String ticketType)
@@ -97,7 +97,7 @@ public class Transferer extends TicketManager
      * This method is used when the seats are being 
      * selected for the ticket transfer
      * 
-     * @param Ticket ignoreTicket
+     * @param ignoreTicket Ticket
      * @return boolean[][]
      */
     public boolean[][] getSeatingGridIgnoreTicket(Ticket ignoreTicket)
@@ -122,9 +122,8 @@ public class Transferer extends TicketManager
      * Set the temporary seat reservation
      * Can be used to create a new reservation, or to change the current reservation
      * 
-     * @param int row
-     * @param int num
-     * @return void
+     * @param row int 
+     * @param num int 
      */
     public void setReservation(int row, int num)
     {
@@ -142,8 +141,6 @@ public class Transferer extends TicketManager
      * finalizeNoChargeTransfer()
      * 
      * Finalize the changing of the for the selected seat in the current show
-     * 
-     * @return void
      */
     public void finalizeNoChargeTransfer()
     {
@@ -154,8 +151,6 @@ public class Transferer extends TicketManager
      * finalizeCashPayment
      * 
      * Finalize the changing of the for the selected seat in the current show
-     * 
-     * @return void
      */
     public void finalizeCashPayment()
     {
@@ -176,8 +171,6 @@ public class Transferer extends TicketManager
      * finalizeCardPayment
      * 
      * Finalize the changing of the for the selected seat in the current show
-     * 
-     * @return void
      */
     public void finalizeCardPayment(String referenceNumber)
     {
@@ -201,7 +194,7 @@ public class Transferer extends TicketManager
      * will return null if no seat reservation 
      * has been set
      * 
-     * @return Reservation reservation
+     * @return Reservation
      */
     public Reservation getReservation()
     {
@@ -216,7 +209,7 @@ public class Transferer extends TicketManager
      * the original ticket, set surcharge to 0.0.
      * No refunds are given
      * 
-     * @return float surcharge
+     * @return float
      */
     public float getSurcharge()
     {
@@ -232,8 +225,6 @@ public class Transferer extends TicketManager
      * seteNewDetailsForTicket
      * 
      * Change Ticket details
-     * 
-     * @return void
      */
     private void setNewDetailsForTicket()
     {

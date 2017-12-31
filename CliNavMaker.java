@@ -23,12 +23,11 @@ public class CliNavMaker
      * 
      * Select the navigation elements to be included in the menu
      * 
-     * @param boolean includeFullHeader// if false, only display minimal navigation options
-     * @param int primaryPointer// position of the pointer in the primary navigation panel
-     * @param int secondaryPointer// position of the pointer in the secondary navigation panel
-     * @param String category// title text
-     * @param String subtext
-     * @return void
+     * @param includeFullHeader boolean // if false, only display minimal navigation options
+     * @param primaryPointer int // position of the pointer in the primary navigation panel
+     * @param secondaryPointer int // position of the pointer in the secondary navigation panel
+     * @param category String // title text
+     * @param subtext String 
      */
     public static void pageHeader(boolean includeFullHeader, int primaryPointer, int secondaryPointer, String category, String subtext)
     {
@@ -52,8 +51,6 @@ public class CliNavMaker
      * includeFullHeader()
      * 
      * Print the full primary navigation menu
-     * 
-     * @return void
      */
     public static void includeFullHeader()
     {
@@ -65,8 +62,6 @@ public class CliNavMaker
      * includeTitleBar()
      * 
      * Print the title bar for the application
-     * 
-     * @return void
      */
     public static void includeTitleBar()
     {
@@ -78,9 +73,8 @@ public class CliNavMaker
      * 
      * Include the main title text and subtext elements
      * 
-     * @param String category
-     * @param String subtext
-     * @return void
+     * @param category String 
+     * @param subtext String 
      */
     public static void includeBanner(String category, String subtext)
     {
@@ -95,8 +89,7 @@ public class CliNavMaker
      * ASCII generated using: Text To ASCII Art Generator
      * http://patorjk.com/software/taag/
      * 
-     * @param String category
-     * @return void
+     * @param category String 
      */
     public static void includeBannerMainText(String category)
     {
@@ -153,8 +146,7 @@ public class CliNavMaker
      * 
      * Print the subtext
      * 
-     * @param String subtext
-     * @return void
+     * @param subtext String 
      */
     public static void includeBannerSubtext(String subtext)
     {
@@ -167,8 +159,7 @@ public class CliNavMaker
      * Print the secondary navigation 
      * for the given category
      * 
-     * @param String category
-     * @return void
+     * @param category String 
      */
     public static void includeSecondaryNav(String category)
     {
@@ -198,8 +189,7 @@ public class CliNavMaker
      * 
      * Print the pointer in the give position
      * 
-     * @param int position
-     * @return void
+     * @param position int 
      */
     public static void includePointer(int position)
     {

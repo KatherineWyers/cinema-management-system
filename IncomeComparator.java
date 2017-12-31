@@ -30,8 +30,8 @@ public class IncomeComparator implements Comparator<IncomeReport>
      * or negative integer, depending on which 
      * object has the greater getIncomeSum
      * 
-     * @param IncomeReport incomeReport1
-     * @param IncomeReport incomeReport2
+     * @param incomeReport1 IncomeReport 
+     * @param incomeReport2 IncomeReport 
      * @return int
      */
     @Override

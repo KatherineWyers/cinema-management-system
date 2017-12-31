@@ -16,9 +16,9 @@ public class TicketReport extends Report
     /**
      * Constructor for objects of class TicketReport
      * 
-     * @param Film film
-     * @param int month
-     * @param int year
+     * @param film Film 
+     * @param month int 
+     * @param year int 
      */
     public TicketReport(Film film, int month, int year)
     {
@@ -31,8 +31,6 @@ public class TicketReport extends Report
      * incrementTicketCounter
      * 
      * Increment the ticket counter by 1
-     * 
-     * @return void
      */
     public void incrementTicketCounter()
     {
@@ -45,8 +43,7 @@ public class TicketReport extends Report
      * Add the rating to the total sum of ratings. 
      * Increment the rating counter by 1
      * 
-     * @int rating
-     * @return void
+     * @param rating int
      */
     public void addRating(int rating)
     {
@@ -85,7 +82,7 @@ public class TicketReport extends Report
      * Sum of ratings divided by rating count
      * If rating count is zero, return string "N/A"
      * 
-     * @return String averageRating string
+     * @return String
      */
     public String getAverageRating()
     {

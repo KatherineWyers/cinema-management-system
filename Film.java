@@ -23,11 +23,11 @@ public class Film
      * 
      * Create the Film object and complete the subtitle variable as "N/A"
      * 
-     * @param int id
-     * @param String title
-     * @param int year
-     * @param String director
-     * @param String language
+     * @param id int 
+     * @param title String 
+     * @param year int 
+     * @param director String 
+     * @param language String 
      */
     public Film(int id, String title, int year, String director, String language)
     {
@@ -44,11 +44,12 @@ public class Film
      * 
      * Create the Film object with subtitles
      * 
-     * @param int id
-     * @param String title
-     * @param String director
-     * @param String language
-     * @param String subtitles
+     * @param id int
+     * @param title String 
+     * @param year int
+     * @param director String 
+     * @param language String 
+     * @param subtitles String 
      */
     public Film(int id, String title, int year, String director, String language, String subtitles)
     {
@@ -65,7 +66,7 @@ public class Film
      * 
      * Get the FilmId
      * 
-     * @return int id
+     * @return int
      */
     public int getId()
     {
@@ -77,7 +78,7 @@ public class Film
      * 
      * Get the film title
      * 
-     * @return String title
+     * @return String
      */
     public String getTitle()
     {
@@ -89,7 +90,7 @@ public class Film
      * 
      * Get the year that the film was made
      * 
-     * @return int year
+     * @return int
      */
     public int getYear()
     {
@@ -101,7 +102,7 @@ public class Film
      * 
      * Get the name of the director of the film
      * 
-     * @return String director
+     * @return String
      */
     public String getDirector()
     {
@@ -113,7 +114,7 @@ public class Film
      * 
      * Get the speaking language that the film uses
      * 
-     * @return String language
+     * @return String
      */
     public String getLanguage()
     {
@@ -125,7 +126,7 @@ public class Film
      * 
      * Get the subtitles that are displayed for the film
      * 
-     * @return String subtitles
+     * @return String 
      */
     public String getSubtitles()
     {

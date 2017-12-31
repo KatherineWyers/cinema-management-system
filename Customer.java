@@ -16,7 +16,7 @@ public class Customer
      * 
      * Create a customer and complete the name as blank
      * 
-     * @param int id
+     * @param id int 
      */
     public Customer(int id)
     {
@@ -29,8 +29,8 @@ public class Customer
      * 
      * Create a customer with a name field
      * 
-     * @param int id
-     * @param String name
+     * @param id int 
+     * @param name String 
      */
     public Customer(int id, String name)
     {
@@ -43,7 +43,7 @@ public class Customer
      * 
      * Get the customerId number
      * 
-     * @return int id
+     * @return int 
      */
     public int getId()
     {
@@ -55,7 +55,7 @@ public class Customer
      * 
      * Get the customer name
      * 
-     * @return String name
+     * @return String 
      */
     public String getName()
     {

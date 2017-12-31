@@ -13,7 +13,7 @@ public class Reporter
     /**
      * Constructor for objects of class Reporter
      * 
-     * @param Cinema cinema
+     * @param cinema Cinema
      */
     public Reporter(Cinema cinema)
     {
@@ -26,9 +26,9 @@ public class Reporter
      * Get a list of TicketReports, sorted in 
      * descending order by ticketCount. 
      *
-     * @param int month 0: Jan, 1: Feb... 11: Dec
-     * @param int year
-     * @return List ordered list of TicketReports
+     * @param month int [0: Jan, 1: Feb... 11: Dec]
+     * @param year int 
+     * @return List
      */
     public List getTicketReportList(int month, int year)
     {
@@ -69,9 +69,9 @@ public class Reporter
      * Get a list of IncomeReports, sorted in 
      * descending order by incomeSum. 
      *
-     * @param int month 0: Jan, 1: Feb... 11: Dec
-     * @param int year
-     * @return List ordered list of TicketReports
+     * @param month int  [0: Jan, 1: Feb... 11: Dec]
+     * @param year int 
+     * @return List
      */
     public List getIncomeReportList(int month, int year)
     {

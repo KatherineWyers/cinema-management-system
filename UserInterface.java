@@ -27,8 +27,7 @@ abstract public class UserInterface
      * 
      * Add a delay to the thread
      * 
-     * @int delaySeconds
-     * @return void
+     * @param delaySeconds int
      */
     public void addDelayInSeconds(int delaySeconds)
     {
@@ -45,8 +44,6 @@ abstract public class UserInterface
      * setupSystem
      * 
      * Seed the system with default data
-     *
-     * @return void
      */
     public void setupSystem()
     {    

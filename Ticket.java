@@ -14,9 +14,9 @@ public class Ticket extends SeatAllocation
     /**
      * Constructor for objects of class Ticket
      * 
-     * @param int id
-     * @param Reservation reservation
-     * @param Booking booking
+     * @param id int 
+     * @param reservation Reservation 
+     * @param booking Booking 
      */
     public Ticket(int id, Reservation reservation, Booking booking)
     {
@@ -33,8 +33,9 @@ public class Ticket extends SeatAllocation
      * 
      * set the show
      * 
-     * @param Show show
-     * @return void
+     * @param show Show
+     * @param row int
+     * @param num int
      */
     public void setDetails(Show show, int row, int num)
     {
@@ -48,8 +49,7 @@ public class Ticket extends SeatAllocation
      * 
      * set the price
      * 
-     * @param float price
-     * @return void
+     * @param price float
      */
     public void setPrice(float price)
     {
@@ -62,7 +62,7 @@ public class Ticket extends SeatAllocation
      * 
      * get the booking
      * 
-     * @return Booking booking
+     * @return Booking
      */
     public Booking getBooking()
     {

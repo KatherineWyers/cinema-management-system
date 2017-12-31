@@ -22,8 +22,6 @@ public class Cli extends UserInterface
      * run
      * 
      * Start the application
-     * 
-     * @return void
      */
     public void run()
     {
@@ -53,9 +51,10 @@ public class Cli extends UserInterface
      * entered value is an integer in range 1-19. 
      * If so, this is recognized as a pageId, and 
      * the value is returned to the displayPage method
+     * Return a page Id
      * 
-     * @param int pageId
-     * @return void
+     * @param pageId int 
+     * @return int
      */
     protected int displayPage(int pageId)
     {
@@ -94,8 +93,6 @@ public class Cli extends UserInterface
      * displaySplashScreen
      * 
      * Print the splash screen
-     * 
-     * @return void
      */
     private void displaySplashScreen()
     {
@@ -119,9 +116,9 @@ public class Cli extends UserInterface
      * 
      * Display the page with the list of 
      * all films and await user input 
-     * for selection
+     * for selection. Return the next pageId
      * 
-     * @return int pageId
+     * @return int 
      */
     public int displayFilmsIndexPage()
     {
@@ -141,9 +138,11 @@ public class Cli extends UserInterface
      * displayShowFilmPage()
      * 
      * Display the details about the selected film 
-     * and await user input for selection
+     * and await user input for selection. Return the
+     * next pageId
      * 
-     * @return int pageId
+     * @param film Film
+     * @return int 
      */
     public int displayShowFilmPage(Film film)
     {
@@ -167,9 +166,9 @@ public class Cli extends UserInterface
      * 
      * Display the user-input prompts to create a 
      * new film. If user input is within the 
-     * navigation range, return as pageId
+     * navigation range, return as next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayAddFilmPage()
     {
@@ -194,6 +193,7 @@ public class Cli extends UserInterface
      * 
      * Prompt the user for details about the new film
      * Prompt a Y/N to save the film or cancel
+     * Return the next pageId
      * 
      * @return int
      */
@@ -217,8 +217,9 @@ public class Cli extends UserInterface
      * displayShowsIndexPage()
      * 
      * Display a list of all shows
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayShowsIndexPage()
     {
@@ -238,10 +239,10 @@ public class Cli extends UserInterface
      * displayShowShowPage()
      * 
      * Display details about the selected 
-     * show 
+     * show . Return the next pageId
      * 
-     * @param Show show
-     * @return int pageId
+     * @param show Show 
+     * @return int
      */
     public int displayShowShowPage(Show show)
     {
@@ -272,8 +273,9 @@ public class Cli extends UserInterface
      * displayAddShowPage()
      * 
      * Display full details about the selected show
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayAddShowPage()
     {
@@ -297,9 +299,9 @@ public class Cli extends UserInterface
      * enterNewShowDetails
      * 
      * Prompt the user for details about the 
-     * new show 
+     * new show. Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     private int enterNewShowDetails()
     {
@@ -332,8 +334,9 @@ public class Cli extends UserInterface
      * displayCustomersIndexPage()
      * 
      * Display a list of all customers
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayCustomersIndexPage()
     {
@@ -353,9 +356,10 @@ public class Cli extends UserInterface
      * displayShowCustomerPage()
      * 
      * Display full details about the customer
+     * Return the next pageId
      * 
-     * @param Customer customer
-     * @return int pageId
+     * @param customer Customer
+     * @return int
      */
     public int displayShowCustomerPage(Customer customer)
     {
@@ -375,8 +379,9 @@ public class Cli extends UserInterface
      * displayBookingsIndexPage()
      * 
      * Display a list of all bookings
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayBookingsIndexPage()
     {
@@ -397,9 +402,10 @@ public class Cli extends UserInterface
      * 
      * Display full details about the 
      * selected booking
+     * Return the next pageId
      * 
-     * @param Booking booking
-     * @return int pageId
+     * @param booking Booking
+     * @return int
      */
     public int displayShowBookingPage(Booking booking)
     {
@@ -433,8 +439,9 @@ public class Cli extends UserInterface
      * 
      * Prompt the user for details 
      * about the new booking
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayAddBookingPage()
     {
@@ -459,9 +466,10 @@ public class Cli extends UserInterface
      * 
      * Prompt the user for details about 
      * the new booking
+     * Return the next pageId
      * 
-     * @param int customerType (20 == new customer, 21 == existing customer)
-     * @return int pageId
+     * @param customerType int (20 == new customer, 21 == existing customer)
+     * @return int
      */
     private int enterNewBookingDetails(int input)
     {
@@ -498,9 +506,10 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to select the seats for 
      * the booking, and finalize the payment
+     * Return the next pageId
      * 
-     * @param Booker booker
-     * @return int pageId
+     * @param booker Booker
+     * @return int
      */
     private int selectSeatsAndFinalizeBooking(Booker booker)
     {
@@ -546,8 +555,7 @@ public class Cli extends UserInterface
      * Add a temporary seat reservation 
      * to the booking
      * 
-     * @param Booker booker
-     * @return void
+     * @param booker Booker
      */
     private void addSeatToBooking(Booker booker)
     {
@@ -562,8 +570,7 @@ public class Cli extends UserInterface
      * Remove a temporary seat reservation
      * from the booking
      * 
-     * @param Booker booker
-     * @return void
+     * @param booker Booker
      */
     private void removeSeatFromBooking(Booker booker)
     {
@@ -578,8 +585,7 @@ public class Cli extends UserInterface
      * Prompt the user to confirm the 
      * cash payment
      * 
-     * @param Booker booker
-     * @return void
+     * @param booker Booker
      */
     private void processCashPayment(Booker booker)
     {
@@ -595,8 +601,7 @@ public class Cli extends UserInterface
      * Prompt the user to confirm the 
      * card payment
      * 
-     * @param Booker booker
-     * @return void
+     * @param booker Booker
      */
     private void processCardPayment(Booker booker)
     {
@@ -611,8 +616,9 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to begin the 
      * ticket transfer process or cancel
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayMoveTicketPage()
     {
@@ -637,8 +643,9 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to enter the 
      * ticket id to be moved
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     private int enterTicketIdToMove()
     {
@@ -667,9 +674,10 @@ public class Cli extends UserInterface
      * Prompt the user to select the 
      * show where the ticket will be 
      * moved to 
+     * Return the next pageId
      * 
-     * @param Ticket ticket
-     * @return int pageId
+     * @param ticket Ticket
+     * @return int
      */
     private int selectShowToMove(Ticket ticket)
     {
@@ -690,9 +698,10 @@ public class Cli extends UserInterface
      * 
      * Display the seating grid and prompt 
      * the user to select a seat
+     * Return the next pageId
      * 
-     * @param Transferer transferer
-     * @return int pageId
+     * @param transferer Transferer
+     * @return int
      */
     private int selectSeatsAndFinalizeTransfer(Transferer transferer)
     {
@@ -745,8 +754,7 @@ public class Cli extends UserInterface
      * Set the temporary seat reservation 
      * for the ticket transfer
      * 
-     * @param Transferer transferer
-     * @return void
+     * @param transferer Transferer
      */
     private void setTransferReservation(Transferer transferer)
     {
@@ -761,8 +769,7 @@ public class Cli extends UserInterface
      * Prompt the user to confirm the 
      * no-charge ticket transfer
      * 
-     * @param Transferer transferer
-     * @return void
+     * @param transferer Transferer
      */
     private void processNoChargeTransfer(Transferer transferer)
     {
@@ -778,8 +785,7 @@ public class Cli extends UserInterface
      * Prompt the user to confirm the
      * cash-payment ticket transfer
      * 
-     * @param Transferer transferer
-     * @return void
+     * @param transferer Transferer
      */
     private void processCashTransfer(Transferer transferer)
     {
@@ -795,8 +801,7 @@ public class Cli extends UserInterface
      * Prompt the user to confirm 
      * the card payment ticket transfer
      * 
-     * @param Transferer transferer
-     * @return void
+     * @param transferer Transferer
      */
     private void processCardTransfer(Transferer transferer)
     {
@@ -812,8 +817,9 @@ public class Cli extends UserInterface
      * Prompt the user to begin the 
      * review and rating process or 
      * cancel
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayReviewAndRatePage()
     {
@@ -838,8 +844,9 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to enter the 
      * ticket id for the review
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     private int enterTicketIdToReviewAndRate()
     {
@@ -882,9 +889,10 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to complete the 
      * review and rating  details
+     * Return the next pageId
      * 
-     * @param Ticket ticket
-     * @return int pageId
+     * @param ticket Ticket
+     * @return int
      */
     private int enterReviewAndRating(Ticket ticket)
     {
@@ -909,11 +917,13 @@ public class Cli extends UserInterface
      * Print a list of objects, each 
      * preceeded with an option number 
      * for selection
+     * Return the updated value for the 
+     * optionCounter
      * 
-     * @param int optionCounter//first option value to be used
-     * @param List list
-     * @param Map optionToObject
-     * @return int optionCounter
+     * @param optionCounter int //first option value to be used
+     * @param list List
+     * @param optionToObject Map
+     * @return int
      */
     private int printListWithOptions(int optionCounter, List list, Map optionToObject)
     {
@@ -934,8 +944,9 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to select the type of 
      * report to be displayed
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayReportsIndexPage()
     {
@@ -952,8 +963,9 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to select the month and year
      * of the report
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayTicketReportsPage()
     {
@@ -971,7 +983,7 @@ public class Cli extends UserInterface
      * Prompt the user for a month number in range 1 to 12
      * Convert this to a zero-based month number
      * 
-     * @return int monthNum// zero-based
+     * @return int
      */
     private int selectMonth()
     {
@@ -993,10 +1005,11 @@ public class Cli extends UserInterface
      * 
      * Display the ticket report for the 
      * selected month and year
+     * Return the next pageId
      * 
-     * @param int monthNum /zero-based month num 0:Jan, 1: Feb... 11:Dec
-     * @param int year
-     * @return int pageId
+     * @param monthNum int /zero-based month num 0:Jan, 1: Feb... 11:Dec
+     * @param year int
+     * @return int
      */
     public int showTicketReportsList(int monthNum, int year)
     {
@@ -1031,8 +1044,9 @@ public class Cli extends UserInterface
      * 
      * Prompt the user to select the month and year
      * for the income report
+     * Return the next pageId
      * 
-     * @return int pageId
+     * @return int
      */
     public int displayIncomeReportsPage()
     {
@@ -1049,10 +1063,11 @@ public class Cli extends UserInterface
      * 
      * Display the income report for the 
      * selected month and year
+     * Return the next pageId
      * 
-     * @param int monthNum /zero-based month num 0:Jan, 1: Feb... 11:Dec
-     * @param year
-     * @return int pageId
+     * @param monthNum int //zero-based month num 0:Jan, 1: Feb... 11:Dec
+     * @param year int
+     * @return int
      */
     public int showIncomeReportsList(int monthNum, int year)
     {
@@ -1086,9 +1101,8 @@ public class Cli extends UserInterface
      * printNoTicketsSold
      * 
      * Print a banner showing no 
-     * tickets were sold for the 
-     * 
-     * @return void
+     * tickets were sold for that month 
+     * Return the next pageId
      */
     private void printNoTicketsSold()
     {
@@ -1106,8 +1120,7 @@ public class Cli extends UserInterface
      * values in the grid to [X], and convert 
      * false values in the grid to [_]
      * 
-     * @param boolean[][] seatingGrid
-     * @return void
+     * @param seatingGrid boolean[][] 
      */
     public void printSeatingGrid(boolean[][] seatingGrid)
     {
@@ -1146,8 +1159,7 @@ public class Cli extends UserInterface
      * is added or removed from the temporary reservations
      * map
      * 
-     * @param Booker booker
-     * @return void 
+     * @param booker Booker 
      */
     public void printCurrentBookingDetails(Booker booker)
     {
@@ -1173,8 +1185,7 @@ public class Cli extends UserInterface
      * is added or removed from the temporary reservations
      * map
      * 
-     * @param Transferer transferer
-     * @return void 
+     * @param transferer Transferer
      */
     public void printCurrentTransferDetails(Transferer transferer)
     {
@@ -1197,8 +1208,6 @@ public class Cli extends UserInterface
      * Author: Dyndrilliac
      * URL: https://stackoverflow.com/questions/2979383/java-clear-the-console
      * Accessed 18-DEC-2017
-     * 
-     * @return void
      */
     public void clearScreen() 
     {   

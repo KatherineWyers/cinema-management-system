@@ -18,9 +18,9 @@ public class Booker extends TicketManager
     /**
      * Constructor for objects of class Booker
      * 
-     * @param Cinema cinema
-     * @param Show show
-     * @param Customer customer
+     * @param cinema Cinema
+     * @param show Show
+     * @param customer Customer
      */
     public Booker(Cinema cinema, Show show, Customer customer)
     { 
@@ -48,9 +48,8 @@ public class Booker extends TicketManager
      * booking process. These temporary reservations 
      * are stored in an ArrayList.
      * 
-     * @param int row
-     * @param int num
-     * @return void
+     * @param row int
+     * @param num int
      */
     public void addReservation(int row, int num)
     {
@@ -73,9 +72,8 @@ public class Booker extends TicketManager
      * If the row/num combination is not found 
      * in the reservations ArrayList, do nothing
      * 
-     * @param int row
-     * @param int num
-     * @return void
+     * @param row int
+     * @param num int
      */
     public void removeReservation(int row, int num)
     {
@@ -134,7 +132,7 @@ public class Booker extends TicketManager
      * 
      * Get the seat reservations and the price of each
      * 
-     * @return List<SeatReservation> seatReservations 
+     * @return List seatReservations 
      */
     public List<Reservation> getReservations()
     {
@@ -147,8 +145,8 @@ public class Booker extends TicketManager
      * Check whether there is a 
      * reservation at that seat
      * 
-     * @param int row
-     * @param int num
+     * @param row int
+     * @param num int
      * @return boolean
      */
     public boolean isExistReservation(int row, int num)
@@ -171,8 +169,6 @@ public class Booker extends TicketManager
      * Add seatReservations to the show
      * convert all temporary reservations to 
      * tickets and record the payment
-     * 
-     * @return void
      */
     public void finalizeCashPayment()
     {
@@ -187,8 +183,7 @@ public class Booker extends TicketManager
      * Finalize the current booking
      * Add seatReservations to the show and create the payment
      * 
-     * @param String referenceNumber
-     * @return boolean
+     * @param referenceNumber String
      */
     public void finalizeCardPayment(String referenceNumber)
     {
@@ -203,8 +198,6 @@ public class Booker extends TicketManager
      * Create a new Ticket for each seat reservation
      * Remove each Seat Reservation from the list
      * If the Booking is not already stored, store the booking
-     * 
-     * @return void
      */
     private void convertToTickets()
     {    

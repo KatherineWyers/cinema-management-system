@@ -13,8 +13,8 @@ public class Screen
     /**
      * Constructor for objects of class Screen
      * 
-     * @param int id
-     * @param String title
+     * @param id int 
+     * @param title String 
      */
     public Screen(int id, String title)
     {
@@ -27,7 +27,7 @@ public class Screen
      *
      * Get the Screen Id number
      * 
-     * @return int id
+     * @return int
      */
     public int getId()
     {
@@ -39,7 +39,7 @@ public class Screen
      *
      * Get the Title of the screen 
      * 
-     * @return String title
+     * @return String
      */
     public String getTitle()
     {

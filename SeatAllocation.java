@@ -20,7 +20,7 @@ public abstract class SeatAllocation
      * 
      * Get the SeatAllocation Id
      * 
-     * @return int id
+     * @return int
      */
     public int getId()
     {
@@ -31,7 +31,8 @@ public abstract class SeatAllocation
      * get the row
      * 
      * Get the seat row// from 1 to 5 
-     * @return int row
+     * 
+     * @return int
      */
     public int getRow()
     {
@@ -43,7 +44,7 @@ public abstract class SeatAllocation
      * 
      * get the price of the seat
      * 
-     * @return float price
+     * @return float
      */
     public float getPrice()
     {
@@ -56,7 +57,7 @@ public abstract class SeatAllocation
      * 
      * get the num of the seat// 1 to 10
      * 
-     * @return int num
+     * @return int
      */
     public int getNum()
     {
@@ -68,7 +69,7 @@ public abstract class SeatAllocation
      * 
      * get the show of the seat
      * 
-     * @return Show show
+     * @return Show
      */
     public Show getShow()
     {
@@ -82,7 +83,7 @@ public abstract class SeatAllocation
      * Rows 1 to 4, return "Regular"
      * Row 5, return "Vip"
      * 
-     * @return String type
+     * @return String
      */
     public String getType()
     {
@@ -98,7 +99,8 @@ public abstract class SeatAllocation
      * getSeatName
      * 
      * Get the name of the seat. Eg "A1", "B7", "E5"
-     * @return String seatName
+     * 
+     * @return String
      */
     public String getSeatName()
     {
@@ -111,8 +113,8 @@ public abstract class SeatAllocation
      * Convert int 1-5 to String A-E
      * If int outside range {1, 2,...5}, return string with one white space
      * 
-     * @param int row at int
-     * @return String rowLetter
+     * @param rowInt int
+     * @return String
      */
     public String convertToRowLetter(int rowInt)
     {

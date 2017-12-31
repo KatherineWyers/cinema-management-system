@@ -22,8 +22,6 @@ public class Tester
      * runAllTests
      * 
      * Run the three groups of tests
-     * 
-     * @return void
      */
     public void runAllTests()
     {

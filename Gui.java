@@ -40,7 +40,6 @@ public class Gui extends UserInterface
      * run
      * 
      * Run the application
-     * @return void
      */
     public void run()
     {
@@ -60,8 +59,6 @@ public class Gui extends UserInterface
      * eastPanel and soutPanel) that will display the content
      * 
      * Set the frame size and disable resizing of the frame
-     * 
-     * @return void
      */
     private void setupFrame()
     {
@@ -87,8 +84,6 @@ public class Gui extends UserInterface
      * oneColumnLayout
      * 
      * Create layout with Centre panel as full width
-     * 
-     * @return void
      */
     private void oneColumnLayout()
     {
@@ -103,8 +98,6 @@ public class Gui extends UserInterface
      * twoColumnLayout
      * 
      * Create layout with 1/2 centerPanel and 1/2 eastPanel
-     * 
-     * @return void
      */
     private void twoColumnLayout()
     {
@@ -121,8 +114,6 @@ public class Gui extends UserInterface
      * 
      * Create an instance of GuiSplashScreen
      * and add it to the centerPanel
-     * 
-     * @return void
      */
     private void displaySplashScreen()
     {
@@ -140,8 +131,6 @@ public class Gui extends UserInterface
      * resizeFrame
      * 
      * Set the frame to its default size
-     * 
-     * @return void
      */
     private void resizeFrame()
     {
@@ -155,8 +144,6 @@ public class Gui extends UserInterface
      * Display the index page for films. 
      * When an item is clicked in the list, call 
      * updateEastPanelFilmsIndex
-     * 
-     * @return void
      */
     private void displayFilmsIndexPage()
     {    
@@ -203,8 +190,7 @@ public class Gui extends UserInterface
      * Display the details about the film 
      * in the eastPanel
      * 
-     * @param Film film
-     * @return void
+     * @param film Film 
      */
     private void updateEastPanelFilmsIndex(Film film)
     {   
@@ -232,8 +218,6 @@ public class Gui extends UserInterface
      * 
      * Create the navigation and call 
      * addAddFilmFormToCenterPanel()
-     * 
-     * @return void
      */
     private void displayAddFilmPage()
     {    
@@ -250,8 +234,6 @@ public class Gui extends UserInterface
      * 
      * Display a form and prompt the user 
      * to enter details about the new film
-     * 
-     * @return void
      */
     private void addAddFilmFormToCenterPanel()
     {
@@ -288,8 +270,6 @@ public class Gui extends UserInterface
      * Display a list of all shows. 
      * When a list-item is clicked, call 
      * updateEastPanelShowsIndex()
-     * 
-     * @return void
      */
     private void displayShowsIndexPage()
     {    
@@ -316,8 +296,7 @@ public class Gui extends UserInterface
      * Display full details about the show in the 
      * eastPanel
      * 
-     * @param Show show
-     * @return void
+     * @param show Show 
      */
     private void updateEastPanelShowsIndex(Show show)
     {   
@@ -348,8 +327,6 @@ public class Gui extends UserInterface
      * 
      * Reset the formData Map to blank and 
      * call displayAddShowSelectFilm
-     * 
-     * @return void
      */
     private void displayAddShowPage()
     {
@@ -365,8 +342,6 @@ public class Gui extends UserInterface
      * new show.
      * When a film is selected, call 
      * updateEastPanelAddShowSelectFilm()
-     * 
-     * @return void
      */
     private void displayAddShowSelectFilm()
     {    
@@ -396,8 +371,7 @@ public class Gui extends UserInterface
      * The button [Select Film for Show],
      * uses addShowActionListener
      * 
-     * @param Film film
-     * @return void
+     * @param film Film 
      */
     private void updateEastPanelAddShowSelectFilm(Film film)
     {   
@@ -426,8 +400,6 @@ public class Gui extends UserInterface
      * new show.
      * When a screen is selected, call 
      * updateEastPanelAddShowSelectScreen()
-     * 
-     * @return void
      */
     private void displayAddShowSelectScreen()
     {    
@@ -457,8 +429,7 @@ public class Gui extends UserInterface
      * The button [Select Screen for Show],
      * uses addShowActionListener
      * 
-     * @param Screen screen
-     * @return void
+     * @param screen Screen 
      */  
     private void updateEastPanelAddShowSelectScreen(Screen screen)
     {   
@@ -481,8 +452,6 @@ public class Gui extends UserInterface
      * 
      * Create the navigation and call 
      * addAddShowEnterDetailsFormToCenterPanel()
-     * 
-     * @return void
      */
     private void displayAddShowEnterDetails()
     {
@@ -499,8 +468,6 @@ public class Gui extends UserInterface
      * 
      * Display a form and prompt the user 
      * to enter details about the new show
-     * 
-     * @return void
      */
     private void addAddShowEnterDetailsFormToCenterPanel()
     {
@@ -537,8 +504,6 @@ public class Gui extends UserInterface
      * Display a list of all customers. 
      * When a list-item is clicked, call 
      * updateEastPanelCustomersIndex()
-     * 
-     * @return void
      */
     private void displayCustomersIndexPage()
     {    
@@ -565,8 +530,7 @@ public class Gui extends UserInterface
      * Display full details about the customer in the 
      * eastPanel
      * 
-     * @param Customer customer
-     * @return void
+     * @param customer Customer 
      */
     private void updateEastPanelCustomersIndex(Customer customer)
     {   
@@ -587,8 +551,6 @@ public class Gui extends UserInterface
      * Display a list of all bookings. 
      * When a list-item is clicked, call 
      * updateEastPanelBookingsIndex()
-     * 
-     * @return void
      */
     private void displayBookingsIndexPage()
     {    
@@ -615,8 +577,7 @@ public class Gui extends UserInterface
      * Display full details about the booking in the 
      * eastPanel
      * 
-     * @param Booking booking
-     * @return void
+     * @param booking Booking 
      */
     private void updateEastPanelBookingsIndex(Booking booking)
     {   
@@ -660,8 +621,6 @@ public class Gui extends UserInterface
      * 
      * Reset the formData Map to blank and 
      * call displayAddBookingSelectCustomerType
-     * 
-     * @return void
      */
     private void displayAddBookingPage()
     {
@@ -677,8 +636,6 @@ public class Gui extends UserInterface
      * customer. The two buttons use 
      * addBookingSelectCustomerTypeActionListener 
      * and pass customerType as a ClientProperty
-     * 
-     * @return void
      */
     private void displayAddBookingSelectCustomerType()
     {    
@@ -710,8 +667,6 @@ public class Gui extends UserInterface
      * 
      * Propmt the user to enter a customer id 
      * for the existing customer
-     * 
-     * @return void
      */
     private void displayAddBookingEnterCustomerId()
     {
@@ -758,8 +713,6 @@ public class Gui extends UserInterface
      * Display a cusomter form and prompt
      * the user to enter customer details 
      * for the new customer
-     * 
-     * @return void
      */
     private void displayAddBookingNewCustomer()
     {
@@ -805,7 +758,6 @@ public class Gui extends UserInterface
      * 
      * Display a list of shows. When a show 
      * is selected, call updateEastPanelAddBookingSelectShow()
-     * @return void
      */
     private void displayAddBookingSelectShow()
     {    
@@ -834,8 +786,7 @@ public class Gui extends UserInterface
      * Display the show details in 
      * the eastPanel
      * 
-     * @param Show show
-     * @return void
+     * @param show Show 
      */
     private void updateEastPanelAddBookingSelectShow(Show show)
     {   
@@ -863,8 +814,7 @@ public class Gui extends UserInterface
      * user can select and deselect temporary 
      * seat reservations. 
      * 
-     * @param Booker booker
-     * @return void
+     * @param booker Booker 
      */
     private void displayAddBookingSelectSeats(Booker booker)
     {    
@@ -889,8 +839,6 @@ public class Gui extends UserInterface
      * seat reseravations in the southPanel. Display 
      * the current price of the booking, and buttons 
      * to proceed with cash payment or card payment.
-     * 
-     * @return void
      */
     private void updateSouthPanelAddBookingSelectSeats()
     {   
@@ -921,8 +869,6 @@ public class Gui extends UserInterface
      * displayBookingsMoveTicketPage()
      * 
      * Prompt the user to enter a ticket id
-     * 
-     * @return void
      */
     private void displayBookingsMoveTicketPage()
     {
@@ -968,8 +914,6 @@ public class Gui extends UserInterface
      * 
      * Display a list of shows. When selected, 
      * call updateEastPanelBookingsMoveTicketSelectShow
-     * 
-     * @return void
      */
     private void displayBookingsMoveTicketSelectShow()
     {    
@@ -998,8 +942,7 @@ public class Gui extends UserInterface
      * Prompt the user to click [Select Show for Transfer].
      * The button uses the bookingsMoveTicketActionListener
      * 
-     * @param Show show
-     * @return void
+     * @param show Show 
      */
     private void updateEastPanelBookingsMoveTicketSelectShow(Show show)
     {   
@@ -1028,8 +971,7 @@ public class Gui extends UserInterface
      * When a seat is selected, call 
      * updateSouthPanelBookingMoveTicketSelectSeat
      * 
-     * @param Transferer transferer
-     * @return void
+     * @param transferer Transferer 
      */
     private void displayBookingsMoveTicketSelectSeat(Transferer transferer)
     {    
@@ -1064,8 +1006,6 @@ public class Gui extends UserInterface
      * Display the current seat reservation, and the price of the ticket 
      * transfer. Display  a [Process Transfer] button which 
      * uses bookingsMoveTicketSelectPaymentTypeActionListener
-     * 
-     * @return void
      */
     private void updateSouthPanelBookingMoveTicketSelectSeat()
     {   
@@ -1091,8 +1031,6 @@ public class Gui extends UserInterface
      * 
      * Display a form where the user can enter 
      * ticketId, review and rating
-     * 
-     * @return void
      */
     private void displayBookingsReviewAndRatePage()
     {
@@ -1135,8 +1073,6 @@ public class Gui extends UserInterface
      * displayReportsPage
      * 
      * Display the default reports page
-     * 
-     * @return void
      */
     private void displayReportsPage()
     {
@@ -1148,8 +1084,6 @@ public class Gui extends UserInterface
      * 
      * Set the default values to the current year and month
      * and call the displayReportsTicketsAndReviewForSelectedMonth()
-     * 
-     * @return void
      */
     private void displayReportsTicketsAndRatingsPage()
     {
@@ -1163,9 +1097,8 @@ public class Gui extends UserInterface
      * Display the tickets and review report for the 
      * selected month and year
      * 
-     * @param int month// zero-based [0: Jan, 1: Feb, 11: Dec]
-     * @param int year
-     * @return void
+     * @param month int // zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @param year int 
      */
     private void displayReportsTicketsAndRatingsForSelectedMonth(int month, int year)
     {    
@@ -1191,8 +1124,8 @@ public class Gui extends UserInterface
      * 
      * Get the panel for the tickets and review report
      * 
-     * @int month // zero-based [0: Jan, 1: Feb, 11: Dec]
-     * @int year
+     * @param month int // zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @param year int
      * @return JPanel
      */
     private JPanel getTicketsAndRatingsReportPanel(int month, int year)
@@ -1225,8 +1158,6 @@ public class Gui extends UserInterface
      * 
      * Set the default values to the current year and month
      * and call the displayReportsIncomeForSelectedMonth()
-     * 
-     * @return void
      */
     private void displayReportsIncomePage()
     {
@@ -1239,9 +1170,8 @@ public class Gui extends UserInterface
      * 
      * Set the navigation for the income report page
      * 
-     * @param int month// zero-based [0: Jan, 1: Feb, 11: Dec]
-     * @param int year
-     * @return void
+     * @param month int // zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @param year int 
      */
     private void displayReportsIncomeForSelectedMonth(int month, int year)
     {    
@@ -1266,8 +1196,8 @@ public class Gui extends UserInterface
      * 
      * Return a JPanel with the requested income report
      * 
-     * @int month // zero-based [0: Jan, 1: Feb, 11: Dec]
-     * @int year
+     * @param month int  // zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @param year int 
      * @return JPanel
      */
     private JPanel getIncomeReportPanel(int month, int year)
@@ -1302,9 +1232,9 @@ public class Gui extends UserInterface
      * The value for year is passed to the ActionListener using the formData map
      * The value for month is passed to the ActionListener using the getClientProperty
      * 
-     * @param int month// currently selected month , zero-based [0: Jan, 1: Feb, 11: Dec]
-     * @param int year// currently selected year
-     * @param String report
+     * @param month int // currently selected month , zero-based [0: Jan, 1: Feb, 11: Dec]
+     * @param year int // currently selected year
+     * @param report String 
      * @return JPanel
      */
     private JPanel getMonthYearMenuPanel(int month, int year, String report)
@@ -1437,10 +1367,10 @@ public class Gui extends UserInterface
      * Add a label and a textfield 
      * to the panel
      * 
-     * @param int maxLength
-     * @param String title
-     * @param String label
-     * @return JPanel panel
+     * @param maxLength int 
+     * @param title String 
+     * @param label String 
+     * @return JPanel
      */
     private JPanel addTextFieldToPanel(int maxLength, String title, String label, JPanel panel)
     {
@@ -1458,11 +1388,11 @@ public class Gui extends UserInterface
      * panel, with default text set in the 
      * textfield
      * 
-     * @param int maxLength
-     * @param String title
-     * @param String label
-     * @param String defaultText
-     * @return JPanel panel
+     * @param maxLength int 
+     * @param title String 
+     * @param label String 
+     * @param defaultText String 
+     * @return JPanel
      */
     private JPanel addTextFieldToPanelWithDefaultText(int maxLength, String title, String label, String defaultText, JPanel panel)
     {
@@ -1478,8 +1408,6 @@ public class Gui extends UserInterface
      * clearPanels
      * 
      * Call removeAll on all panels
-     * 
-     * @return void
      */
     private void clearPanels()
     {
@@ -1493,8 +1421,6 @@ public class Gui extends UserInterface
      * clearEastPanel
      * 
      * Call removeAll on eastPanel
-     * 
-     * @return void
      */
     private void clearEastPanel()
     {
@@ -1505,8 +1431,6 @@ public class Gui extends UserInterface
      * clearSouthPanel
      * 
      * Call removeAll on southPanel
-     * 
-     * @return void
      */
     private void clearSouthPanel()
     {
@@ -1517,8 +1441,6 @@ public class Gui extends UserInterface
      * refreshCenterPanel
      * 
      * Call revalidate and repaint on eastPanel
-     * 
-     * @return void
      */
     private void refreshCenterPanel()
     {
@@ -1530,8 +1452,6 @@ public class Gui extends UserInterface
      * refreshEastPanel
      * 
      * Call revalidate and repaint on eastPanel
-     * 
-     * @return void
      */
     private void refreshEastPanel()
     {
@@ -1543,8 +1463,6 @@ public class Gui extends UserInterface
      * refreshSouthPanel
      * 
      * Call revalidate and repaint on southPanel
-     * 
-     * @return void
      */
     private void refreshSouthPanel()
     {
@@ -1556,8 +1474,6 @@ public class Gui extends UserInterface
      * showPanels
      * 
      * Call revalidate and repaint on all panels
-     * 
-     * @return void
      */
     private void showPanels()
     {   
@@ -1585,9 +1501,7 @@ public class Gui extends UserInterface
      * Adapted from: CCS course materials
      * Date: 26-DEC-2017
      * 
-     * @param DefaultListModel listModel
-     * @param List list
-     * @return void
+     * @param list List 
      */
     public void refreshList(List list) 
     {
@@ -1614,6 +1528,7 @@ public class Gui extends UserInterface
      * Each button uses NavButtonActionListener 
      * and passes page as a client property
      * 
+     * @param category String
      * @return JPanel
      */
     private JPanel getPrimaryNavPanel(String category)
@@ -1675,8 +1590,8 @@ public class Gui extends UserInterface
      * Each button uses NavButtonActionListener
      * and passes page as a client property
      * 
-     * @param String category
-     * @param int subPointer
+     * @param category String 
+     * @param subPointer int 
      * @return JPanel
      */
     private JPanel getSecondaryNavPanel(String category, int subPointer)
@@ -1779,7 +1694,7 @@ public class Gui extends UserInterface
      * Author: codethulu
      * Accessed 26-DEC-2017
      * 
-     * @param JButton
+     * @param button JButton
      * @return JButton
      */
     private JButton setButtonColorActive(JButton button)
@@ -1802,7 +1717,7 @@ public class Gui extends UserInterface
      * Author: codethulu
      * Accessed 26-DEC-2017
      * 
-     * @param JButton
+     * @param button JButton
      * @return JButton
      */
     private JButton setButtonColorAccent(JButton button)
@@ -1825,7 +1740,7 @@ public class Gui extends UserInterface
      * Author: codethulu
      * Accessed 26-DEC-2017
      * 
-     * @param JButton
+     * @param button JButton
      * @return JButton
      */
     private JButton setButtonColorDull(JButton button)
@@ -1849,7 +1764,7 @@ public class Gui extends UserInterface
      * Author: codethulu
      * Accessed 26-DEC-2017
      * 
-     * @param JButton 
+     * @param button JButton 
      * @return JButton
      */
     private JButton setButtonColorWarning(JButton button)
@@ -2822,9 +2737,9 @@ public class Gui extends UserInterface
      * Utility method to check if the length 
      * of a string is within the specified range
      * 
-     * @param String 
-     * @param int minLength
-     * @param int maxLength
+     * @param string String 
+     * @param minLength int 
+     * @param maxLength int 
      * @return boolean
      */
     private boolean isLengthInRange(String string, int minLength, int maxLength)
@@ -2837,8 +2752,8 @@ public class Gui extends UserInterface
      * 
      * Create a JPanel version of the seatingGrid
      * 
-     * @param boolean[][] seatingGrid
-     * @return JPanel seatingGridPanel
+     * @param seatingGrid boolean[][] 
+     * @return JPanel
      */
     public JPanel getSeatingGridPanel(boolean[][] seatingGrid)
     {
@@ -2903,9 +2818,9 @@ public class Gui extends UserInterface
      * Accepts a String param booker or transferer so it 
      * can be used form both
      * 
-     * @param boolean[][] seatingGrid
-     * @param String ticketManager {booker, transferSeatName eg A1, B2, C1}
-     * @return JPanel seatingGridPanel
+     * @param seatingGrid boolean[][] 
+     * @param ticketManager String {booker, transferSeatName eg A1, B2, C1}
+     * @return JPanel
      */
     public JPanel getSeatingGridButtons(boolean[][] seatingGrid, String ticketManager)
     {
@@ -3244,8 +3159,8 @@ public class Gui extends UserInterface
      * Return a JPanel with the give string
      * set as the header
      * 
-     * @param String header
-     * @return JPanel panel
+     * @param header String 
+     * @return JPanel
      */
     private JPanel getHeaderPanel(String header)
     {

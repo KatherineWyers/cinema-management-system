@@ -30,8 +30,8 @@ public class TicketCountComparator implements Comparator<TicketReport>
      * count. Return either a positive or a negative integer, 
      * depending on which has the greater ticket count
      *
-     * @param TicketReport ticketReport1
-     * @param TicketReport ticketReport2
+     * @param ticketReport1 TicketReport 
+     * @param ticketReport2 TicketReport 
      * @return int
      */
     @Override

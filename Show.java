@@ -23,12 +23,12 @@ public class Show
     /**
      * Constructor for objects of class Show
      * 
-     * @param int id
-     * @param Calendar date
-     * @param Screen screen
-     * @param Film film
-     * @param float priceRegular
-     * @param float priceVip
+     * @param id int 
+     * @param date Calendar 
+     * @param screen Screen 
+     * @param film Film 
+     * @param priceRegular float 
+     * @param priceVip float 
      */
     public Show(int id, Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
     {
@@ -45,7 +45,8 @@ public class Show
      * 
      * Get a string of the datetime, in the 
      * format dd/mm/yyyy HH:mm
-     * @return String datetime
+     * 
+     * @return String
      */
     public String getDateTime()
     {
@@ -64,8 +65,8 @@ public class Show
      * Add a leading zero to an int if its length is 1 digit
      * Numbers below zero return "00"
      * 
-     * @param int value
-     * @return String result
+     * @param value int 
+     * @return String
      */
     public String formatToTwoDigitString(int value)
     {
@@ -100,7 +101,7 @@ public class Show
      * 
      * Get the id of the show
      * 
-     * @return int id
+     * @return int
      */
     public int getId()
     {
@@ -112,7 +113,7 @@ public class Show
      * 
      * Get the screen
      * 
-     * @return Screen screen
+     * @return Screen 
      */
     public Screen getScreen()
     {
@@ -124,7 +125,7 @@ public class Show
      * 
      * get the film
      * 
-     * @return Film film
+     * @return Film 
      */
     public Film getFilm()
     {
@@ -136,7 +137,7 @@ public class Show
      * 
      * get the Calendar date object
      * 
-     * @return Calendar date
+     * @return Calendar 
      */
     public Calendar getDate()
     {
@@ -150,7 +151,7 @@ public class Show
      * Get the price for a VIP 
      * seat at the show
      * 
-     * @return float priceVip
+     * @return float 
      */
     public float getPriceVip()
     {
@@ -164,7 +165,7 @@ public class Show
      * Get the price for a Regular 
      * seat at the show
      * 
-     * @return float priceRegular
+     * @return float 
      */
     public float getPriceRegular()
     {

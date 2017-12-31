@@ -20,9 +20,9 @@ public class Review
      * IllegalArgumentException if the rating is outside this 
      * range
      * 
-     * @param Ticket ticket
-     * @param String review
-     * @param int rating
+     * @param ticket Ticket 
+     * @param review String 
+     * @param rating int 
      */
     public Review(Ticket ticket, String review, int rating) throws IllegalArgumentException
     {
@@ -39,7 +39,7 @@ public class Review
      * 
      * Get the rating that the customer submitted
      * 
-     * @return int rating
+     * @return int
      */
     public int getRating()
     {
@@ -51,7 +51,7 @@ public class Review
      * 
      * Get the review that the customer submitted
      * 
-     * @return String review
+     * @return String
      */
     public String getReview()
     {

@@ -23,8 +23,8 @@ public class CliUserInputter
      * If the input is greater than the maxValue, 
      * print a notification and prompt again for input
      * 
-     * @param int maxValue
-     * @return int input
+     * @param maxValue int 
+     * @return int
      */
     public static int getUserInputInteger(int maxValue)
     {
@@ -64,9 +64,9 @@ public class CliUserInputter
      * If the input is greater than the maxValue, 
      * print a notification and prompt again for input
      * 
-     * @param int maxValue
-     * @param String question
-     * @return int input
+     * @param maxValue int 
+     * @param question String 
+     * @return int
      */
     public static int getUserInputInteger(int maxValue, String question)
     {
@@ -116,10 +116,10 @@ public class CliUserInputter
      * If the input is not within the minValue-maxValue
      * range, print a notification and prompt again for input
      * 
-     * @param int minValue
-     * @param int maxValue
-     * @param String question
-     * @return int input
+     * @param minValue int 
+     * @param maxValue int 
+     * @param question String 
+     * @return int
      */
     public static int getUserInputIntegerRange(int minValue, int maxValue, String question)
     {
@@ -169,8 +169,8 @@ public class CliUserInputter
      * If the input is not valid, display a 
      * notification and prompt again
      * 
-     * @param String question
-     * @return float input
+     * @param question String 
+     * @return float
      */
     public static float getUserInputFloat(String question)
     {
@@ -217,8 +217,8 @@ public class CliUserInputter
      * If the input is longer than the maxLength,
      * display a notification and prompt again
      * 
-     * @param int maxLength
-     * @return String input
+     * @param maxLength int 
+     * @return String 
      */
     public static String getUserInputString(int maxLength)
     {
@@ -272,9 +272,9 @@ public class CliUserInputter
      * If the input is longer than the maxLength,
      * display a notification and prompt again
      * 
-     * @param int maxLength
-     * @param String question
-     * @return String input
+     * @param maxLength int 
+     * @param question String 
+     * @return String 
      */
     public static String getUserInputString(int maxLength, String question)
     {
@@ -327,7 +327,7 @@ public class CliUserInputter
      * If the input is not Y, y, N or n, 
      * display a notification and prompt again
      * 
-     * @return String input
+     * @return String 
      */
     public static String getUserInputYN()
     {
@@ -380,7 +380,8 @@ public class CliUserInputter
      * If the input is not Y, y, N or n, 
      * display a notification and prompt again
      * 
-     * @return String input
+     * @param question String
+     * @return String 
      */
     public static String getUserInputYN(String question)
     {

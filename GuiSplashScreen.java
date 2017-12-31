@@ -26,8 +26,6 @@ public class GuiSplashScreen extends JPanel
      * 
      * Create a new frame for the splash screen 
      * and create an instance of ImagePanel
-     * 
-     * @return void
      */
     private void displaySplashScreen() {
         JFrame frame = new JFrame("Odeon Cinema System");
@@ -43,8 +41,8 @@ public class GuiSplashScreen extends JPanel
     
     /**
      * ImagePanel Inner class
-     * Inner class for the splash screen
      * 
+     * Inner class for the splash screen
      */
     private class ImagePanel extends JPanel
     {
@@ -77,8 +75,6 @@ public class GuiSplashScreen extends JPanel
          * paintComponent
          * 
          * Draw the image onto the JPanel
-         * 
-         * @return void
          */
 
         @Override
@@ -104,7 +100,7 @@ public class GuiSplashScreen extends JPanel
     /**
      * main Method
      * 
-     * @return void
+     * @param args String[]
      */
     public static void main(String[] args) {
         Runnable runnable = new Runnable() {

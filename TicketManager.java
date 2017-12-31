@@ -41,8 +41,8 @@ public abstract class TicketManager
      * Check whether the seat at the given row and num is available 
      * for this show
      * 
-     * @param int row
-     * @param int num
+     * @param row int
+     * @param num int
      * @return boolean
      */
     public boolean isValidSeatSelection(int row, int num)

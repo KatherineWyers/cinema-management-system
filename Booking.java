@@ -18,8 +18,8 @@ public class Booking
     /**
      * Constructor for objects of class Booking
      * 
-     * @param int id
-     * @param Customer customer
+     * @param id int
+     * @param customer Customer
      */
     public Booking(int id, Customer customer)
     {
@@ -42,7 +42,7 @@ public class Booking
      * 
      * Get the customer who made the booking
      * 
-     * @return Customer customer
+     * @return customer Customer
      */
     public Customer getCustomer()
     {
@@ -51,6 +51,7 @@ public class Booking
     
     /**
      * toString
+     * 
      * @return String
      */
     @Override
