@@ -1,9 +1,10 @@
 
 /**
- * Write a description of class Customer here.
+ * Customer Class
+ * Each customer object represents one customer
  *
  * @author Katherine Wyers
- * @version 1.0
+ * @version DEC-2017
  */
 public class Customer
 {
@@ -11,7 +12,11 @@ public class Customer
     private String name;
 
     /**
-     * Constructor for objects of class Customer
+     * Constructor for Customer without a name
+     * 
+     * Create a customer and complete the name as blank
+     * 
+     * @param int id
      */
     public Customer(int id)
     {
@@ -19,6 +24,14 @@ public class Customer
         this.name = "";
     }
     
+    /**
+     * Constructor for Customer with a name
+     * 
+     * Create a customer with a name field
+     * 
+     * @param int id
+     * @param String name
+     */
     public Customer(int id, String name)
     {
         this.id = id;
@@ -27,6 +40,9 @@ public class Customer
     
     /**
      * getId
+     * 
+     * Get the customerId number
+     * 
      * @return int id
      */
     public int getId()
@@ -36,6 +52,9 @@ public class Customer
     
     /**
      * getName
+     * 
+     * Get the customer name
+     * 
      * @return String name
      */
     public String getName()
@@ -45,6 +64,9 @@ public class Customer
     
     /**
      * toString
+     * 
+     * Get the customer and and CustomerId as a string
+     * 
      * @return String
      */
     @Override

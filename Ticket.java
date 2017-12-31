@@ -1,6 +1,8 @@
 
 /**
- * Write a description of class Ticket here.
+ * Ticket Class
+ * The ticket, once the seat allocation has been paid 
+ * for
  *
  * @author Katherine Wyers
  * @version 1.0
@@ -11,6 +13,10 @@ public class Ticket extends SeatAllocation
     
     /**
      * Constructor for objects of class Ticket
+     * 
+     * @param int id
+     * @param Reservation reservation
+     * @param Booking booking
      */
     public Ticket(int id, Reservation reservation, Booking booking)
     {
@@ -20,11 +26,13 @@ public class Ticket extends SeatAllocation
         this.row = reservation.getRow();
         this.num = reservation.getNum();
         this.price = reservation.getPrice();
-        reservation.setUsed();
     }
     
     /**
+     * setDetails
+     * 
      * set the show
+     * 
      * @param Show show
      * @return void
      */
@@ -36,7 +44,10 @@ public class Ticket extends SeatAllocation
     }
     
     /**
+     * setPrice
+     * 
      * set the price
+     * 
      * @param float price
      * @return void
      */
@@ -47,7 +58,10 @@ public class Ticket extends SeatAllocation
     
     
     /**
+     * getBooking
+     * 
      * get the booking
+     * 
      * @return Booking booking
      */
     public Booking getBooking()
@@ -58,8 +72,11 @@ public class Ticket extends SeatAllocation
     
     /**
      * toString
-     * @return String
      * 
+     * Get a string with seat name, ticketID
+     * datetime, price, film title and screen title
+     * 
+     * @return String
      */
     public String toString()
     {

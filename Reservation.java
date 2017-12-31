@@ -1,25 +1,17 @@
-
 /**
- * Write a description of class SeatReservation here.
+ * Reservation Class
+ * Reservation objects are temporary seat allocations used by 
+ * the Booker and Transferer
  *
  * @author Katherine Wyers
- * @version 1.0
+ * @version DEC-2017
  */
 public class Reservation extends SeatAllocation
 { 
-  private boolean used;
-  
   public Reservation(Show show, Integer row, Integer num) { 
     this.row = row; 
     this.num = num;
     this.show = show;
     this.price = (row==5)? show.getPriceVip() : show.getPriceRegular(); 
-    this.used = false;
   } 
-  
-  public void setUsed()
-  {
-      this.used = true;
-  }
-    
 } 

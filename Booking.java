@@ -1,6 +1,11 @@
 import java.util.List;
 /**
- * Write a description of class Booking here.
+ * Booking Class
+ * 
+ * Each booking is one purchase of one or 
+ * many tickets. Each booking can have multiple 
+ * payments if the there is a ticket-transfer 
+ * that incurs a surcharge
  *
  * @author Katherine Wyers 
  * @version 1.0
@@ -12,6 +17,9 @@ public class Booking
 
     /**
      * Constructor for objects of class Booking
+     * 
+     * @param int id
+     * @param Customer customer
      */
     public Booking(int id, Customer customer)
     {
@@ -21,6 +29,7 @@ public class Booking
     
     /**
      * getId
+     * 
      * @return int id
      */
     public int getId()
@@ -30,6 +39,9 @@ public class Booking
     
     /**
      * getCustomer
+     * 
+     * Get the customer who made the booking
+     * 
      * @return Customer customer
      */
     public Customer getCustomer()

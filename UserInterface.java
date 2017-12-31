@@ -2,7 +2,8 @@ import java.util.concurrent.TimeUnit;
 import java.io.*;
 import java.util.*;
 /**
- * Write a description of interface UserInterface here.
+ * UserInterface Class
+ * Abstract parent class for GUI and CLI classes
  *
  * @author Katherine Wyers
  * @version 21DEC2017
@@ -23,8 +24,10 @@ abstract public class UserInterface
     
     /**
      * addDelayInSeconds
+     * 
      * Add a delay to the thread
-     * @int delay
+     * 
+     * @int delaySeconds
      * @return void
      */
     public void addDelayInSeconds(int delaySeconds)
@@ -39,7 +42,9 @@ abstract public class UserInterface
     }
 
     /**
-     * Create the default data for the system
+     * setupSystem
+     * 
+     * Seed the system with default data
      *
      * @return void
      */

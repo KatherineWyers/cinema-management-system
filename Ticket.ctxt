@@ -1,19 +1,19 @@
 #BlueJ class context
 comment0.target=Ticket
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Ticket\ here.\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment0.text=\r\n\ Ticket\ Class\r\n\ The\ ticket,\ once\ the\ seat\ allocation\ has\ been\ paid\ \r\n\ for\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
 comment1.params=id\ reservation\ booking
 comment1.target=Ticket(int,\ Reservation,\ Booking)
-comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Ticket\r\n
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Ticket\r\n\ \r\n\ @param\ int\ id\r\n\ @param\ Reservation\ reservation\r\n\ @param\ Booking\ booking\r\n
 comment2.params=show\ row\ num
 comment2.target=void\ setDetails(Show,\ int,\ int)
-comment2.text=\r\n\ set\ the\ show\r\n\ @param\ Show\ show\r\n\ @return\ void\r\n
+comment2.text=\r\n\ setDetails\r\n\ \r\n\ set\ the\ show\r\n\ \r\n\ @param\ Show\ show\r\n\ @return\ void\r\n
 comment3.params=price
 comment3.target=void\ setPrice(float)
-comment3.text=\r\n\ set\ the\ price\r\n\ @param\ float\ price\r\n\ @return\ void\r\n
+comment3.text=\r\n\ setPrice\r\n\ \r\n\ set\ the\ price\r\n\ \r\n\ @param\ float\ price\r\n\ @return\ void\r\n
 comment4.params=
 comment4.target=Booking\ getBooking()
-comment4.text=\r\n\ get\ the\ booking\r\n\ @return\ Booking\ booking\r\n
+comment4.text=\r\n\ getBooking\r\n\ \r\n\ get\ the\ booking\r\n\ \r\n\ @return\ Booking\ booking\r\n
 comment5.params=
 comment5.target=java.lang.String\ toString()
-comment5.text=\r\n\ toString\r\n\ @return\ String\r\n\ \r\n
+comment5.text=\r\n\ toString\r\n\ \r\n\ Get\ a\ string\ with\ seat\ name,\ ticketID\r\n\ datetime,\ price,\ film\ title\ and\ screen\ title\r\n\ \r\n\ @return\ String\r\n
 numComments=6

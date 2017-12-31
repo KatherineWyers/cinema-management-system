@@ -2,7 +2,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 /**
- * Write a description of class Booker here.
+ * The Booker is the ticket-manager that 
+ * handles the booking process. 
+ * It manages seat reservation for new 
+ * tickets, and processes the payments 
+ * for these new tickets
  *
  * @author Katherine Wyers
  * @version 1.0 
@@ -13,6 +17,10 @@ public class Booker extends TicketManager
     
     /**
      * Constructor for objects of class Booker
+     * 
+     * @param Cinema cinema
+     * @param Show show
+     * @param Customer customer
      */
     public Booker(Cinema cinema, Show show, Customer customer)
     { 
@@ -23,7 +31,8 @@ public class Booker extends TicketManager
     }
     
     /**
-     * get Booking booking
+     * get Booking
+     * 
      * @return Booking booking
      */
     public Booking getBooking()
@@ -32,7 +41,12 @@ public class Booker extends TicketManager
     }    
     
     /**
+     * addReservation
+     * 
      * Create a temporary seat reservation
+     * Seats are temporarily reserved during the 
+     * booking process. These temporary reservations 
+     * are stored in an ArrayList.
      * 
      * @param int row
      * @param int num
@@ -52,13 +66,15 @@ public class Booker extends TicketManager
     }
 
     /**
-     * Remove a temporary seat reservation
-     * if it exists. 
-     * If it doesn't exist, do nothing
+     * removeReservation
+     * 
+     * Remove the selected reservation from the 
+     * temporary reservations ArrayList.
+     * If the row/num combination is not found 
+     * in the reservations ArrayList, do nothing
      * 
      * @param int row
      * @param int num
-     * @param double price
      * @return void
      */
     public void removeReservation(int row, int num)
@@ -75,8 +91,13 @@ public class Booker extends TicketManager
     }
 
     /**
-     * Get the current booking price
-     * @return void
+     * getTotalPrice
+     * 
+     * Get the current price of the booking
+     * This value adjusts as reservations are 
+     * added or removed
+     * 
+     * @return float
      */
     public float getTotalPrice()
     {
@@ -89,8 +110,10 @@ public class Booker extends TicketManager
     }
     
     /**
+     * getSeatingGrid
+     * 
      * Get the proposed seating grid updated with the temporary seat reservations
-     * @param Show p
+     * 
      * @return boolean[][]
      */
     public boolean[][] getSeatingGrid()
@@ -107,8 +130,10 @@ public class Booker extends TicketManager
     }
     
     /**
-     * getSeatReservations
+     * getReservations
+     * 
      * Get the seat reservations and the price of each
+     * 
      * @return List<SeatReservation> seatReservations 
      */
     public List<Reservation> getReservations()
@@ -118,9 +143,10 @@ public class Booker extends TicketManager
     
     /**
      * isExistReservation
+     * 
      * Check whether there is a 
      * reservation at that seat
-     * @param Show show
+     * 
      * @param int row
      * @param int num
      * @return boolean
@@ -139,11 +165,14 @@ public class Booker extends TicketManager
     
     
     /**
-     * Finalize the current booking
-     * Add seatReservations to the show and create the payment
-     * @param int row
-     * @param int num
-     * @return boolean
+     * finalizeCashPayment
+     * 
+     * Finalize the current booking by cash
+     * Add seatReservations to the show
+     * convert all temporary reservations to 
+     * tickets and record the payment
+     * 
+     * @return void
      */
     public void finalizeCashPayment()
     {
@@ -153,10 +182,12 @@ public class Booker extends TicketManager
     }
     
     /**
+     * finalizeCardPayment
+     * 
      * Finalize the current booking
      * Add seatReservations to the show and create the payment
-     * @param int row
-     * @param int num
+     * 
+     * @param String referenceNumber
      * @return boolean
      */
     public void finalizeCardPayment(String referenceNumber)
@@ -167,9 +198,12 @@ public class Booker extends TicketManager
     }
     
     /**
+     * convertToTickets
+     * 
      * Create a new Ticket for each seat reservation
      * Remove each Seat Reservation from the list
      * If the Booking is not already stored, store the booking
+     * 
      * @return void
      */
     private void convertToTickets()

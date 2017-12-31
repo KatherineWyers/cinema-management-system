@@ -11,6 +11,10 @@ public class IncomeReport extends Report
     
     /**
      * Constructor for objects of class IncomeReport
+     * 
+     * @param Film film
+     * @param int month
+     * @param int year
      */
     public IncomeReport(Film film, int month, int year)
     {
@@ -21,7 +25,9 @@ public class IncomeReport extends Report
     
     /**
      * getIncomeSum
+     * 
      * Get total amount of income from the film
+     * 
      * @return float
      */
     public float getIncomeSum()
@@ -31,6 +37,11 @@ public class IncomeReport extends Report
     
     /**
      * addIncome
+     * 
+     * Add income to the IncomeReport. This is 
+     * used by the Transferer object when generating 
+     * the report
+     * 
      * @return void
      */
     public void addIncome(float income)
@@ -40,6 +51,9 @@ public class IncomeReport extends Report
     
     /**
      * toString()
+     * 
+     * Get a string with film-title and income generated
+     * 
      * @return String 
      */
     public String toString()

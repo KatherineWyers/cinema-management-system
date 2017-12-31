@@ -1,9 +1,13 @@
 
 /**
- * Film 
+ * Film Class
+ * 
+ * Each film object represents one copy of the 
+ * film. If the cinema has two copies of the same 
+ * film, then each copy will have their own Film instance
  *
  * @author Katherine Wyers
- * @version 1.0
+ * @version DEC-2017
  */
 public class Film
 {
@@ -15,7 +19,15 @@ public class Film
     private String subtitles;
 
     /**
-     * Constructor for objects of class Film
+     * Constructor for Film objects without subtitles
+     * 
+     * Create the Film object and complete the subtitle variable as "N/A"
+     * 
+     * @param int id
+     * @param String title
+     * @param int year
+     * @param String director
+     * @param String language
      */
     public Film(int id, String title, int year, String director, String language)
     {
@@ -27,6 +39,17 @@ public class Film
         this.subtitles = "N/A";
     }
     
+    /**
+     * Constructor for Film objects with subtitles
+     * 
+     * Create the Film object with subtitles
+     * 
+     * @param int id
+     * @param String title
+     * @param String director
+     * @param String language
+     * @param String subtitles
+     */
     public Film(int id, String title, int year, String director, String language, String subtitles)
     {
         this.id = id;
@@ -39,6 +62,9 @@ public class Film
     
     /**
      * getId
+     * 
+     * Get the FilmId
+     * 
      * @return int id
      */
     public int getId()
@@ -48,6 +74,9 @@ public class Film
     
     /**
      * getTitle
+     * 
+     * Get the film title
+     * 
      * @return String title
      */
     public String getTitle()
@@ -57,6 +86,9 @@ public class Film
     
     /**
      * getYear
+     * 
+     * Get the year that the film was made
+     * 
      * @return int year
      */
     public int getYear()
@@ -66,6 +98,9 @@ public class Film
     
     /**
      * getDirector
+     * 
+     * Get the name of the director of the film
+     * 
      * @return String director
      */
     public String getDirector()
@@ -75,6 +110,9 @@ public class Film
     
     /**
      * getLanguage
+     * 
+     * Get the speaking language that the film uses
+     * 
      * @return String language
      */
     public String getLanguage()
@@ -84,6 +122,9 @@ public class Film
     
     /**
      * getSubtitles
+     * 
+     * Get the subtitles that are displayed for the film
+     * 
      * @return String subtitles
      */
     public String getSubtitles()
@@ -93,6 +134,9 @@ public class Film
     
     /**
      * toString
+     * 
+     * Get a string with the film title, director, language and subtitle
+     * 
      * @return String
      */
     public String toString()

@@ -1,9 +1,13 @@
 
 /**
- * Write a description of class CliNavMaker here.
+ * CliNavMaker Class
+ * 
+ * This class creates the navigation objects 
+ * for the Command-Line Interface. 
+ * It is used by the Cli class
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Katherine Wyeres
+ * @version DEC-2017
  */
 public class CliNavMaker
 {
@@ -15,11 +19,15 @@ public class CliNavMaker
     
   
     /**
-     * 
      * pageHeader
-     * @param int primaryPointer
-     * @param int secondaryPointer
-     * @param String banner
+     * 
+     * Select the navigation elements to be included in the menu
+     * 
+     * @param boolean includeFullHeader// if false, only display minimal navigation options
+     * @param int primaryPointer// position of the pointer in the primary navigation panel
+     * @param int secondaryPointer// position of the pointer in the secondary navigation panel
+     * @param String category// title text
+     * @param String subtext
      * @return void
      */
     public static void pageHeader(boolean includeFullHeader, int primaryPointer, int secondaryPointer, String category, String subtext)
@@ -42,8 +50,10 @@ public class CliNavMaker
     
     /**
      * includeFullHeader()
-     * @return void
      * 
+     * Print the full primary navigation menu
+     * 
+     * @return void
      */
     public static void includeFullHeader()
     {
@@ -53,8 +63,10 @@ public class CliNavMaker
     
     /**
      * includeTitleBar()
-     * @return void
      * 
+     * Print the title bar for the application
+     * 
+     * @return void
      */
     public static void includeTitleBar()
     {
@@ -63,8 +75,11 @@ public class CliNavMaker
     
     /**
      * includeBanner()
+     * 
+     * Include the main title text and subtext elements
+     * 
      * @param String category
-     * @param String subtitle
+     * @param String subtext
      * @return void
      */
     public static void includeBanner(String category, String subtext)
@@ -75,7 +90,11 @@ public class CliNavMaker
     
     /**
      * includeBannerMainText()
+     * 
      * print an ASCII art header
+     * ASCII generated using: Text To ASCII Art Generator
+     * http://patorjk.com/software/taag/
+     * 
      * @param String category
      * @return void
      */
@@ -84,8 +103,7 @@ public class CliNavMaker
         System.out.println("");// Margin Top
         switch(category)
         {
-            // Text To ASCII Art Generator
-            // http://patorjk.com/software/taag/
+
             case "films":
                 System.out.println("______ _____ _     ___  ___ _____ ");
                 System.out.println("|  ___|_   _| |    |  \\/  |/  ___|");
@@ -132,7 +150,9 @@ public class CliNavMaker
     
     /**
      * includeBannerSubtext
-     * Display the subtext
+     * 
+     * Print the subtext
+     * 
      * @param String subtext
      * @return void
      */
@@ -143,6 +163,10 @@ public class CliNavMaker
 
     /**
      * includeSecondaryNav()
+     * 
+     * Print the secondary navigation 
+     * for the given category
+     * 
      * @param String category
      * @return void
      */
@@ -171,9 +195,11 @@ public class CliNavMaker
     
     /**
      * includePointer()
+     * 
+     * Print the pointer in the give position
+     * 
      * @param int position
      * @return void
-     * 
      */
     public static void includePointer(int position)
     {

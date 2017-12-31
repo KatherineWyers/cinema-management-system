@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Write a description of class Tester here.
+ * Tester Class
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Katherine Wyers
+ * @version DEC-2017
  */
 public class Tester
 {
@@ -18,6 +18,13 @@ public class Tester
      */
     public Tester(){};
     
+    /**
+     * runAllTests
+     * 
+     * Run the three groups of tests
+     * 
+     * @return void
+     */
     public void runAllTests()
     {
         runUnitTests();
@@ -27,7 +34,9 @@ public class Tester
 
     /**
      * setupTestEnvironment
+     * 
      * Create test data for each test
+     * 
      * @return void
      */
     private void setupTestEnvironment()
@@ -65,7 +74,10 @@ public class Tester
     }
     
     /**
-     * runUnitTests()
+     * runUnitTests
+     * 
+     * Run the unit tests
+     * 
      * @return void
      */
     private void runUnitTests()
@@ -105,9 +117,11 @@ public class Tester
 
     /**
      * testGetNextTicketId()
+     * 
      * Test that each value returned by 
      * getNextTicketId is incremented by 
      * one
+     * 
      * @return void
      */
     private void testGetNextTicketId()
@@ -125,6 +139,11 @@ public class Tester
 
     /**
      * testGetNextBookingId()
+     * 
+     * Test that each value returned by 
+     * getNextBookingId is incremented by 
+     * one
+     * 
      * @return void
      */
     private void testGetNextBookingId()
@@ -144,9 +163,11 @@ public class Tester
 
     /**
      * testGetNextPaymentId()
+     * 
      * Test that each value returned by 
      * getNextPaymentId is incremented by 
      * one
+     * 
      * @return void
      */
     private void testGetNextPaymentId()
@@ -164,9 +185,11 @@ public class Tester
 
     /**
      * testGetNextCustomerId()
+     * 
      * Test that each value returned by 
      * getNextCustomerId is incremented by 
      * one
+     * 
      * @return void
      */
     private void testGetNextCustomerId()
@@ -185,9 +208,11 @@ public class Tester
 
     /**
      * testGetNextScreenId()
+     * 
      * Test that each value returned by 
      * getNextScreenId is incremented by 
      * one
+     * 
      * @return void
      */
     private void testGetNextScreenId()
@@ -206,9 +231,11 @@ public class Tester
 
     /**
      * testGetNextFilmId()
+     * 
      * Test that each value returned by 
      * getNextFilmId is incremented by 
      * one
+     * 
      * @return void
      */
     private void testGetNextFilmId()
@@ -224,13 +251,13 @@ public class Tester
         System.out.println("");
     }
     
-
-
     /**
      * testGetNextShowId()
+     * 
      * Test that each value returned by 
      * getNextShowId is incremented by 
      * one
+     * 
      * @return void
      */
     private void testGetNextShowId()
@@ -249,9 +276,11 @@ public class Tester
 
     /**
      * testGetNewBooker()
+     * 
      * Test that the cinema getNewBooker 
      * removes the old booker and creates 
      * a new booker object
+     * 
      * @return void
      */
     private void testGetNewBooker()
@@ -268,9 +297,11 @@ public class Tester
 
     /**
      * testGetNewTransferer()
+     * 
      * Test that the cinema getNewTransferer method
      * abandons the old transferer and creates 
      * a new transferer object
+     * 
      * @return void
      */
     private void testGetNewTransferer()
@@ -296,9 +327,11 @@ public class Tester
 
     /**
      * testAddScreen()
+     * 
      * Test that the Cinema addScreen method
      * adds a screen to the screens map in the 
      * cinema class
+     * 
      * @return void
      */
     private void testAddScreen()
@@ -319,6 +352,11 @@ public class Tester
     
     /**
      * testAddShow()
+     * 
+     * Test that the addShow method in cinema class
+     * creates a new show and adds it 
+     * to the shows map
+     * 
      * @return void
      */
     private void testAddShow()
@@ -345,6 +383,11 @@ public class Tester
     
      /**
      * testAddCustomer()
+     * 
+     * Test that the addCustomer method in cinema class
+     * creates a new customer and adds it 
+     * to the customers map
+     * 
      * @return void
      */
     private void testAddCustomer()
@@ -364,9 +407,11 @@ public class Tester
     
     /**
      * testAddFilm()
+     * 
      * Test that cinema addFilm method
      * creates a new film and adds it to 
-     * the cinema films hashmap
+     * the cinema films map
+     * 
      * @return void
      */
     private void testAddFilm()
@@ -386,8 +431,10 @@ public class Tester
     
     /**
      * testGetNewCustomer()
+     * 
      * Test that a new customer was created and returned 
      * correctly
+     * 
      * @return void
      */
     private void testGetNewCustomer()
@@ -402,10 +449,13 @@ public class Tester
         System.out.println("");
     }  
     
-    
-    
     /**
      * testCinemaConvertToRowLetter
+     * 
+     * Test that the converToRowLetter method 
+     * correctly converts from row as integer 
+     * to row as letter
+     * 
      * @return void
      */
     private void testCinemaConvertToRowLetter()
@@ -425,6 +475,11 @@ public class Tester
     
     /**
      * testCinemaConvertToRowNum
+     * 
+     * Test that the converToRowNum method 
+     * correctly converts from row as letter (String) 
+     * to row as integer
+     * 
      * @return void
      */
     private void testCinemaConvertToRowNum()
@@ -449,9 +504,11 @@ public class Tester
     
     /**
      * testBookerAddTemporarySeatReservation()
+     * 
      * Test that the Booker creates a new 
      * seat reservation when addSeatReservation 
      * is called
+     * 
      * @return void
      */
     private void testBookerAddTemporarySeatReservation()
@@ -474,8 +531,10 @@ public class Tester
     
     /**
      * testIsExistReservation()
+     * 
      * Test that the isExistReservation correctly 
      * checks to see if a reservation has been set
+     * 
      * @return void
      */
     private void testIsExistReservation()
@@ -505,9 +564,11 @@ public class Tester
 
     /**
      * testGetTotalPrice()
+     * 
      * Test that the getTotalPrice value for 
      * increases correctly as new seat reservations 
      * are added
+     * 
      * @return void
      */
     private void testGetTotalPrice()
@@ -532,7 +593,9 @@ public class Tester
     
     /**
      * testFormatToTwoDigitString()
+     * 
      * Convert integer to two-digit string
+     * 
      * @return void
      */
     private void testFormatToTwoDigitString()
@@ -555,10 +618,12 @@ public class Tester
     
     /**
      * testSeatAllocationConvertToRowLetter()
+     * 
      * Test the convertToRowLetter. This accepts 
      * and integer 1-5 and returns a capital letter 
      * A-E. Test that values outside this range 
      * return a string with a single white space
+     * 
      * @return void
      */
     private void testSeatAllocationConvertToRowLetter()
@@ -588,8 +653,10 @@ public class Tester
     
     /**
      * testAddIncome
+     * 
      * Test that the addIncome method in IncomeReport 
      * adds the correct value to the income sum
+     * 
      * @return void
      */
     private void testAddIncome()
@@ -610,9 +677,11 @@ public class Tester
     
     /**
      * testIncrementTicketCounter
+     * 
      * Test that the ticket counter increments
      * correctly when the incrementTicketCounter 
      * is called
+     * 
      * @return void
      */
     private void testIncrementTicketCounter()
@@ -633,9 +702,11 @@ public class Tester
     
     /**
      * testIncrementRatingCounter
+     * 
      * Test that the rating counter increments
      * correctly when a new rating is added
      * is called
+     * 
      * @return void
      */
     private void testIncrementRatingCounter()
@@ -656,9 +727,11 @@ public class Tester
     
     /**
      * testIncrementRatingCounter
+     * 
      * Test that the rating counter increments
      * correctly when a new rating is added
      * is called
+     * 
      * @return void
      */
     private void testGetAverageRating()
@@ -685,6 +758,9 @@ public class Tester
     
     /**
      * runSystemTests()
+     * 
+     * Run the System tests
+     * 
      * @return void
      */
     private void runSystemTests()
@@ -706,7 +782,9 @@ public class Tester
     
     /**
      * testIsValidShow()
+     * 
      * test whether both the screen and film are available before creating the show
+     * 
      * @return void
      */
     private void testIsValidShow()
@@ -734,8 +812,12 @@ public class Tester
         compare(this.cinema.isValidShow(date6, screen1, film2),false);   // Screen clashes     
         System.out.println("");
     }
+    
     /**
      * testIsValidCustomerId()
+     * 
+     * Test the isValidCustomerId method
+     * 
      * @return void
      */
     private void testIsValidCustomerId()
@@ -754,6 +836,9 @@ public class Tester
 
     /**
      * testAddReview()
+     * 
+     * Test that a new review gets added correctly 
+     * 
      * @return void
      */
     private void testAddReview()
@@ -814,6 +899,11 @@ public class Tester
     
     /**
      * testGetTicketListBooking()
+     * 
+     * Test that the elements in the list of tickets 
+     * purchased for a booking, matches the number of 
+     * tickets bought
+     * 
      * @return void
      */
     private void testGetTicketListBooking()
@@ -838,9 +928,11 @@ public class Tester
     
     /**
      * testGetTicketsShow()
+     * 
      * Test that the card payment process creates and stores 
      * new tickets, and that these are added to the hashmap 
      * returned by getTickets
+     * 
      * @return void
      */
     private void testGetTicketsShow()
@@ -863,9 +955,11 @@ public class Tester
     
     /**
      * testGetTicketsBooking()
+     * 
      * Test that new tickets have been created for the 
      * booking, and that the list of tickets for that 
      * booking matches the number of tickets sold
+     * 
      * @return void
      */
     private void testGetTicketsBooking()
@@ -888,10 +982,12 @@ public class Tester
     
     /**
      * testAddBooking()
+     * 
      * Test that the booking process correctly 
      * creates a new booking. Test that the list 
      * of booking objects increases by 1 with 
      * every new booking
+     * 
      * @return void
      */
     private void testAddBooking()
@@ -922,10 +1018,12 @@ public class Tester
     
     /**
      * testGetTicket()
+     * 
      * Test that the getTicket throws an exception 
      * if the ticketId given is not in recognized. 
      * Test that the getTicket correctly returns the 
      * requested ticket if the id is valid
+     * 
      * @return void
      */
     private void testGetTicket()
@@ -970,9 +1068,11 @@ public class Tester
     
     /**
      * testBookerIsValidSeatSelection()
+     * 
      * Test that isValidSeatSelection only 
      * returns true if no seat reservation 
      * has been set by the TicketManager
+     * 
      * @return void
      */
     private void testBookerIsValidSeatSelection()
@@ -993,10 +1093,12 @@ public class Tester
     
     /**
      * testBookerRemoveTemporarySeatReservation()
+     * 
      * Test that the addReservation method increases 
      * the seat reservation count by one, and the 
      * remove seat reservation method removes the 
      * seat reservation. 
+     * 
      * @return void
      */
     private void testBookerRemoveTemporarySeatReservation()
@@ -1030,6 +1132,9 @@ public class Tester
     
     /**
      * runIntegrationTests()
+     * 
+     * Run the integration test
+     * 
      * @return void
      */
     private void runIntegrationTests()
@@ -1049,8 +1154,10 @@ public class Tester
 
     /**
      * testBookingAndCashPaymentProcess()
+     * 
      * Create new booking and finalize 
      * payment by cash
+     * 
      * @return void
      */
     private void testBookingAndCashPaymentProcess()
@@ -1091,8 +1198,10 @@ public class Tester
     
     /**
      * testBookingAndCardPaymentProcess()
+     * 
      * Create a new booking and complete the 
      * payment process for card payment
+     * 
      * @return void
      */
     private void testBookingAndCardPaymentProcess()
@@ -1129,8 +1238,10 @@ public class Tester
     
     /**
      * testTransfererCashPaymentSamePrice()
+     * 
      * Test that a ticket transfers successfully 
      * when there is no transfer surcharge
+     * 
      * @return void
      */
     private void testTransfererCashPaymentSamePrice()
@@ -1160,8 +1271,10 @@ public class Tester
     
     /**
      * testTransfererCashPaymentLowerPrice()
+     * 
      * Test that no surcharge is applied when the 
      * ticket is transfered to a lower-priced seat
+     * 
      * @return void
      */
     private void testTransfererCashPaymentLowerPrice()
@@ -1190,9 +1303,11 @@ public class Tester
     
     /**
      * testTransfererCashPaymentHigherPrice()
+     * 
      * Test that the transfer of a ticket to a higher 
      * priced seat incurs a surcharge that is the difference 
      * between the two prices
+     * 
      * @return void
      */
     private void testTransfererCashPaymentHigherPrice()
@@ -1224,7 +1339,9 @@ public class Tester
     
     /**
      * testGetOrderedReportLists()
+     * 
      * Test whether the report lists are ordered correctly
+     * 
      * @return void
      */
     private void testGetOrderedReportLists()
@@ -1348,7 +1465,10 @@ public class Tester
     }
     
     /**
+     * compare
+     * 
      * compare two boolean values and call printResult
+     * 
      * @param boolean result
      * @param boolean expected
      * @return void
@@ -1359,7 +1479,10 @@ public class Tester
     }
     
     /**
+     * compare
+     * 
      * compare two int values and call printResult
+     * 
      * @param int result
      * @param int expected
      * @return void
@@ -1370,7 +1493,10 @@ public class Tester
     }
     
     /**
+     * compare
+     * 
      * compare two float values and call printResult
+     * 
      * @param int result
      * @param int expected
      * @return void
@@ -1381,7 +1507,10 @@ public class Tester
     }
     
     /**
+     * compare
+     * 
      * compare two Strings and call printResult
+     * 
      * @param String result
      * @param String expected
      * @return void
@@ -1392,7 +1521,10 @@ public class Tester
     }
     
     /**
+     * printResult
+     * 
      * printResult. Print P if argument true, else print F
+     * 
      * @param boolean result
      * @return void
      */

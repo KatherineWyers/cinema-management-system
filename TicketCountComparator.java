@@ -1,6 +1,8 @@
 import java.util.Comparator;
 /**
- * Write a description of class TicketCountComparator here.
+ * TicketCountComparator Class
+ * Compare two TicketReport objects based 
+ * on their ticket count
  *
  * @author Katherine Wyers
  * 
@@ -22,7 +24,11 @@ public class TicketCountComparator implements Comparator<TicketReport>
     {}
 
     /**
-     * An example of a method - replace this comment with your own
+     * compare
+     * 
+     * Compare the two ticket reports based on their ticket 
+     * count. Return either a positive or a negative integer, 
+     * depending on which has the greater ticket count
      *
      * @param TicketReport ticketReport1
      * @param TicketReport ticketReport2

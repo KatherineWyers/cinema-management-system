@@ -1,6 +1,8 @@
-
 /**
- * Abstract class SeatAllocation - write a description of the class here
+ * Abstract class SeatAllocation
+ * The abstract parent class for Reservation and Ticket
+ * This class has seat location (row and num), and the price 
+ * of the seat
  *
  * @author Katherine Wyers
  * @version 1.0
@@ -15,6 +17,9 @@ public abstract class SeatAllocation
     
     /**
      * get the id
+     * 
+     * Get the SeatAllocation Id
+     * 
      * @return int id
      */
     public int getId()
@@ -24,7 +29,9 @@ public abstract class SeatAllocation
     
     /**
      * get the row
-     * @return String row
+     * 
+     * Get the seat row// from 1 to 5 
+     * @return int row
      */
     public int getRow()
     {
@@ -32,7 +39,10 @@ public abstract class SeatAllocation
     }
     
     /**
-     * get the price that was paid for the ticket
+     * getPrice
+     * 
+     * get the price of the seat
+     * 
      * @return float price
      */
     public float getPrice()
@@ -42,8 +52,11 @@ public abstract class SeatAllocation
     
 
     /**
-     * get the number
-     * @return int number
+     * getNum
+     * 
+     * get the num of the seat// 1 to 10
+     * 
+     * @return int num
      */
     public int getNum()
     {
@@ -51,7 +64,10 @@ public abstract class SeatAllocation
     }
 
     /**
-     * get the show
+     * getShow
+     * 
+     * get the show of the seat
+     * 
      * @return Show show
      */
     public Show getShow()
@@ -61,7 +77,11 @@ public abstract class SeatAllocation
     
 
     /**
-     * get the type
+     * getType
+     * 
+     * Rows 1 to 4, return "Regular"
+     * Row 5, return "Vip"
+     * 
      * @return String type
      */
     public String getType()
@@ -76,6 +96,8 @@ public abstract class SeatAllocation
     
     /**
      * getSeatName
+     * 
+     * Get the name of the seat. Eg "A1", "B7", "E5"
      * @return String seatName
      */
     public String getSeatName()
@@ -85,8 +107,10 @@ public abstract class SeatAllocation
     
     /**
      * Convert row int to row letter
+     * 
      * Convert int 1-5 to String A-E
      * If int outside range {1, 2,...5}, return string with one white space
+     * 
      * @param int row at int
      * @return String rowLetter
      */

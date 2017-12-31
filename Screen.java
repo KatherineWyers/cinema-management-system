@@ -1,5 +1,5 @@
-
 /**
+ * Screen Class
  * Each individual Screen 
  *
  * @author Katherine Wyers
@@ -12,6 +12,9 @@ public class Screen
 
     /**
      * Constructor for objects of class Screen
+     * 
+     * @param int id
+     * @param String title
      */
     public Screen(int id, String title)
     {
@@ -22,6 +25,8 @@ public class Screen
     /**
      * getId
      *
+     * Get the Screen Id number
+     * 
      * @return int id
      */
     public int getId()
@@ -32,6 +37,8 @@ public class Screen
     /**
      * getTitle
      *
+     * Get the Title of the screen 
+     * 
      * @return String title
      */
     public String getTitle()
@@ -42,6 +49,8 @@ public class Screen
     /**
      * toString
      *
+     * Get a string with the screen title
+     * 
      * @return String 
      */
     public String toString()

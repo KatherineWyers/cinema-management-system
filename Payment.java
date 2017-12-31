@@ -14,6 +14,10 @@ public class Payment
     
     /**
      * Constructor for the Payment
+     * 
+     * @param int id
+     * @param float amount
+     * @param Booking booking
      */
     public Payment (int id, float amount, Booking booking)
     {
@@ -24,6 +28,9 @@ public class Payment
     
     /**
      * getId
+     * 
+     * Get the id for the payment
+     * 
      * @return int id
      */
     public int getId()
@@ -33,6 +40,9 @@ public class Payment
     
     /**
      * getAmount
+     * 
+     * Get the amount of the payment
+     * 
      * @return float amount
      */
     public float getAmount()
@@ -42,7 +52,10 @@ public class Payment
     
     /**
      * getBooking
-     * @return int amount
+     * 
+     * Get the booking that the payment was for
+     * 
+     * @return Booking booking
      */
     public Booking getBooking()
     {

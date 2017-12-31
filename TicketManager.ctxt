@@ -1,15 +1,15 @@
 #BlueJ class context
 comment0.target=TicketManager
-comment0.text=\r\n\ Abstract\ class\ TicketManager\ -\ write\ a\ description\ of\ the\ class\ here\r\n\r\n\ @author\ (your\ name\ here)\r\n\ @version\ (version\ number\ or\ date\ here)\r\n
+comment0.text=\r\n\ Abstract\ class\ TicketManager\r\n\ The\ abstract\ parent\ class\ for\ Booker\ and\ Transferer\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ DEC-2017\r\n
 comment1.params=
 comment1.target=Cinema\ getCinema()
-comment1.text=\r\n\ get\ Cinema\r\n\ @return\ Cinema\ cinema\r\n
+comment1.text=\r\n\ get\ Cinema\r\n\ \r\n\ Get\ the\ cinema\r\n\ \r\n\ @return\ Cinema\ cinema\r\n
 comment2.params=
 comment2.target=Show\ getShow()
-comment2.text=\r\n\ get\ Show\r\n\ @return\ Show\ show\r\n
+comment2.text=\r\n\ getShow\r\n\ \r\n\ Get\ the\ show\r\n\ \r\n\ @return\ Show\ show\r\n
 comment3.params=row\ num
 comment3.target=boolean\ isValidSeatSelection(int,\ int)
-comment3.text=\r\n\ Check\ whether\ the\ seat\ at\ the\ given\ row\ and\ num\ is\ available\ \r\n\ @param\ int\ row\r\n\ @param\ int\ num\r\n\ @return\ boolean\r\n
+comment3.text=\r\n\ isValidSeatSelection\r\n\ \r\n\ Check\ whether\ the\ seat\ at\ the\ given\ row\ and\ num\ is\ available\ \r\n\ for\ this\ show\r\n\ \r\n\ @param\ int\ row\r\n\ @param\ int\ num\r\n\ @return\ boolean\r\n
 comment4.params=
 comment4.target=void\ finalizeCashPayment()
 comment5.params=referenceNumber

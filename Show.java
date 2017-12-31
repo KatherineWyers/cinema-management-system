@@ -4,10 +4,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * Write a description of class Projection here.
+ * Show class
+ * The scheduling details about a specific screening of the 
+ * film in a screen
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Katherine Wyers
+ * @version DEC-2017
  */
 public class Show
 {
@@ -19,7 +21,14 @@ public class Show
     private float priceVip;
     
     /**
-     * Constructor for objects of class Projection
+     * Constructor for objects of class Show
+     * 
+     * @param int id
+     * @param Calendar date
+     * @param Screen screen
+     * @param Film film
+     * @param float priceRegular
+     * @param float priceVip
      */
     public Show(int id, Calendar date, Screen screen, Film film, float priceRegular, float priceVip)
     {
@@ -32,8 +41,11 @@ public class Show
     }
     
     /**
-     * dateTime
-     * @return String date as dd/mm/yyyy HH:mm
+     * getDateTime
+     * 
+     * Get a string of the datetime, in the 
+     * format dd/mm/yyyy HH:mm
+     * @return String datetime
      */
     public String getDateTime()
     {
@@ -48,8 +60,10 @@ public class Show
     
     /**
      * formatToTwoDigitString
+     * 
      * Add a leading zero to an int if its length is 1 digit
      * Numbers below zero return "00"
+     * 
      * @param int value
      * @return String result
      */
@@ -69,6 +83,10 @@ public class Show
     
     /**
      * toString()
+     * 
+     * Get a string of the show, with 
+     * film-title, screen-title and datetime. 
+     * 
      * @return String 
      */
     @Override
@@ -78,7 +96,10 @@ public class Show
     }
 
     /**
-     * get the id
+     * getId
+     * 
+     * Get the id of the show
+     * 
      * @return int id
      */
     public int getId()
@@ -87,7 +108,10 @@ public class Show
     }
 
     /**
-     * get the screen
+     * getScreen
+     * 
+     * Get the screen
+     * 
      * @return Screen screen
      */
     public Screen getScreen()
@@ -96,7 +120,10 @@ public class Show
     }
 
     /**
+     * getFilm 
+     * 
      * get the film
+     * 
      * @return Film film
      */
     public Film getFilm()
@@ -105,7 +132,10 @@ public class Show
     }
 
     /**
-     * get the date
+     * getDate
+     * 
+     * get the Calendar date object
+     * 
      * @return Calendar date
      */
     public Calendar getDate()
@@ -116,6 +146,10 @@ public class Show
 
     /**
      * get the PriceVip
+     * 
+     * Get the price for a VIP 
+     * seat at the show
+     * 
      * @return float priceVip
      */
     public float getPriceVip()
@@ -126,6 +160,10 @@ public class Show
 
     /**
      * get the priceRegular
+     * 
+     * Get the price for a Regular 
+     * seat at the show
+     * 
      * @return float priceRegular
      */
     public float getPriceRegular()

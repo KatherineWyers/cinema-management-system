@@ -1,5 +1,6 @@
 
 /**
+ * Transferer Class
  * Transferer manages the rescheduling of Tickets to a new show
  * or a new seat
  *
@@ -10,12 +11,16 @@ public class Transferer extends TicketManager
 {
     private Ticket ticket;
     
-    // the rescheduler will only ever deal with one ticket-reschedule at a time
+    // the transferer will only ever deal with one ticket-reschedule at a time
     private Reservation reservation;
     
 
     /**
-     * Constructor for objects of class Rescheduler
+     * Constructor for objects of class Transferer
+     * 
+     * @param Cinema cinema
+     * @param Show show
+     * @param Ticket ticket
      */
     public Transferer(Cinema cinema, Show show, Ticket ticket)
     {
@@ -27,6 +32,9 @@ public class Transferer extends TicketManager
     
     /**
      * getTicket
+     * 
+     * Get the current ticket being transferred
+     * 
      * @return Ticket ticket
      */
     public Ticket getTicket()
@@ -35,8 +43,10 @@ public class Transferer extends TicketManager
     }
     
     /**
+     * getSeatingGrid
+     * 
      * Get the proposed seating grid updated with the temporary seat reservations
-     * @param Show p
+     * 
      * @return boolean[][]
      */
     public boolean[][] getSeatingGrid()
@@ -55,11 +65,13 @@ public class Transferer extends TicketManager
     
     /**
      * getTicketTransferSurcharge
+     * 
      * If there is a price increase during the ticket transfer, a surcharge
      * is payable. If there is a price reduction, or the ticket price is the 
      * same, then there is no surcharge.
      * Note: the cinema does not offer refunds if a ticket is transferred 
      * and the new seat is cheaper than the value of the ticket. 
+     * 
      * @param String ticketType
      * @return float
      */
@@ -78,11 +90,13 @@ public class Transferer extends TicketManager
     }
     
     /**
-     * getSeatingGrid
+     * getSeatingGridIgnoreTicket
+     * 
      * Ignore one ticket. Get the proposed seating grid updated with 
      * the temporary seat reservations. One ticket will be ignored. 
      * This method is used when the seats are being 
      * selected for the ticket transfer
+     * 
      * @param Ticket ignoreTicket
      * @return boolean[][]
      */
@@ -103,6 +117,8 @@ public class Transferer extends TicketManager
     }    
 
     /**
+     * setReservation
+     * 
      * Set the temporary seat reservation
      * Can be used to create a new reservation, or to change the current reservation
      * 
@@ -124,7 +140,9 @@ public class Transferer extends TicketManager
     
     /**
      * finalizeNoChargeTransfer()
+     * 
      * Finalize the changing of the for the selected seat in the current show
+     * 
      * @return void
      */
     public void finalizeNoChargeTransfer()
@@ -133,7 +151,10 @@ public class Transferer extends TicketManager
     }
     
     /**
+     * finalizeCashPayment
+     * 
      * Finalize the changing of the for the selected seat in the current show
+     * 
      * @return void
      */
     public void finalizeCashPayment()
@@ -152,7 +173,10 @@ public class Transferer extends TicketManager
     }
     
     /**
+     * finalizeCardPayment
+     * 
      * Finalize the changing of the for the selected seat in the current show
+     * 
      * @return void
      */
     public void finalizeCardPayment(String referenceNumber)
@@ -172,6 +196,11 @@ public class Transferer extends TicketManager
     
     /**
      * getReservation
+     * 
+     * Get the current seat reservation. This 
+     * will return null if no seat reservation 
+     * has been set
+     * 
      * @return Reservation reservation
      */
     public Reservation getReservation()
@@ -182,9 +211,11 @@ public class Transferer extends TicketManager
     
     /**
      * getSurcharge
+     * 
      * if the new reservation is cheaper or the same price as 
      * the original ticket, set surcharge to 0.0.
      * No refunds are given
+     * 
      * @return float surcharge
      */
     public float getSurcharge()
@@ -198,7 +229,10 @@ public class Transferer extends TicketManager
     }
     
     /**
+     * seteNewDetailsForTicket
+     * 
      * Change Ticket details
+     * 
      * @return void
      */
     private void setNewDetailsForTicket()

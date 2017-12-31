@@ -1,6 +1,7 @@
 import java.util.Comparator;
 /**
- * Write a description of class IncomeComparator here.
+ * IncomeComparator Class
+ * Compares two objects based on their getIncomeSum() methods
  *
  * @author Katherine Wyers
  * 
@@ -10,7 +11,7 @@ import java.util.Comparator;
  * https://www.youtube.com/watch?v=u8D2fydghj4
  * Accessed 23-DEC-2017
  * 
- * @version 23-DEC-2017
+ * @version DEC-2017
  */
 public class IncomeComparator implements Comparator<IncomeReport>
 {
@@ -22,7 +23,13 @@ public class IncomeComparator implements Comparator<IncomeReport>
     {}
 
     /**
-     *
+     * compare
+     * 
+     * Compare the two objects based on their 
+     * getIncomeSum values. Return a positive 
+     * or negative integer, depending on which 
+     * object has the greater getIncomeSum
+     * 
      * @param IncomeReport incomeReport1
      * @param IncomeReport incomeReport2
      * @return int

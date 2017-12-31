@@ -1,9 +1,11 @@
 import java.util.Scanner;
 /**
- * Write a description of class CliUserInputter here.
+ * CliUserInputter Class
+ * Utility class to prompt the user for input
+ * 
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Katherine Wyers
+ * @version DEC-2017
  */
 public class CliUserInputter
 {
@@ -16,6 +18,11 @@ public class CliUserInputter
 
     /**
      * getUserInputInteger()
+     * 
+     * Prompt the user for an integer input
+     * If the input is greater than the maxValue, 
+     * print a notification and prompt again for input
+     * 
      * @param int maxValue
      * @return int input
      */
@@ -49,9 +56,14 @@ public class CliUserInputter
         }    
     }
 
-        
     /**
-     * acceptIntegerInput()
+     * getUserInputInteger()
+     * 
+     * Prompt the user for an integer input with 
+     * the given question. 
+     * If the input is greater than the maxValue, 
+     * print a notification and prompt again for input
+     * 
      * @param int maxValue
      * @param String question
      * @return int input
@@ -96,11 +108,14 @@ public class CliUserInputter
         }    
     }
 
-    
-
-        
     /**
      * getUserInputIntegerRange()
+     * 
+     * Prompt the user for an integer input with 
+     * the given question. 
+     * If the input is not within the minValue-maxValue
+     * range, print a notification and prompt again for input
+     * 
      * @param int minValue
      * @param int maxValue
      * @param String question
@@ -145,9 +160,15 @@ public class CliUserInputter
 
         }    
     }
-        
+
     /**
-     * getUserInputDouble()
+     * getUserInputFloat()
+     * 
+     * Prompt the user for a float input with 
+     * the given question.
+     * If the input is not valid, display a 
+     * notification and prompt again
+     * 
      * @param String question
      * @return float input
      */
@@ -188,10 +209,14 @@ public class CliUserInputter
             }
         }    
     }
-    
-    
+
     /**
      * getUserInputString()
+     * 
+     * Prompt the user for a String input. 
+     * If the input is longer than the maxLength,
+     * display a notification and prompt again
+     * 
      * @param int maxLength
      * @return String input
      */
@@ -238,9 +263,15 @@ public class CliUserInputter
 
         }     
     }
-    
+
     /**
      * getUserInputString()
+     * 
+     * Prompt the user for a String input using 
+     * the given question. 
+     * If the input is longer than the maxLength,
+     * display a notification and prompt again
+     * 
      * @param int maxLength
      * @param String question
      * @return String input
@@ -288,9 +319,14 @@ public class CliUserInputter
 
         }    
     }   
-    
+
     /**
      * getUserInputYN()
+     * 
+     * Prompt the user for a Y or N input.
+     * If the input is not Y, y, N or n, 
+     * display a notification and prompt again
+     * 
      * @return String input
      */
     public static String getUserInputYN()
@@ -335,10 +371,15 @@ public class CliUserInputter
 
         }     
     }
-    
+
     /**
      * getUserInputYN()
-     * @param String question
+     * 
+     * Prompt the user for a Y or N input
+     * using the given question.
+     * If the input is not Y, y, N or n, 
+     * display a notification and prompt again
+     * 
      * @return String input
      */
     public static String getUserInputYN(String question)

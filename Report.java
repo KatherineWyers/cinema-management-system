@@ -1,9 +1,9 @@
-
 /**
- * Abstract class Report - write a description of the class here
+ * Abstract class Report
+ * The abstract parent class for all report subclasses
  *
- * @author (your name here)
- * @version (version number or date here)
+ * @author Katherine Wyers
+ * @version DEC-2017
  */
 public abstract class Report
 {
@@ -13,6 +13,9 @@ public abstract class Report
     
     /**
      * getFilm
+     * 
+     * Get the film that the report is for
+     * 
      * @return Film film
      */
     public Film getFilm()
@@ -22,7 +25,9 @@ public abstract class Report
     
     /**
      * getMonthAsNum
+     * 
      * 0: Jan, 1: Feb ... 11: Dec
+     * 
      * @return int mm
      */
     public int getMonthAsNum()
@@ -32,6 +37,9 @@ public abstract class Report
     
     /**
      * getYear
+     * 
+     * Get Year in GregorianCalendar
+     * 
      * @return int year
      */
     public int getYear()

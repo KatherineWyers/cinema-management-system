@@ -1,6 +1,8 @@
 import java.util.*;
 /**
- * Write a description of class TicketReport here.
+ * TicketReport Class
+ * Each instance is a monthly report of the 
+ * ticket sales and average rating for one film
  *
  * @author Katherine Wyers
  * @version 23-DEC-2017
@@ -13,6 +15,10 @@ public class TicketReport extends Report
     
     /**
      * Constructor for objects of class TicketReport
+     * 
+     * @param Film film
+     * @param int month
+     * @param int year
      */
     public TicketReport(Film film, int month, int year)
     {
@@ -23,6 +29,9 @@ public class TicketReport extends Report
     
     /**
      * incrementTicketCounter
+     * 
+     * Increment the ticket counter by 1
+     * 
      * @return void
      */
     public void incrementTicketCounter()
@@ -31,7 +40,12 @@ public class TicketReport extends Report
     }
     
     /**
-     * incrementRatingCounter
+     * addRating
+     * 
+     * Add the rating to the total sum of ratings. 
+     * Increment the rating counter by 1
+     * 
+     * @int rating
      * @return void
      */
     public void addRating(int rating)
@@ -42,7 +56,9 @@ public class TicketReport extends Report
     
     /**
      * getTicketCounter
+     * 
      * Get total count of tickets sold
+     * 
      * @return int
      */
     public int getTicketCounter()
@@ -52,7 +68,9 @@ public class TicketReport extends Report
     
     /**
      * getRatingCounter
+     * 
      * Get total count of ratings
+     * 
      * @return int
      */
     public int getRatingCounter()
@@ -63,8 +81,10 @@ public class TicketReport extends Report
     
     /**
      * getAverageRating
+     * 
      * Sum of ratings divided by rating count
      * If rating count is zero, return string "N/A"
+     * 
      * @return String averageRating string
      */
     public String getAverageRating()
@@ -78,6 +98,9 @@ public class TicketReport extends Report
     
     /**
      * toString()
+     * 
+     * Get a string with Film-title, tickets sold and average rating
+     * 
      * @return String 
      */
     public String toString()

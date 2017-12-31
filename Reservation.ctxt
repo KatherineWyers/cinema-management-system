@@ -1,8 +1,6 @@
 #BlueJ class context
 comment0.target=Reservation
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ SeatReservation\ here.\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment0.text=\r\n\ Reservation\ Class\r\n\ Reservation\ objects\ are\ temporary\ seat\ allocations\ used\ by\ \r\n\ the\ Booker\ and\ Transferer\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ DEC-2017\r\n
 comment1.params=show\ row\ num
 comment1.target=Reservation(Show,\ java.lang.Integer,\ java.lang.Integer)
-comment2.params=
-comment2.target=void\ setUsed()
-numComments=3
+numComments=2

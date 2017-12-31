@@ -21,8 +21,16 @@ public class GuiSplashScreen extends JPanel
 
     private ImagePanel contentPane;
 
+    /**
+     * displaySplashScreen
+     * 
+     * Create a new frame for the splash screen 
+     * and create an instance of ImagePanel
+     * 
+     * @return void
+     */
     private void displaySplashScreen() {
-        JFrame frame = new JFrame("Image Example");
+        JFrame frame = new JFrame("Odeon Cinema System");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         contentPane = new ImagePanel();
@@ -33,6 +41,11 @@ public class GuiSplashScreen extends JPanel
         frame.setVisible(true);
     }    
     
+    /**
+     * ImagePanel Inner class
+     * Inner class for the splash screen
+     * 
+     */
     private class ImagePanel extends JPanel
     {
         private BufferedImage image;
@@ -48,10 +61,25 @@ public class GuiSplashScreen extends JPanel
                 }
         }
     
+        /**
+         * Dimension class
+         * 
+         * getPreferredSize
+         * 
+         * Set the image panel size to the size of the image
+         */
         @Override
         public Dimension getPreferredSize() {
             return image == null ? new Dimension(400, 300): new Dimension(image.getWidth(), image.getHeight());
         }
+    
+        /**
+         * paintComponent
+         * 
+         * Draw the image onto the JPanel
+         * 
+         * @return void
+         */
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -62,6 +90,9 @@ public class GuiSplashScreen extends JPanel
     
     /**
      * getSplashPanel
+     * 
+     * Get the splash panel
+     * 
      * @return JPanel
      */
     public JPanel getSplashPanel()
@@ -70,7 +101,11 @@ public class GuiSplashScreen extends JPanel
         return contentPane;
     }
     
-    
+    /**
+     * main Method
+     * 
+     * @return void
+     */
     public static void main(String[] args) {
         Runnable runnable = new Runnable() {
             @Override

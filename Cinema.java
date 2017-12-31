@@ -1,6 +1,10 @@
 import java.util.*;
 /**
- * Implementation of the Odeon Cinema
+ * Cinema Class
+ * 
+ * The main implementation class for the system.
+ * The Cinema class stores all the objects for the 
+ * application
  *
  * @author Katherine Wyers
  * @version 1.0
@@ -44,6 +48,13 @@ public class Cinema
     
     /**
      * getNewBooker
+     * 
+     * Create a new Booker instance. This is called 
+     * whenever the booking process is started. It
+     * replaces any previous Booker object
+     * 
+     * @param Show show
+     * @param Customer customer
      * @return Booker booker
      */
     public Booker getNewBooker(Show show, Customer customer)
@@ -54,6 +65,13 @@ public class Cinema
     
     /**
      * getNewTransferer
+     * 
+     * Create a new Transferer instance. This is called 
+     * whenever the ticket-transfer process is started. It
+     * replaces any previous Transfer object
+     *
+     *@param Show show
+     *@param Ticket ticket
      * @return Transferer transferer
      */
     public Transferer getNewTransferer(Show show, Ticket ticket)
@@ -63,7 +81,9 @@ public class Cinema
     }
     
     /**
-     * Get next unused screen id
+     * getNextScreenId
+     * 
+     * Get the unused incremented screen id
      *
      * @return int nextScreenId
      */
@@ -73,7 +93,9 @@ public class Cinema
     }
     
     /**
-     * Add new screen
+     * addScreen
+     * 
+     * Add a new screen to the cinema
      *
      * @param  String title 
      * @return void
@@ -85,7 +107,10 @@ public class Cinema
     }
 
     /**
-     * Get a list of screens
+     * getScreenList
+     * 
+     * Get a list of the screens at the cinema
+     * 
      * @return List screens
      */
     public List<Screen> getScreenList()
@@ -94,7 +119,9 @@ public class Cinema
     }
     
     /**
-     * Get next unused film id
+     * getNextFilmId
+     * 
+     * Get the unused incremented film id
      *
      * @return int nextFilmId
      */
@@ -104,9 +131,12 @@ public class Cinema
     }
 
     /**
+     * addFilm
+     * 
      * Add new film without subtitles
      *
      * @param  String title 
+     * @param int year
      * @param String director
      * @param String language
      * @return void
@@ -118,9 +148,12 @@ public class Cinema
     }
 
     /**
+     * addFilm
+     * 
      * Add new film with subtitles
      *
-     * @param  String title 
+     * @param  String title
+     * @param int year
      * @param String director
      * @param String language
      * @param String subtitles
@@ -133,7 +166,11 @@ public class Cinema
     }
 
     /**
-     * Get a list of films
+     * getFilmList
+     * 
+     * Get a list of the films that have 
+     * been added at the cinema
+     * 
      * @return List films
      */
     public List<Film> getFilmList()
@@ -143,17 +180,23 @@ public class Cinema
     
     /**
      * getFilms
-     * Get a map of all films
+     * 
+     * Get a hashmap of all films, with 
+     * FilmId as the hashmap key
+     * 
      * @return Map films
      */
     public Map getFilms()
     {
         return films;
     }
+    
     /**
-     * Get next unused screen id
+     * getNextShowId
+     * 
+     * Get the unused incremented show id
      *
-     * @return int nextScreenId
+     * @return int nextShowId
      */
     public int getNextShowId()
     {
@@ -161,11 +204,14 @@ public class Cinema
     }
     
     /**
-     * Check whether the screen or the film is in use at a given time.  
-     * @param Date date
-     * @param String slot
-     * @param int screenId
-     * @param int filmId
+     * isValidShow
+     * 
+     * Check whether the screen or the film is already in use at a given time
+     * If either are in use, return false
+     * 
+     * @param Calendar date
+     * @param Screen screen
+     * @param Film film
      * @return boolean
      */
     public boolean isValidShow(Calendar date, Screen screen, Film film)
@@ -190,9 +236,13 @@ public class Cinema
     }
 
     /**
-     * Add new show
+     * addShow
+     * 
+     * Add a new film-screening to the cinema schedule
+     * Call isValidShow to confirm that both the film 
+     * and the screen are available
      *
-     * @param  Date date 
+     * @param  Calendar date 
      * @param Screen screen
      * @param Film film
      * @param float priceRegular
@@ -211,7 +261,11 @@ public class Cinema
     }
 
     /**
-     * Get a list of shows
+     * getShowList
+     * 
+     * Get a list of shows that are scheduled at 
+     * the cinema
+     * 
      * @return List shows
      */
     public List<Show> getShowList()
@@ -220,7 +274,9 @@ public class Cinema
     }
     
     /**
-     * Get next unused customer id
+     * getNextCustomerId
+     * 
+     * Get the unused incremented customer id
      *
      * @return int nextCustomerId
      */
@@ -230,9 +286,10 @@ public class Cinema
     }
 
     /**
+     * addCustomer
+     * 
      * Add new customer without name
      *
-     * @param  String name 
      * @return void
      */
     public void addCustomer()
@@ -242,6 +299,8 @@ public class Cinema
     }
 
     /**
+     * addCustomer
+     * 
      * Add new customer with name
      *
      * @param  String name 
@@ -254,7 +313,10 @@ public class Cinema
     }
 
     /**
-     * Add new customer with name
+     * getNewCustomer
+     * 
+     * Add a new customer with name and 
+     * return the new Customer 
      *
      * @param  String name 
      * @return Customer
@@ -267,10 +329,14 @@ public class Cinema
     }
 
     /**
-     * Get customer by id
+     * getCustomer
+     * 
+     * Get customer by their id number
+     * Throw an IllegalArgumentException if 
+     * the customer id is not recognized
      *
      * @param  int customerId 
-     * @return void
+     * @return Customer
      */
     public Customer getCustomer(int customerId) throws IllegalArgumentException
     {  
@@ -283,6 +349,10 @@ public class Cinema
     
     /**
      * isValidCustomerId
+     * 
+     * Check whether the customer id given is 
+     * recognized
+     * 
      * @param int customerId
      * @return boolean
      */
@@ -292,7 +362,10 @@ public class Cinema
     }
 
     /**
-     * Get a list of customers
+     * getCustomerList
+     * 
+     * Get a list of all customers
+     * 
      * @return List customers
      */
     public List<Customer> getCustomerList()
@@ -301,7 +374,9 @@ public class Cinema
     }
     
     /**
-     * Get next unused ticket id
+     * getNextTicketId
+     * 
+     * Get the unused incremented ticket id
      *
      * @return int nextTicketId
      */
@@ -311,7 +386,11 @@ public class Cinema
     }
     
     /**
-     * Get Map of all Tickets
+     * getTickets
+     * 
+     * Get a map of all Tickets
+     * with TicketId as the hashmap key
+     * 
      * @return Map tickets
      */
     public Map<Integer, Ticket> getTickets()
@@ -320,10 +399,14 @@ public class Cinema
     }
 
     /**
-     * Get ticket by id
+     * getTicket
+     * 
+     * Get ticket by id number
+     * Throw an IllegalArgumentException if 
+     * the ticket id is not recognized
      *
      * @param  int ticketId 
-     * @return void
+     * @return Ticket
      */
     public Ticket getTicket(int ticketId) throws IllegalArgumentException
     {  
@@ -335,7 +418,10 @@ public class Cinema
     }
 
     /**
-     * Get a list of tickets
+     * getTicketList
+     * 
+     * Get a list of all tickets
+     * 
      * @return List tickets
      */
     public List<Ticket> getTicketList()
@@ -344,7 +430,11 @@ public class Cinema
     }
 
     /**
-     * Get a list of tickets for the booking
+     * getTicketList
+     * 
+     * Get a list of all tickets for the 
+     * booking
+     * 
      * @param Booking booking
      * @return List tickets
      */
@@ -354,9 +444,13 @@ public class Cinema
     }
     
     /**
+     * getTickets
+     * 
      * Get Map of all Tickets for the show
-     * @param Show p
-     * @return Map tickets
+     * with TicketId as the map-key
+     * 
+     * @param Show show
+     * @return Map<Integer, Ticket> tickets
      */
     public Map<Integer, Ticket> getTickets(Show show)
     {
@@ -376,9 +470,13 @@ public class Cinema
     }
     
     /**
+     * getTickets
+     * 
      * Get Map of all Tickets for the booking
-     * @param Booking b
-     * @return Map tickets
+     * with ticketId as the map-key
+     * 
+     * @param Booking booking
+     * @return Map<Integer, Ticket> tickets
      */
     public Map<Integer, Ticket> getTickets(Booking booking)
     {
@@ -397,7 +495,9 @@ public class Cinema
     }
 
     /**
-     * Add new add ticket
+     * addTicket
+     * 
+     * Add a ticket to the ticket-map
      *
      * @param  Ticket ticket
      * @return void
@@ -408,7 +508,9 @@ public class Cinema
     }
     
     /**
-     * Get next unused booking id
+     * getNextBookingId
+     * 
+     * Get the unused incremented booking id
      *
      * @return int nextBookingId
      */
@@ -418,7 +520,10 @@ public class Cinema
     }
     
     /**
+     * addBooking
+     * 
      * Add new Booking
+     * 
      * @param Booking booking
      * @return void
      */
@@ -428,8 +533,11 @@ public class Cinema
     }
 
     /**
-     * Get a list of bookings
-     * @return List bookings
+     * getBookingList
+     * 
+     * Get a list of all bookings
+     * 
+     * @return List<Booking> bookings
      */
     public List<Booking> getBookingList()
     {
@@ -437,10 +545,13 @@ public class Cinema
     }
     
     /**
+     * addReview
+     * 
      * Add new Review
      * The review cannot be overwritten. This method first 
      * checks to see if the review is null. If the review 
-     * is not null, it does not log the review. 
+     * is not null, it does not log the review
+     * 
      * @param Ticket ticket
      * @param String review
      * @param int rating
@@ -456,8 +567,13 @@ public class Cinema
     }
     
     /**
-     * Get Map of all Reivews
-     * @return Map reviews
+     * getReviews
+     * 
+     * Get Map of all Reviews
+     * with the review's TicketId as 
+     * the hashmap key
+     * 
+     * @return Map<Integer, Review> reviews
      */
     public Map<Integer, Review> getReviews()
     {
@@ -465,8 +581,13 @@ public class Cinema
     }
     
     /**
+     * getBookings
+     * 
      * Get Map of all Bookings
-     * @return Map bookings
+     * with the bookingId as the 
+     * hashmap key
+     * 
+     * @return Map<Integer, Booking> bookings
      */
     public Map<Integer, Booking> getBookings()
     {
@@ -474,17 +595,25 @@ public class Cinema
     }
     
     /**
-     * Get next unused payment id
+     * getNextPaymentId
+     * 
+     * Get the unused incremented payment id
      *
      * @return int nextPaymentId
      */
+    
     public int getNextPaymentId()
     {
         return NEXT_UNUSED_PAYMENT_ID++;
     }
     
     /**
-     * Add new Payment
+     * addPayment
+     * 
+     * Add a new Payment. This can be 
+     * either a standard Payment (Cash) or 
+     * a CardPayment
+     * 
      * @param Payment payment
      * @return void
      */
@@ -494,8 +623,12 @@ public class Cinema
     }
     
     /**
+     * getCashPayments
+     * 
      * Get Map of all Cash Payments
-     * @return Map cashPayments
+     * with the paymentId as the map-key
+     * 
+     * @return Map<Integer, Payment> cashPayments
      */
     public Map<Integer, Payment> getCashPayments()
     {
@@ -514,8 +647,12 @@ public class Cinema
     }
     
     /**
+     * getCardPayments
+     * 
      * Get Map of all Card Payments
-     * @return Map cardPayments
+     * with the paymentId as the map-key
+     * 
+     * @return Map<Integer, Payment> cardPayments
      */
     public Map<Integer, Payment> getCardPayments()
     {
@@ -536,6 +673,13 @@ public class Cinema
     
     /**
      * getSeatingGrid
+     * 
+     * Get the seating grid for the show
+     * True represents a seat that has been 
+     * booked. False represents a seat that 
+     * is available. 
+     * 
+     * @param Show show
      * @return boolean[][] seatingGrid
      */
     public boolean[][] getSeatingGrid(Show show)
@@ -564,10 +708,13 @@ public class Cinema
     }
     
     /**
+     * convertToRowLetter
+     * 
      * Convert row int to row letter
      * Convert int 1-5 to A-E. 
      * If int out of range, return string with single white space
-     * @param int row at int
+     * 
+     * @param int row
      * @return String rowLetter
      */
     public String convertToRowLetter(int rowInt)
@@ -598,10 +745,12 @@ public class Cinema
     
     /**
      * convertToRowNum
+     * 
      * Convert row letter to row int
      * Letters outside A to E return -1
+     * 
      * @param String
-     * @return int row int
+     * @return int row
      */
     public int convertToRowNum(String rowLetter)
     {

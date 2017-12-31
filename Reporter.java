@@ -1,7 +1,7 @@
 import java.util.*;
 /**
  * The Reporter creates the Reports
- * It gathers information from the 
+ * It gathers information from the tickets
  *
  * @author Katherine Wyers
  * @version 12-DEC-2017
@@ -12,6 +12,8 @@ public class Reporter
     
     /**
      * Constructor for objects of class Reporter
+     * 
+     * @param Cinema cinema
      */
     public Reporter(Cinema cinema)
     {
@@ -20,6 +22,7 @@ public class Reporter
 
     /**
      * getTicketReportList
+     * 
      * Get a list of TicketReports, sorted in 
      * descending order by ticketCount. 
      *
@@ -62,6 +65,7 @@ public class Reporter
 
     /**
      * getIncomeReportList
+     * 
      * Get a list of IncomeReports, sorted in 
      * descending order by incomeSum. 
      *

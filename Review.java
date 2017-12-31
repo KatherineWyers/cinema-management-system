@@ -1,6 +1,8 @@
-
 /**
- * Write a description of class Review here.
+ * Review Class
+ * The Review object stores the review text 
+ * submitted by the customer, together with 
+ * the film rating from 1 to 5
  *
  * @author Katherine Wyers
  * @version 1.0 - Dec 2017
@@ -13,6 +15,14 @@ public class Review
     
     /**
      * Constructor for objects of class Review
+     * 
+     * Validates the rating to the range 1 to 5, and throws an 
+     * IllegalArgumentException if the rating is outside this 
+     * range
+     * 
+     * @param Ticket ticket
+     * @param String review
+     * @param int rating
      */
     public Review(Ticket ticket, String review, int rating) throws IllegalArgumentException
     {
@@ -26,6 +36,9 @@ public class Review
     
     /**
      * getRating
+     * 
+     * Get the rating that the customer submitted
+     * 
      * @return int rating
      */
     public int getRating()
@@ -35,6 +48,9 @@ public class Review
     
     /**
      * getReview
+     * 
+     * Get the review that the customer submitted
+     * 
      * @return String review
      */
     public String getReview()

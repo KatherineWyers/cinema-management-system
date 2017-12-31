@@ -1,8 +1,9 @@
 /**
- * Abstract class TicketManager - write a description of the class here
+ * Abstract class TicketManager
+ * The abstract parent class for Booker and Transferer
  *
- * @author (your name here)
- * @version (version number or date here)
+ * @author Katherine Wyers
+ * @version DEC-2017
  */
 public abstract class TicketManager
 {
@@ -12,6 +13,9 @@ public abstract class TicketManager
     
     /**
      * get Cinema
+     * 
+     * Get the cinema
+     * 
      * @return Cinema cinema
      */
     public Cinema getCinema()
@@ -20,7 +24,10 @@ public abstract class TicketManager
     }
     
     /**
-     * get Show
+     * getShow
+     * 
+     * Get the show
+     * 
      * @return Show show
      */
     public Show getShow()
@@ -29,7 +36,11 @@ public abstract class TicketManager
     }
     
     /**
+     * isValidSeatSelection
+     * 
      * Check whether the seat at the given row and num is available 
+     * for this show
+     * 
      * @param int row
      * @param int num
      * @return boolean
