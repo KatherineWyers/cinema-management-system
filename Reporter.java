@@ -51,7 +51,6 @@ public class Reporter
                 ticketReportMap.get(ticket.getShow().getFilm().getId()).incrementTicketCounter();// increment the ticket counter for the ticketReport
                 if(this.cinema.getReviews().get(ticket.getId())!=null)
                 {
-                    ticketReportMap.get(ticket.getShow().getFilm().getId()).incrementRatingCounter();/// if the ticket has a rating, increment the ratingCounter
                     ticketReportMap.get(ticket.getShow().getFilm().getId()).addRating(this.cinema.getReviews().get(ticket.getId()).getRating());/// add the rating to the ratingSum;
                 }                
             }

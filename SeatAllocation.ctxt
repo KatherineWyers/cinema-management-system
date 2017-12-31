@@ -24,5 +24,5 @@ comment7.target=java.lang.String\ getSeatName()
 comment7.text=\r\n\ getSeatName\r\n\ @return\ String\ seatName\r\n
 comment8.params=rowInt
 comment8.target=java.lang.String\ convertToRowLetter(int)
-comment8.text=\r\n\ Convert\ row\ int\ to\ row\ letter\r\n\ @param\ int\ row\ at\ int\r\n\ @return\ String\ rowLetter\r\n
+comment8.text=\r\n\ Convert\ row\ int\ to\ row\ letter\r\n\ Convert\ int\ 1-5\ to\ String\ A-E\r\n\ If\ int\ outside\ range\ {1,\ 2,...5},\ return\ string\ with\ one\ white\ space\r\n\ @param\ int\ row\ at\ int\r\n\ @return\ String\ rowLetter\r\n
 numComments=9

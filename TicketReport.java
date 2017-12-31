@@ -34,18 +34,10 @@ public class TicketReport extends Report
      * incrementRatingCounter
      * @return void
      */
-    public void incrementRatingCounter()
-    {
-        this.ratingCounter++;
-    }
-    
-    /**
-     * incrementRatingCounter
-     * @return void
-     */
     public void addRating(int rating)
     {
         this.ratingSum = this.ratingSum + rating;
+        this.ratingCounter++;
     } 
     
     /**
@@ -58,12 +50,24 @@ public class TicketReport extends Report
         return this.ticketCounter;
     } 
     
+    /**
+     * getRatingCounter
+     * Get total count of ratings
+     * @return int
+     */
+    public int getRatingCounter()
+    {
+        return this.ratingCounter;
+    } 
+    
     
     /**
      * getAverageRating
-     * @return float averageRating
+     * Sum of ratings divided by rating count
+     * If rating count is zero, return string "N/A"
+     * @return String averageRating string
      */
-    private String getAverageRating()
+    public String getAverageRating()
     {
         if(ratingCounter == 0)
         {

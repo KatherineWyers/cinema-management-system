@@ -564,41 +564,9 @@ public class Cinema
     }
     
     /**
-     * printSeatingGrid
-     * @param boolean[][] seatingGrid
-     * @return void
-     */
-    public void printSeatingGrid1(boolean[][] seatingGrid)
-    {
-        System.out.println("");
-        System.out.println("###########SEATING GRID##########");
-        System.out.println("");
-        System.out.println("         [ S C R E E N ]        ");
-        System.out.println("");
-        
-        for (int i = 0;i<seatingGrid.length;i++)
-        {   
-            String rowLetter;
-            rowLetter = this.convertToRowLetter(i+1);
-            
-            // rowLetter with 1 column white space as padding
-            System.out.print(rowLetter + " ");
-            
-            for (int j = 0; j < seatingGrid[i].length;j++)
-            {
-                System.out.print(seatingGrid[i][j] ? "[X]" : "[_]");
-            }
-            // end of the row
-            System.out.println("");
-        }
-        // seat numbers
-        System.out.println("   1  2  3  4  5  6  7  8  9 10 ");
-        System.out.println("#################################");
-        System.out.println("");
-    }
-    
-    /**
      * Convert row int to row letter
+     * Convert int 1-5 to A-E. 
+     * If int out of range, return string with single white space
      * @param int row at int
      * @return String rowLetter
      */

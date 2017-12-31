@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=CardPayment
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ CardPayment\ here.\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ CardPayment\ here.\r\n\r\n\ @author\ Katherine\ Wyers\ \r\n\ @version\ 1.0\r\n
 comment1.params=id\ amount\ booking\ referenceNumber
 comment1.target=CardPayment(int,\ float,\ Booking,\ java.lang.String)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ CardPayment\r\n

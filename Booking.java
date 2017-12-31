@@ -2,7 +2,7 @@ import java.util.List;
 /**
  * Write a description of class Booking here.
  *
- * @author Katherine Wyers
+ * @author Katherine Wyers 
  * @version 1.0
  */
 public class Booking

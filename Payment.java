@@ -3,7 +3,7 @@
  * This class is for all cash payments. 
  * Credit card payments inherit from this class
  *
- * @author Katherine Wyers
+ * @author Katherine Wyers 
  * @version 1.0
  */
 public class Payment

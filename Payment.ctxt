@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Payment
-comment0.text=\r\n\ Payment\ class\r\n\ This\ class\ is\ for\ all\ cash\ payments.\ \r\n\ Credit\ card\ payments\ inherit\ from\ this\ class\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ 1.0\r\n
+comment0.text=\r\n\ Payment\ class\r\n\ This\ class\ is\ for\ all\ cash\ payments.\ \r\n\ Credit\ card\ payments\ inherit\ from\ this\ class\r\n\r\n\ @author\ Katherine\ Wyers\ \r\n\ @version\ 1.0\r\n
 comment1.params=id\ amount\ booking
 comment1.target=Payment(int,\ float,\ Booking)
 comment1.text=\r\n\ Constructor\ for\ the\ Payment\r\n

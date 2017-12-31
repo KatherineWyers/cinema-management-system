@@ -2,7 +2,7 @@
 /**
  * Write a description of class CardPayment here.
  *
- * @author Katherine Wyers
+ * @author Katherine Wyers 
  * @version 1.0
  */
 public class CardPayment extends Payment implements Referencable

@@ -49,11 +49,17 @@ public class Show
     /**
      * formatToTwoDigitString
      * Add a leading zero to an int if its length is 1 digit
+     * Numbers below zero return "00"
      * @param int value
      * @return String result
      */
     public String formatToTwoDigitString(int value)
     {
+        if(value<0)
+        {
+            return "00";
+        }
+        
         if(value<10)
         {
             return "0" + value;

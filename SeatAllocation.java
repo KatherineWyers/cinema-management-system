@@ -85,6 +85,8 @@ public abstract class SeatAllocation
     
     /**
      * Convert row int to row letter
+     * Convert int 1-5 to String A-E
+     * If int outside range {1, 2,...5}, return string with one white space
      * @param int row at int
      * @return String rowLetter
      */
