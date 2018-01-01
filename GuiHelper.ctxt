@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=GuiHelper
+comment0.text=\r\n\ GuiHelper\ Class\r\n\ Utility\ class\ for\ the\ GUI\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ DEC-2017\r\n
+comment1.params=
+comment1.target=GuiHelper()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ GuiNavMaker\r\n
+comment2.params=button
+comment2.target=javax.swing.JButton\ setButtonColorActive(javax.swing.JButton)
+comment2.text=\r\n\ setButtonColorActive\r\n\ \r\n\ Set\ the\ background\ color\ of\ the\ button\r\n\ so\ show\ that\ it\ is\ for\ the\ current\ page\r\n\ \r\n\ Adapted\ from\ code\ at\ \r\n\ https\://stackoverflow.com/questions/1065691\r\n\ /how-to-set-the-background-color-of-a-jbutton-on-the-mac-os\r\n\ \r\n\ Author\:\ codethulu\r\n\ Accessed\ 26-DEC-2017\r\n\ \r\n\ @param\ button\ JButton\r\n\ @return\ JButton\r\n
+comment3.params=button
+comment3.target=javax.swing.JButton\ setButtonColorAccent(javax.swing.JButton)
+comment3.text=\r\n\ setButtonColorActive\r\n\ Set\ the\ background\ color\ of\ the\ button\r\n\ so\ show\ that\ it\ is\ emphasized\r\n\ \r\n\ Adapted\ from\ code\ at\ \r\n\ https\://stackoverflow.com/questions/1065691\r\n\ /how-to-set-the-background-color-of-a-jbutton-on-the-mac-os\r\n\ \r\n\ Author\:\ codethulu\r\n\ Accessed\ 26-DEC-2017\r\n\ \r\n\ @param\ button\ JButton\r\n\ @return\ JButton\r\n
+comment4.params=button
+comment4.target=javax.swing.JButton\ setButtonColorDull(javax.swing.JButton)
+comment4.text=\r\n\ setButtonColorDull\r\n\ Set\ the\ background\ color\ of\ the\ button\r\n\ so\ show\ that\ it\ is\ subtly\ emphasized\r\n\ \r\n\ Adapted\ from\ code\ at\ \r\n\ https\://stackoverflow.com/questions/1065691\r\n\ /how-to-set-the-background-color-of-a-jbutton-on-the-mac-os\r\n\ \r\n\ Author\:\ codethulu\r\n\ Accessed\ 26-DEC-2017\r\n\ \r\n\ @param\ button\ JButton\r\n\ @return\ JButton\r\n
+comment5.params=button
+comment5.target=javax.swing.JButton\ setButtonColorWarning(javax.swing.JButton)
+comment5.text=\r\n\ setButtonColorWarning\r\n\ \r\n\ Set\ the\ background\ color\ of\ the\ button\r\n\ so\ show\ a\ warning\r\n\ \r\n\ Adapted\ from\ code\ at\ \r\n\ https\://stackoverflow.com/questions/1065691\r\n\ /how-to-set-the-background-color-of-a-jbutton-on-the-mac-os\r\n\ \r\n\ Author\:\ codethulu\r\n\ Accessed\ 26-DEC-2017\r\n\ \r\n\ @param\ button\ JButton\ \r\n\ @return\ JButton\r\n
+comment6.params=seatingGrid
+comment6.target=javax.swing.JPanel\ getSeatingGridPanel(boolean[][])
+comment6.text=\r\n\ getSeatingGridPanel\r\n\ \r\n\ Create\ a\ JPanel\ version\ of\ the\ seatingGrid\r\n\ \r\n\ @param\ seatingGrid\ boolean[][]\ \r\n\ @return\ JPanel\r\n
+comment7.params=seatingGrid
+comment7.target=java.util.List\ getSeatingGridButtons(boolean[][])
+comment7.text=\r\n\ getSeatingGridButtons\r\n\ \r\n\ Get\ a\ List\ of\ seatingGrid\ button\ \r\n\ \r\n\ @param\ seatingGrid\ boolean[][]\ \r\n\ @return\ List\r\n
+numComments=8
