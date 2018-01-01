@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Tester
 {
-    Cinema cinema;
+    private Cinema cinema;
     
     /**
      * Constructor for Tester

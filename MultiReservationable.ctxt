@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=MultiReservationable
+comment0.text=\r\n\ MultiReservationable\ Interface\r\n\ An\ interface\ for\ the\ TicketManager\ subclasses\ \r\n\ that\ have\ multiple\ Reservation\ objects\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ JAN-2018\r\n
+comment1.params=row\ num
+comment1.target=boolean\ isExistReservation(int,\ int)
+comment1.text=\r\n\ isExistReservation\r\n\ \r\n\ Check\ whether\ the\ object\ has\ a\ Reservation\ object\r\n\ with\ the\ specified\ row\ and\ num\r\n\r\n\ @param\ row\ int\r\n\ @param\ num\ int\r\n\ @return\ boolean\r\n
+numComments=2

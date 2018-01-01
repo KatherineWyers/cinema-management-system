@@ -1,15 +1,13 @@
 
 /**
- * Write a description of class MathHelper here.
+ * MathHelper
+ * Utility class for Gui
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Katherine Wyers
+ * @version 30-DEC-2017
  */
 public class MathHelper
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
     /**
      * Constructor for objects of class MathHelper
      */

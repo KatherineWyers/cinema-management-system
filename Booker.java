@@ -11,7 +11,7 @@ import java.util.Iterator;
  * @author Katherine Wyers
  * @version 1.0 
  */
-public class Booker extends TicketManager
+public class Booker extends TicketManager implements MultiReservationable
 {
     private List<Reservation> reservations;
     

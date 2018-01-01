@@ -11,14 +11,13 @@ import java.util.*;
  */
 public class Cinema
 {
-    private static int NEXT_UNUSED_SCREEN_ID = 1;
-    private static int NEXT_UNUSED_FILM_ID = 1;
-    private static int NEXT_UNUSED_PROJECTION_ID = 1;
-    private static int NEXT_UNUSED_CUSTOMER_ID = 1;
-    private static int NEXT_UNUSED_BOOKING_ID = 1;
-    private static int NEXT_UNUSED_SEAT_ASSIGNMENT_ID = 1;
-    private static int NEXT_UNUSED_TICKET_ID = 1;
-    private static int NEXT_UNUSED_PAYMENT_ID = 1;
+    private static int nextUnusedScreenId = 1;
+    private static int nextUnusedFilmId = 1;
+    private static int nextUnusedShowId = 1;
+    private static int nextUnusedCustomerId = 1;
+    private static int nextUnusedBookingId = 1;
+    private static int nextUnusedTicketId = 1;
+    private static int nextUnusedPaymentId = 1;
     
     private Map<Integer, Screen> screens; 
     private Map<Integer, Film> films; 
@@ -89,7 +88,7 @@ public class Cinema
      */
     public int getNextScreenId()
     {
-        return NEXT_UNUSED_SCREEN_ID++;
+        return nextUnusedScreenId++;
     }
     
     /**
@@ -126,7 +125,7 @@ public class Cinema
      */
     public int getNextFilmId()
     {
-        return NEXT_UNUSED_FILM_ID++;
+        return nextUnusedFilmId++;
     }
 
     /**
@@ -197,7 +196,7 @@ public class Cinema
      */
     public int getNextShowId()
     {
-        return NEXT_UNUSED_PROJECTION_ID++;
+        return nextUnusedShowId++;
     }
     
     /**
@@ -278,7 +277,7 @@ public class Cinema
      */
     public int getNextCustomerId()
     {
-        return NEXT_UNUSED_CUSTOMER_ID++;
+        return nextUnusedCustomerId++;
     }
 
     /**
@@ -375,7 +374,7 @@ public class Cinema
      */
     public int getNextTicketId()
     {
-        return NEXT_UNUSED_TICKET_ID++;
+        return nextUnusedTicketId++;
     }
     
     /**
@@ -508,7 +507,7 @@ public class Cinema
      */
     public int getNextBookingId()
     {
-        return NEXT_UNUSED_BOOKING_ID++;
+        return nextUnusedBookingId++;
     }
     
     /**
@@ -594,7 +593,7 @@ public class Cinema
     
     public int getNextPaymentId()
     {
-        return NEXT_UNUSED_PAYMENT_ID++;
+        return nextUnusedPaymentId++;
     }
     
     /**

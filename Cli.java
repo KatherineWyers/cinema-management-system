@@ -56,7 +56,7 @@ public class Cli extends UserInterface
      * @param pageId int 
      * @return int
      */
-    protected int displayPage(int pageId)
+    private int displayPage(int pageId)
     {
         switch(pageId)
         {
@@ -120,7 +120,7 @@ public class Cli extends UserInterface
      * 
      * @return int 
      */
-    public int displayFilmsIndexPage()
+    private int displayFilmsIndexPage()
     {
         this.clearScreen();
         Map <Integer, Film> optionToFilm = new HashMap<Integer, Film>();
@@ -144,7 +144,7 @@ public class Cli extends UserInterface
      * @param film Film
      * @return int 
      */
-    public int displayShowFilmPage(Film film)
+    private int displayShowFilmPage(Film film)
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 1, 1, "films", "DISPLAY FILM DETAILS");
@@ -170,7 +170,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayAddFilmPage()
+    private int displayAddFilmPage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 1, 2, "films", "ADD FILM");
@@ -221,7 +221,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayShowsIndexPage()
+    private int displayShowsIndexPage()
     {
         this.clearScreen();
         Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
@@ -244,7 +244,7 @@ public class Cli extends UserInterface
      * @param show Show 
      * @return int
      */
-    public int displayShowShowPage(Show show)
+    private int displayShowShowPage(Show show)
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 2, 1, "shows", "DISPLAY SHOW DETAILS");
@@ -277,7 +277,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayAddShowPage()
+    private int displayAddShowPage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 2, 2, "shows", "ADD SHOW");
@@ -338,7 +338,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayCustomersIndexPage()
+    private int displayCustomersIndexPage()
     {
         this.clearScreen();
         Map <Integer, Customer> optionToCustomer = new HashMap<Integer, Customer>();
@@ -361,7 +361,7 @@ public class Cli extends UserInterface
      * @param customer Customer
      * @return int
      */
-    public int displayShowCustomerPage(Customer customer)
+    private int displayShowCustomerPage(Customer customer)
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 3, 1, "customers", "DISPLAY CUSTOMER DETAILS");
@@ -383,7 +383,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayBookingsIndexPage()
+    private int displayBookingsIndexPage()
     {
         this.clearScreen();
         Map <Integer, Booking> optionToBooking = new HashMap<Integer, Booking>();
@@ -407,7 +407,7 @@ public class Cli extends UserInterface
      * @param booking Booking
      * @return int
      */
-    public int displayShowBookingPage(Booking booking)
+    private int displayShowBookingPage(Booking booking)
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 4, 1, "bookings", "DISPLAY BOOKING DETAILS");
@@ -443,7 +443,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayAddBookingPage()
+    private int displayAddBookingPage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 4, 2, "bookings", "ADD BOOKING");
@@ -620,7 +620,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayMoveTicketPage()
+    private int displayMoveTicketPage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 5, 3, "bookings", "MOVE TICKET");
@@ -821,7 +821,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayReviewAndRatePage()
+    private int displayReviewAndRatePage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 5, 3, "bookings", "REVIEW AND RATE");
@@ -948,7 +948,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayReportsIndexPage()
+    private int displayReportsIndexPage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 5, 1, "reports", "REPORTS INDEX");
@@ -967,7 +967,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayTicketReportsPage()
+    private int displayTicketReportsPage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(false, 5, 2, "reports", "REPORTS: Ticket Reports");
@@ -1011,7 +1011,7 @@ public class Cli extends UserInterface
      * @param year int
      * @return int
      */
-    public int showTicketReportsList(int monthNum, int year)
+    private int showTicketReportsList(int monthNum, int year)
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 5, 2, "reports", "REPORTS: INDEX");
@@ -1048,7 +1048,7 @@ public class Cli extends UserInterface
      * 
      * @return int
      */
-    public int displayIncomeReportsPage()
+    private int displayIncomeReportsPage()
     {
         this.clearScreen();
         CliNavMaker.pageHeader(false, 5, 3, "reports", "REPORTS: Income Reports");
@@ -1069,7 +1069,7 @@ public class Cli extends UserInterface
      * @param year int
      * @return int
      */
-    public int showIncomeReportsList(int monthNum, int year)
+    private int showIncomeReportsList(int monthNum, int year)
     {
         this.clearScreen();
         CliNavMaker.pageHeader(true, 5, 3, "reports", "REPORTS: INDEX");
@@ -1122,7 +1122,7 @@ public class Cli extends UserInterface
      * 
      * @param seatingGrid boolean[][] 
      */
-    public void printSeatingGrid(boolean[][] seatingGrid)
+    private void printSeatingGrid(boolean[][] seatingGrid)
     {
         System.out.println("");
         System.out.println("###########SEATING GRID##########");
@@ -1161,7 +1161,7 @@ public class Cli extends UserInterface
      * 
      * @param booker Booker 
      */
-    public void printCurrentBookingDetails(Booker booker)
+    private void printCurrentBookingDetails(Booker booker)
     {
         
         System.out.println("");
@@ -1187,7 +1187,7 @@ public class Cli extends UserInterface
      * 
      * @param transferer Transferer
      */
-    public void printCurrentTransferDetails(Transferer transferer)
+    private void printCurrentTransferDetails(Transferer transferer)
     {
         if(transferer.getReservation()!=null)
         {
@@ -1209,7 +1209,7 @@ public class Cli extends UserInterface
      * URL: https://stackoverflow.com/questions/2979383/java-clear-the-console
      * Accessed 18-DEC-2017
      */
-    public void clearScreen() 
+    private void clearScreen() 
     {   
         try
         {

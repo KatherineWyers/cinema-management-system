@@ -1503,7 +1503,7 @@ public class Gui extends UserInterface
      * 
      * @param list List 
      */
-    public void refreshList(List list) 
+    private void refreshList(List list) 
     {
         try
         {
@@ -2525,7 +2525,7 @@ public class Gui extends UserInterface
      * @param TicketManager ticketManager
      * @return JPanel
      */
-    public JPanel getSeatingGridButtons(boolean[][] seatingGrid, String ignoreSeat, TicketManager ticketManager)
+    private JPanel getSeatingGridButtons(boolean[][] seatingGrid, String ignoreSeat, TicketManager ticketManager)
     {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,11,5,5));
@@ -2538,6 +2538,7 @@ public class Gui extends UserInterface
         {
             if(i>10&&i<66)// only include buttons if they can be seats
             {
+                String seatSelected = (String)button.getClientProperty("seatSelected");
                 boolean addListener = false;// default to false
                 
                 // if seat is occupied, and ticketManager is a Booker, 
@@ -2546,10 +2547,9 @@ public class Gui extends UserInterface
                 {
                     // only apply the action listener if the ticketManager is a Booker
                     // Transferer deselects when a different seat is selected
-                    if(ticketManager instanceof Booker)
+                    if(MultiReservationable.class.isAssignableFrom(ticketManager.getClass()))
                     {
                         Booker booker = (Booker)ticketManager;
-                        String seatSelected = (String)button.getClientProperty("seatSelected");
                         int row = MathHelper.convertToRowNum(seatSelected.substring(0,1));
                         int num = Integer.parseInt(seatSelected.substring(1));
                         if(booker.isExistReservation(row, num))
@@ -2557,7 +2557,23 @@ public class Gui extends UserInterface
                             addListener = true;
                             // set the button color to success if this is a Booker and the 
                             // seat is in getReservations() 
-                            button = GuiHelper.setButtonColorWarning(button);
+                            button = GuiHelper.setButtonColorSelected(button);
+                        }
+                    }
+                    else
+                    {
+                        Transferer transferer = (Transferer)ticketManager;
+                        
+                        if(transferer.getReservation()!=null)
+                        {
+                            int row = MathHelper.convertToRowNum(seatSelected.substring(0,1));
+                            int num = Integer.parseInt(seatSelected.substring(1));
+                            if(transferer.getReservation().getSeatName().equals(seatSelected))
+                            {
+                                // set the button color to success if this is a Transferer and the 
+                                // seat is the selected seat 
+                                button = GuiHelper.setButtonColorSelected(button);
+                            }      
                         }
                     }
                 }
@@ -2566,7 +2582,18 @@ public class Gui extends UserInterface
                 {
                     addListener = true;
                 }
-                
+
+                if(seatSelected!=null&&ignoreSeat!=null)
+                {
+                    if(seatSelected.equals(ignoreSeat))
+                    {
+                        // set the button color to warning if this is a Transferer and the 
+                        // seat is the original ticket's seat
+                        button = GuiHelper.setButtonColorWarning(button);
+                        button.setText("[X]");
+                    }
+                }
+
                 // attach the ActionListener to the button if addListener has been updated to true
                 if(addListener)
                 {

@@ -112,6 +112,30 @@ public class GuiHelper
         button.setBorderPainted(false);
         return button;
     }
+    
+    /**
+    * setButtonColorSelected
+    * 
+    * Set the background color of the button
+    * so show successfully select
+    * 
+    * Adapted from code at 
+    * https://stackoverflow.com/questions/1065691
+    * /how-to-set-the-background-color-of-a-jbutton-on-the-mac-os
+    * 
+    * Author: codethulu
+    * Accessed 26-DEC-2017
+    * 
+    * @param button JButton 
+    * @return JButton
+    */
+    public static JButton setButtonColorSelected(JButton button)
+    {
+        button.setBackground(Color.green);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        return button;
+    }
    
     /**
      * getSeatingGridPanel

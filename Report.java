@@ -38,7 +38,7 @@ public abstract class Report
     /**
      * getYear
      * 
-     * Get Year in GregorianCalendar
+     * Get Year as int
      * 
      * @return int year
      */
