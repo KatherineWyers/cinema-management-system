@@ -826,7 +826,7 @@ public class Gui extends UserInterface
         // centerPanel
         this.centerPanel.setLayout(new BorderLayout());
         this.centerPanel.add(GuiNavMaker.getHeaderPanel("ADD BOOKING: Select Seats"), BorderLayout.NORTH);
-        this.centerPanel.add(this.getSeatingGridButtons(booker.getSeatingGrid(), "booker"), BorderLayout.CENTER);
+        this.centerPanel.add(this.getSeatingGridButtons(booker.getSeatingGrid(), "booker", booker), BorderLayout.CENTER);
         
         this.updateSouthPanelAddBookingSelectSeats();
         this.showPanels();
@@ -989,11 +989,11 @@ public class Gui extends UserInterface
         String seatName;
         if(transferer.getTicket().getShow()==transferer.getShow())
         {
-            this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()), transferer.getTicket().getSeatName()));
+            this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGridIgnoreTicket(transferer.getTicket()), transferer.getTicket().getSeatName(), transferer));
         }
         else
         {
-            this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGrid(), "NULL"));
+            this.centerPanel.add(this.getSeatingGridButtons(transferer.getSeatingGrid(), "NULL", transferer));
         }
         
         this.updateSouthPanelBookingMoveTicketSelectSeat();
@@ -2219,7 +2219,6 @@ public class Gui extends UserInterface
                 {
                     row = MathHelper.convertToRowNum(seatSelected.substring(0,1)); 
                     num = Integer.parseInt(seatSelected.substring(1));// No need for try/catch because the input only comes from seatingGrid buttons
-                    
                     if(booker.isExistReservation(row, num))
                     {
                         booker.removeReservation(row, num);
@@ -2232,6 +2231,7 @@ public class Gui extends UserInterface
                 displayAddBookingSelectSeats(booker);// acts as a loop until the seat selection process is complete
                 return;
             }
+            
             
             if(formData.get("proceedWithPayment")==null)
             {
@@ -2521,10 +2521,11 @@ public class Gui extends UserInterface
      * can be used form both
      * 
      * @param seatingGrid boolean[][] 
-     * @param ticketManager String {booker, transferSeatName eg A1, B2, C1}
+     * @param string String {NULL or transferSeatName eg A1, B2, C1}
+     * @param TicketManager ticketManager
      * @return JPanel
      */
-    public JPanel getSeatingGridButtons(boolean[][] seatingGrid, String ticketManager)
+    public JPanel getSeatingGridButtons(boolean[][] seatingGrid, String ignoreSeat, TicketManager ticketManager)
     {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,11,5,5));
@@ -2535,26 +2536,51 @@ public class Gui extends UserInterface
         int i = 0;
         for(JButton button : gridList)
         {
-            if((i>10&&i<66)&&(button.getLabel().equals("[_]")))// filter out the occupied seats
+            if(i>10&&i<66)// only include buttons if they can be seats
+            {
+                boolean addListener = false;// default to false
+                
+                // if seat is occupied, and ticketManager is a Booker, 
+                // check if the seat is a Reservation or a Ticket
+                if(button.getLabel().equals("[X]"))
                 {
-                    if(!ticketManager.equals(button.getClientProperty("seatSelected")))// filter out the current ticket seatName
+                    // only apply the action listener if the ticketManager is a Booker
+                    // Transferer deselects when a different seat is selected
+                    if(ticketManager instanceof Booker)
                     {
-                        //button is an unoccupied seat-button that is not the current transferer ticket. Add the correct ActionListener
-                        if(ticketManager.equals("booker"))
+                        Booker booker = (Booker)ticketManager;
+                        String seatSelected = (String)button.getClientProperty("seatSelected");
+                        int row = MathHelper.convertToRowNum(seatSelected.substring(0,1));
+                        int num = Integer.parseInt(seatSelected.substring(1));
+                        if(booker.isExistReservation(row, num))
                         {
-                            button.addActionListener(addBookingActionListener);
+                            addListener = true;
+                            // set the button color to success if this is a Booker and the 
+                            // seat is in getReservations() 
+                            button = GuiHelper.setButtonColorWarning(button);
                         }
-                        else
-                        {
-                            button.addActionListener(bookingsMoveTicketActionListener);
-                        }
+                    }
+                }
+                // if seat is unoccupied, check if the seat is the ignoreSeat for the Transferer
+                else if (!ignoreSeat.equals(button.getClientProperty("seatSelected")))// filter out the current ticket seatName
+                {
+                    addListener = true;
+                }
+                
+                // attach the ActionListener to the button if addListener has been updated to true
+                if(addListener)
+                {
+                    if(ticketManager instanceof Booker)
+                    {
+                        button.addActionListener(addBookingActionListener);
                     }
                     else
                     {
-                        // button is current seatName
-                        button = GuiHelper.setButtonColorWarning(button);
+                        button.addActionListener(bookingsMoveTicketActionListener);
                     }
                 }
+            }
+
             panel.add(button);
             i++;
         }
