@@ -16,5 +16,4 @@ PROJECT TITLE: Odeon Cinema System
 PURPOSE OF PROJECT: Ticketing system for the Odeon Cinema
 VERSION or DATE: 1.0
 HOW TO START THIS PROJECT: Launcher.main()
-AUTHORS: Katherine Wyers
-USER INSTRUCTIONS: 
+AUTHORS: Student 17001706
