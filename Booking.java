@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class Booking
 {
+    private static int nextUnusedId = 1;
+    
     private int id;
     private Customer customer;
 
@@ -25,6 +27,18 @@ public class Booking
     {
         this.id = id;
         this.customer = customer;
+    }
+    
+    /**
+     * getNextId
+     * 
+     * Get the unused incremented id
+     *
+     * @return int 
+     */
+    public static int getNextId()
+    {
+        return Booking.nextUnusedId++;
     }
     
     /**

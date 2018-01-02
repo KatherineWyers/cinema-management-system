@@ -7,6 +7,8 @@
  */
 public class Screen
 {
+    private static int nextUnusedId = 1;
+    
     private int id;
     private String title;
 
@@ -20,6 +22,18 @@ public class Screen
     {
         this.id = id;
         this.title = title;
+    }
+    
+    /**
+     * getNextId
+     * 
+     * Get the unused incremented id
+     *
+     * @return int 
+     */
+    public static int getNextId()
+    {
+        return Screen.nextUnusedId++;
     }
 
     /**

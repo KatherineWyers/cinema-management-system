@@ -161,7 +161,7 @@ public class Transferer extends TicketManager
         if(reservation.getPrice() > ticket.getPrice())
         {
             float surcharge = reservation.getPrice() - ticket.getPrice();
-            Payment payment = new Payment(this.cinema.getNextPaymentId(), surcharge, this.booking);
+            Payment payment = new Payment(Payment.getNextId(), surcharge, this.booking);
             this.cinema.addPayment(payment);  
             ticket.setPrice(reservation.getPrice());// Update the ticket price
         }
@@ -181,7 +181,7 @@ public class Transferer extends TicketManager
         if(reservation.getPrice() > ticket.getPrice())
         {
             float surcharge = reservation.getPrice() - ticket.getPrice();
-            Payment payment = new CardPayment(this.cinema.getNextPaymentId(), surcharge, this.booking, referenceNumber);
+            Payment payment = new CardPayment(Payment.getNextId(), surcharge, this.booking, referenceNumber);
             this.cinema.addPayment(payment);   
             ticket.setPrice(reservation.getPrice());// Update the ticket price
         }

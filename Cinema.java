@@ -11,14 +11,6 @@ import java.util.*;
  */
 public class Cinema
 {
-    private static int nextUnusedScreenId = 1;
-    private static int nextUnusedFilmId = 1;
-    private static int nextUnusedShowId = 1;
-    private static int nextUnusedCustomerId = 1;
-    private static int nextUnusedBookingId = 1;
-    private static int nextUnusedTicketId = 1;
-    private static int nextUnusedPaymentId = 1;
-    
     private Map<Integer, Screen> screens; 
     private Map<Integer, Film> films; 
     private Map<Integer, Show> shows; 
@@ -77,19 +69,7 @@ public class Cinema
     {
         transferer = new Transferer(this, show, ticket);
         return this.transferer;
-    }
-    
-    /**
-     * getNextScreenId
-     * 
-     * Get the unused incremented screen id
-     *
-     * @return int 
-     */
-    public int getNextScreenId()
-    {
-        return nextUnusedScreenId++;
-    }
+    }    
     
     /**
      * addScreen
@@ -100,7 +80,7 @@ public class Cinema
      */
     public void addScreen(String title)
     {
-        Screen screen = new Screen(getNextScreenId(), title);
+        Screen screen = new Screen(Screen.getNextId(), title);
         this.screens.put(screen.getId(), screen);
     }
 
@@ -115,18 +95,6 @@ public class Cinema
     {
         return new ArrayList<Screen> (this.screens.values());
     }
-    
-    /**
-     * getNextFilmId
-     * 
-     * Get the unused incremented film id
-     *
-     * @return int 
-     */
-    public int getNextFilmId()
-    {
-        return nextUnusedFilmId++;
-    }
 
     /**
      * addFilm
@@ -140,7 +108,7 @@ public class Cinema
      */
     public void addFilm(String title, int year, String director, String language)
     {
-        Film film = new Film(getNextFilmId(), title, year, director, language);
+        Film film = new Film(Film.getNextId(), title, year, director, language);
         this.films.put(film.getId(), film);
     }
 
@@ -157,7 +125,7 @@ public class Cinema
      */
     public void addFilm(String title, int year, String director, String language, String subtitles)
     {
-        Film film = new Film(getNextFilmId(), title, year, director, language, subtitles);
+        Film film = new Film(Film.getNextId(), title, year, director, language, subtitles);
         this.films.put(film.getId(), film);
     }
 
@@ -185,18 +153,6 @@ public class Cinema
     public Map getFilms()
     {
         return films;
-    }
-    
-    /**
-     * getNextShowId
-     * 
-     * Get the unused incremented show id
-     *
-     * @return int 
-     */
-    public int getNextShowId()
-    {
-        return nextUnusedShowId++;
     }
     
     /**
@@ -230,7 +186,7 @@ public class Cinema
         }
         return true;
     }
-
+    
     /**
      * addShow
      * 
@@ -251,7 +207,7 @@ public class Cinema
             System.out.println("The Show could not be created. The Screen or the Film is already being used at that time");
             return;
         }
-        Show show = new Show(getNextShowId(), date, screen, film, priceRegular, priceVip);
+        Show show = new Show(Show.getNextId(), date, screen, film, priceRegular, priceVip);
         this.shows.put(show.getId(), show);
     }
 
@@ -267,18 +223,6 @@ public class Cinema
     {
         return new ArrayList<Show> (this.shows.values());
     }
-    
-    /**
-     * getNextCustomerId
-     * 
-     * Get the unused incremented customer id
-     *
-     * @return int 
-     */
-    public int getNextCustomerId()
-    {
-        return nextUnusedCustomerId++;
-    }
 
     /**
      * addCustomer
@@ -287,7 +231,7 @@ public class Cinema
      */
     public void addCustomer()
     {
-        Customer customer = new Customer(getNextCustomerId());
+        Customer customer = new Customer(Customer.getNextId());
         this.customers.put(customer.getId(), customer);
     }
 
@@ -300,7 +244,7 @@ public class Cinema
      */
     public void addCustomer(String name)
     {
-        Customer customer = new Customer(getNextCustomerId(), name);
+        Customer customer = new Customer(Customer.getNextId(), name);
         this.customers.put(customer.getId(), customer);
     }
 
@@ -315,7 +259,7 @@ public class Cinema
      */
     public Customer getNewCustomer(String name)
     {
-        Customer customer = new Customer(getNextCustomerId(), name);
+        Customer customer = new Customer(Customer.getNextId(), name);
         this.customers.put(customer.getId(), customer);
         return customer;
     }
@@ -363,18 +307,6 @@ public class Cinema
     public List<Customer> getCustomerList()
     {
         return new ArrayList<Customer> (this.customers.values());
-    }
-    
-    /**
-     * getNextTicketId
-     * 
-     * Get the unused incremented ticket id
-     *
-     * @return int 
-     */
-    public int getNextTicketId()
-    {
-        return nextUnusedTicketId++;
     }
     
     /**
@@ -499,18 +431,6 @@ public class Cinema
     }
     
     /**
-     * getNextBookingId
-     * 
-     * Get the unused incremented booking id
-     *
-     * @return int 
-     */
-    public int getNextBookingId()
-    {
-        return nextUnusedBookingId++;
-    }
-    
-    /**
      * addBooking
      * 
      * Add new Booking
@@ -581,19 +501,6 @@ public class Cinema
     public Map<Integer, Booking> getBookings()
     {
         return this.bookings;
-    }
-    
-    /**
-     * getNextPaymentId
-     * 
-     * Get the unused incremented payment id
-     *
-     * @return int 
-     */
-    
-    public int getNextPaymentId()
-    {
-        return nextUnusedPaymentId++;
     }
     
     /**

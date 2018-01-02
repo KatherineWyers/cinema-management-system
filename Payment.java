@@ -8,6 +8,8 @@
  */
 public class Payment
 {
+    private static int nextUnusedId = 1;
+    
     protected final int id;
     protected final float amount;
     protected final Booking booking;
@@ -24,6 +26,18 @@ public class Payment
         this.id = id;
         this.amount = amount;
         this.booking = booking;
+    }
+    
+    /**
+     * getNextId
+     * 
+     * Get the unused incremented id
+     *
+     * @return int 
+     */
+    public static int getNextId()
+    {
+        return Payment.nextUnusedId++;
     }
     
     /**

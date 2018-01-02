@@ -476,7 +476,7 @@ public class Cli extends UserInterface
         this.clearScreen(); 
         Map <Integer, Show> optionToShow = new HashMap<Integer, Show>();
         CliNavMaker.pageHeader(false, 4, 2, "bookings", "ADD BOOKING > Enter New Booking Details");
-        Customer customer = new Customer (this.cinema.getNextCustomerId());// create blank customer
+        Customer customer = new Customer (Customer.getNextId());// create blank customer
         if(input==20)
         {
             customer = this.cinema.getNewCustomer(CliUserInputter.getUserInputString(30, "Enter Customer Name"));

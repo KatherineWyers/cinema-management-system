@@ -27,7 +27,7 @@ public class Booker extends TicketManager implements MultiReservationable
         this.reservations = new ArrayList<Reservation>();
         this.show = show;
         this.cinema = cinema;
-        this.booking = new Booking(this.cinema.getNextBookingId(), customer);
+        this.booking = new Booking(Booking.getNextId(), customer);
     }
     
     /**
@@ -172,7 +172,7 @@ public class Booker extends TicketManager implements MultiReservationable
      */
     public void finalizeCashPayment()
     {
-        Payment payment = new Payment(this.cinema.getNextPaymentId(), this.getTotalPrice(), this.booking);
+        Payment payment = new Payment(Payment.getNextId(), this.getTotalPrice(), this.booking);
         this.cinema.addPayment(payment);      
         this.convertToTickets();
     }
@@ -187,7 +187,7 @@ public class Booker extends TicketManager implements MultiReservationable
      */
     public void finalizeCardPayment(String referenceNumber)
     {
-        Payment payment = new CardPayment(this.cinema.getNextPaymentId(), this.getTotalPrice(), this.booking, referenceNumber);
+        Payment payment = new CardPayment(Payment.getNextId(), this.getTotalPrice(), this.booking, referenceNumber);
         this.cinema.addPayment(payment); 
         this.convertToTickets();
     }
@@ -211,7 +211,7 @@ public class Booker extends TicketManager implements MultiReservationable
         while (it.hasNext()) 
         {
             Reservation reservation = it.next();
-            Ticket ticket = new Ticket(this.cinema.getNextTicketId(), reservation, booking);
+            Ticket ticket = new Ticket(Ticket.getNextId(), reservation, booking);
             this.cinema.addTicket(ticket);
             it.remove();
         }   

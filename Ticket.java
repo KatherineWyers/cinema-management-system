@@ -9,6 +9,8 @@
  */
 public class Ticket extends SeatAllocation
 {
+    private static int nextUnusedId = 1;
+    
     private Booking booking;
     
     /**
@@ -26,6 +28,18 @@ public class Ticket extends SeatAllocation
         this.row = reservation.getRow();
         this.num = reservation.getNum();
         this.price = reservation.getPrice();
+    }
+    
+    /**
+     * getNextId
+     * 
+     * Get the unused incremented id
+     *
+     * @return int 
+     */
+    public static int getNextId()
+    {
+        return Ticket.nextUnusedId++;
     }
     
     /**

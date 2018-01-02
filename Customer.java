@@ -8,6 +8,8 @@
  */
 public class Customer
 {
+    private static int nextUnusedId = 1;
+    
     private int id;
     private String name;
 
@@ -36,6 +38,18 @@ public class Customer
     {
         this.id = id;
         this.name = name;
+    }
+    
+    /**
+     * getNextId
+     * 
+     * Get the unused incremented id
+     *
+     * @return int 
+     */
+    public static int getNextId()
+    {
+        return Customer.nextUnusedId++;
     }
     
     /**

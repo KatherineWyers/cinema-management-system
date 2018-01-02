@@ -129,9 +129,9 @@ public class Tester
         setupTestEnvironment();
         
         // run
-        int ticketId = this.cinema.getNextTicketId();
-        compare(this.cinema.getNextTicketId(),ticketId+1);
-        compare(this.cinema.getNextTicketId(),ticketId+2);
+        int ticketId = Ticket.getNextId();
+        compare(Ticket.getNextId(),ticketId+1);
+        compare(Ticket.getNextId(),ticketId+2);
         System.out.println("");
     }
 
@@ -151,9 +151,9 @@ public class Tester
         // run tests
         System.out.println("getNextBookingId");
         
-        int bookingId = this.cinema.getNextBookingId();
-        compare(this.cinema.getNextBookingId(),bookingId+1);
-        compare(this.cinema.getNextBookingId(),bookingId+2);
+        int bookingId = Booking.getNextId();
+        compare(Booking.getNextId(),bookingId+1);
+        compare(Booking.getNextId(),bookingId+2);
         
         System.out.println("");
     }
@@ -175,9 +175,9 @@ public class Tester
         setupTestEnvironment();
         
         // run
-        int paymentId = this.cinema.getNextPaymentId();
-        compare(this.cinema.getNextPaymentId(),paymentId+1);
-        compare(this.cinema.getNextPaymentId(),paymentId+2);
+        int paymentId = Payment.getNextId();
+        compare(Payment.getNextId(),paymentId+1);
+        compare(Payment.getNextId(),paymentId+2);
         System.out.println("");
     }
 
@@ -197,9 +197,9 @@ public class Tester
         setupTestEnvironment();
         
         // run
-        int customerId = this.cinema.getNextCustomerId();
-        compare(this.cinema.getNextCustomerId(),customerId+1);
-        compare(this.cinema.getNextCustomerId(),customerId+2);
+        int customerId = Customer.getNextId();
+        compare(Customer.getNextId(),customerId+1);
+        compare(Customer.getNextId(),customerId+2);
         System.out.println("");
     }
 
@@ -220,9 +220,9 @@ public class Tester
         setupTestEnvironment();
         
         // run
-        int screenId = this.cinema.getNextScreenId();
-        compare(this.cinema.getNextScreenId(),screenId+1);
-        compare(this.cinema.getNextScreenId(),screenId+2);
+        int screenId = Screen.getNextId();
+        compare(Screen.getNextId(),screenId+1);
+        compare(Screen.getNextId(),screenId+2);
         System.out.println("");
     }
 
@@ -243,9 +243,9 @@ public class Tester
         setupTestEnvironment();
         
         // run        
-        int filmId = this.cinema.getNextFilmId();
-        compare(this.cinema.getNextFilmId(),filmId+1);
-        compare(this.cinema.getNextFilmId(),filmId+2);
+        int filmId = Film.getNextId();
+        compare(Film.getNextId(),filmId+1);
+        compare(Film.getNextId(),filmId+2);
         System.out.println("");
     }
     
@@ -265,9 +265,9 @@ public class Tester
         setupTestEnvironment();
         
         // run
-        int showId = this.cinema.getNextShowId();
-        compare(this.cinema.getNextShowId(),showId+1);
-        compare(this.cinema.getNextShowId(),showId+2);
+        int showId = Show.getNextId();
+        compare(Show.getNextId(),showId+1);
+        compare(Show.getNextId(),showId+2);
         System.out.println("");
     }
     

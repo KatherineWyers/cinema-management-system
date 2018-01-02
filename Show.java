@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
  */
 public class Show
 {
+    private static int nextUnusedId = 1;
+    
     private int id;
     private Screen screen;
     private Film film;
@@ -38,6 +40,18 @@ public class Show
         this.film = film;
         this.priceRegular = priceRegular;
         this.priceVip = priceVip;
+    }
+    
+    /**
+     * getNextId
+     * 
+     * Get the unused incremented id
+     *
+     * @return int 
+     */
+    public static int getNextId()
+    {
+        return Show.nextUnusedId++;
     }
     
     /**
