@@ -42,8 +42,7 @@ BUILD AND RUN WITH THE GRAPHICAL JAVA-SWING USER INTERFACE
 5, For the GUI version, run the following from inside the classes directory
 jar cvfm ../build/odeon-cinema-system-gui.jar ../manifest-gui.txt *.class ../resources
 
-6, To run the GUI version, double-click on odeon-cinema-system-gui.jar
-The application will launch.
+6, Open the build directory in Finder (Mac), File Manager (Ubuntu) or Windows Explorer (Windows) and double-click on odeon-cinema-system-gui.jar
 
 
 BUILD AND RUN WITH THE COMMAND-LINE INTERFACE
