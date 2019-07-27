@@ -1,7 +1,0 @@
-#BlueJ class context
-comment0.target=Referencable
-comment0.text=\r\n\ Referencable\ Interface\r\n\ This\ reference\ is\ a\ contract\ that\ the\ \r\n\ implementor\ has\ a\ getReferenceNumber\ method\ \r\n\ that\ returns\ a\ string\r\n\r\n\ @author\ Katherine\ Wyers\r\n\ @version\ DEC-2017\r\n
-comment1.params=
-comment1.target=java.lang.String\ getReferenceNumber()
-comment1.text=\r\n\ getReferenceNumber\r\n\ \r\n\ Returns\ a\ reference\ number\ for\ the\ object\r\n\ \r\n\ @return\ String\ referenceNumber\r\n
-numComments=2
