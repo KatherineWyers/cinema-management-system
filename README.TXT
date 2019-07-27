@@ -51,8 +51,8 @@ BUILD AND RUN WITH THE COMMAND-LINE INTERFACE
 5, For the CLI version, run the following from inside the classes directory
 jar cvfm ../build/odeon-cinema-system-cli.jar ../manifest-cli.txt *.class ../resources
 
-6, To run the CLI version, launch the terminal (Linux, Mac) or command-prompt (Windows) and
-navigate to the build directory.
+6, Navigate to the build directory
+cd ../build
 
 7, From inside the build directory, run the jar file
 java -jar odeon-cinema-system-cli.jar
