@@ -54,7 +54,7 @@ public class CliNavMaker
      */
     public static void includeFullHeader()
     {
-        System.out.println("==========================ODEON CINEMA SYSTEM=========================");
+        System.out.println("=========================CINEMA BOOKING SYSTEM========================");
         System.out.println("[1, Films]  [2, Shows]  [3, Cstmr]  [4, Bkngs]  [5, Reprt]  [6, Quit ]");
     }
     
@@ -65,7 +65,7 @@ public class CliNavMaker
      */
     public static void includeTitleBar()
     {
-        System.out.println("==========================ODEON CINEMA SYSTEM=========================");
+        System.out.println("=========================CINEMA BOOKING SYSTEM========================");
     }
     
     /**

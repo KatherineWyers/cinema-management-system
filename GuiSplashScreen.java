@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class GuiSplashScreen extends JPanel
      * and create an instance of ImagePanel
      */
     private void displaySplashScreen() {
-        JFrame frame = new JFrame("Odeon Cinema System");
+        JFrame frame = new JFrame("Cinema Booking System");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         contentPane = new ImagePanel();
@@ -53,7 +52,7 @@ public class GuiSplashScreen extends JPanel
         public ImagePanel()
         {
             try {
-                    image = ImageIO.read(ImagePanel.class.getResource("resources/odeon-logo.jpg"));
+                    image = ImageIO.read(ImagePanel.class.getResource("resources/logo.PNG"));
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }
