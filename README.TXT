@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------
-CINEMA BOOKING SYSTEM
+CINEMA MANAGEMENT SYSTEM
 ----------------------------------------------------------------------------
 
-PROJECT TITLE: Cinema Booking System
-PURPOSE OF PROJECT: Ticketing system for a Cinema
+PROJECT TITLE: Cinema Management System
+PURPOSE OF PROJECT: Data management system for a Cinema
 VERSION or DATE: 1.0
 HOW TO START THIS PROJECT: Compile and build using either manifest-gui or manifest-cli
 AUTHOR: Katherine Wyers
@@ -30,18 +30,18 @@ cd classes
 BUILD AND RUN WITH THE GRAPHICAL JAVA-SWING USER INTERFACE
 
 5, For the GUI version, run the following from inside the classes directory
-jar cvfm ../build/cinema-booking-system-gui.jar ../manifest-gui.txt *.class ../resources
+jar cvfm ../build/cinema-management-system-gui.jar ../manifest-gui.txt *.class ../resources
 
-6, Open the build directory in Finder (Mac), File Manager (Ubuntu) or Windows Explorer (Windows) and double-click on cinema-booking-system-gui.jar
+6, Open the build directory in Finder (Mac), File Manager (Ubuntu) or Windows Explorer (Windows) and double-click on cinema-management-system-gui.jar
 
 
 BUILD AND RUN WITH THE COMMAND-LINE INTERFACE
 
 5, For the CLI version, run the following from inside the classes directory
-jar cvfm ../build/cinema-booking-system-cli.jar ../manifest-cli.txt *.class ../resources
+jar cvfm ../build/cinema-management-system-cli.jar ../manifest-cli.txt *.class ../resources
 
 6, Navigate to the build directory
 cd ../build
 
 7, From inside the build directory, run the jar file
-java -jar cinema-booking-system-cli.jar
+java -jar cinema-management-system-cli.jar

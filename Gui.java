@@ -73,7 +73,7 @@ public class Gui extends UserInterface
         this.eastPanel.setPreferredSize(new Dimension(512,0));
         this.eastPanel.setBackground(Color.white);
         this.southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        this.frame = new JFrame("Cinema Booking System");
+        this.frame = new JFrame("Cinema Management System");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setResizable(false);
         this.frame.pack();
